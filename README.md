@@ -8,11 +8,11 @@
 ## Build Setup
 
 ```
-// 安装@mapleleaf1234/vue_comp
-npm i -D @mapleleaf1234/vue_comp
+// 安装@ui/vue_comp
+npm i -D @ui/vue_comp
 
 // 在主入口main.js里边
-import vue_comp from '@mapleleaf1234/vue_comp'
+import vue_comp from '@ui/vue_comp'
 Vue.use(vue_comp);
 
 ```

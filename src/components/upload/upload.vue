@@ -112,6 +112,7 @@ export default {
         },
         // ak，上传的话是必须的
         uploadAK: {
+            required: true,
             type: String,
             default: '',
         },

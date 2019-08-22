@@ -444,6 +444,8 @@
                             :is-face-pic="!!item.isFacePic"
                             :is-write="!!item.isWrite"
                             :is-write-fun="item.isWriteFun"
+                            :uploadUrl="item.uploadUrl"
+                            :uploadAK="item.uploadAK"
                         ></Upload>
                     </el-form-item>
                     <!-- 不是通用的树结构 -->

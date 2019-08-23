@@ -1,6 +1,6 @@
-import 'element-ui/lib/theme-chalk/index.css';
-import Element from 'element-ui';
 import Vue from 'vue';
+import Element from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 import '../static/UE/ueditor.config.js';
 import '../static/UE/ueditor.all.js';
 import '../static/UE/lang/zh-cn/zh-cn.js';

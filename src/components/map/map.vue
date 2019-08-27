@@ -14,6 +14,7 @@
 </template>
 
 <script>
+let currentMap = null;
 export default {
     name: 'Map',
     props: {
@@ -68,18 +69,24 @@ export default {
     },
     mounted() {
         this.initMap();
+        this.initEvent();
     },
     beforeUpdate() {
-        const { bindName, formData, bindData, ids } = this;
-        const _this = this;
-        setTimeout(function() {
-            _this.initMap(formData[bindName[0]], formData[bindName[1]]);
-        }, 10);
-        setTimeout(function() {
-            _this.findId(ids.suggestId).value = formData[bindData] || '';
-        }, 10);
+        this.initEvent();
+    },
+    destroyed() {
+        currentMap.addEventListener('click', this.clickMap);
     },
     methods: {
+        initEvent() {
+            const { bindName, formData, bindData, ids, initMap, findId } = this;
+            setTimeout(function() {
+                initMap(formData[bindName[0]], formData[bindName[1]]);
+            }, 10);
+            setTimeout(function() {
+                findId(ids.suggestId).value = formData[bindData] || '';
+            }, 10);
+        },
         searchMap(map) {
             const { ids } = this;
             const ac = new BMap.Autocomplete({
@@ -124,7 +131,7 @@ export default {
             map.clearOverlays(); //清除地图上所有覆盖物
             function myFun() {
                 var pp = local.getResults().getPoi(0).point; //获取第一个智能搜索的结果
-                map.centerAndZoom(pp, 18);
+                map.centerAndZoom(pp, 15);
                 map.addOverlay(new BMap.Marker(pp)); //添加标注
             }
             var local = new BMap.LocalSearch(map, {
@@ -162,24 +169,27 @@ export default {
             map.addOverlay(marker);
             map.centerAndZoom(centPoint, 15); // 初始化地图，设置中心点坐标和地图级别
 
+            currentMap = map;
+
             !this.disabled && this.searchMap(map);
 
-            map.addEventListener('click', e => {
-                if (this.disabled) {
-                    return;
-                }
-                const gc = new BMap.Geocoder();
-                const { bindName, bindData, ids } = this;
-                gc.getLocation(e.point, rs => {
-                    this.$set(this.formData, bindData, rs.address);
-                });
-
-                if (bindName.length > 0) {
-                    this.$set(this.formData, bindName[0], e.point.lng);
-                    this.$set(this.formData, bindName[1], e.point.lat);
-                }
-                this.initMap(e.point.lng, e.point.lat);
+            currentMap.addEventListener('click', e => this.clickMap(e));
+        },
+        clickMap(e) {
+            if (this.disabled) {
+                return;
+            }
+            const gc = new BMap.Geocoder(); // 逆地址解析
+            const { bindName, bindData, ids } = this;
+            gc.getLocation(e.point, rs => {
+                this.$set(this.formData, bindData, rs.address);
             });
+
+            if (bindName.length > 0) {
+                this.$set(this.formData, bindName[0], e.point.lng);
+                this.$set(this.formData, bindName[1], e.point.lat);
+            }
+            this.initMap(e.point.lng, e.point.lat);
         },
         // 获取id
         findId(id) {

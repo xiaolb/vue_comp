@@ -1,7 +1,7 @@
 <template>
     <div
-        :class="{ spider_form_data: true, searchFlag: searchFooterMar, disabledStyle: allDisabled, modelForm: modelForm }"
-        :style="{ width: searchFooterMar && !modelForm ? formSearchWidth : '' }"
+        :class="{ spider_form_data: true, disabledStyle: allDisabled, modelForm: modelForm }"
+        :style="{ width: !modelForm ? formSearchWidth : '' }"
     >
         <div :class="{ flexLeftOrCenter: flexleftOrCenter === 'center' }">
             <el-form
@@ -9,7 +9,7 @@
                 :model="formData"
                 :disabled="allDisabled"
                 :label-width="labelWidth"
-                :size="!searchFooterMar ? 'medium' : 'small'"
+                :size="'medium'"
                 :rules="rules"
             >
                 <el-col v-for="(item, index) of formItems" :key="index" :span="item.span">
@@ -64,15 +64,20 @@
                             :disabled="item.disabled"
                             :placeholder="item.disabled || allDisabled ? '' : item.placehold || formType[item.type] + item.label"
                             :style="item.inputStyle || {}"
-                            :clearable="true"
+                            :clearable="item.clearable"
                             :maxlength="item.maxLength"
-                            :minlength="item.minlength"
+                            :minlength="item.minLength"
                             @change="a => (item.change && item.change(a)) || function() {}"
                         >
                             <el-button v-if="item.append" slot="append" icon="el-icon-search" @click="item.appendFun"></el-button>
                         </el-input>
                         <span v-if="item.connect" class="spider_form_data_connect">{{ item.connect }}</span>
-                        <span v-if="item.extra" class="spider_form_data_extra" :style="item.extraStyle || {}">{{ item.extra }}</span>
+                        <span 
+                            v-if="item.extra" 
+                            class="spider_form_data_extra" 
+                            :style="item.extraStyle || {}"
+                            @click="a => (item.extraFun && item.extraFun()) || function() {}"
+                        >{{ item.extra }}</span>
                     </el-form-item>
                     <el-form-item
                         v-if="item.type === 'number' && !item.hidden"
@@ -92,10 +97,16 @@
                             :style="item.inputStyle || {}"
                         ></el-input-number>
                         <span v-if="item.connect" class="spider_form_data_connect">{{ item.connect }}</span>
-                        <span v-if="item.extra" class="spider_form_data_extra" :style="item.extraStyle || {}">{{ item.extra }}</span>
+                        <span 
+                            v-if="item.extra" 
+                            class="spider_form_data_extra" 
+                            :style="item.extraStyle || {}"
+                            @click="a => (item.extraFun && item.extraFun()) || function() {}"
+                        >{{ item.extra }}</span>
                     </el-form-item>
                     <el-form-item
                         v-if="item.type === 'autocomplete' && !item.hidden"
+                        :class="{ rowOrColumnInput: item.rowOrColumn }"
                         :prop="item.name"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
@@ -107,13 +118,13 @@
                             :placeholder="item.disabled || allDisabled ? '' : item.placehold || formType[item.type] + item.label"
                             :style="item.inputStyle || {}"
                             :debounce="100"
-                            :clearable="true"
+                            :clearable="item.clearable"
                             @select="a => (item.selectFun && item.selectFun(a)) || function() {}"
                         ></el-autocomplete>
-                        <span v-if="item.connect" class="spider_form_data_connect" :style="{ width: 'auto' }">{{ item.connect }}</span>
+                        <span v-if="item.connect" class="spider_form_data_connect">{{ item.connect }}</span>
                         <span
                             v-if="item.extra"
-                            class="blue pointer paddingLeft"
+                            class="spider_form_data_extra"
                             :style="item.extraStyle || {}"
                             @click="a => (item.extraFun && item.extraFun()) || function() {}"
                             >{{ item.extra }}</span
@@ -129,27 +140,32 @@
                         <el-cascader
                             v-model="formData[item.name]"
                             :disabled="item.disabled"
-                            :clearable="true"
+                            :clearable="item.clearable"
                             :options="item.data || []"
                             :props="item.props"
                             :debounce="item.debounce || 300"
-                            :change-on-select="item.activeFun ? false : item.change_on_select"
+                            :change-on-select="item.change_on_select"
                             :filterable="item.filterable"
-                            :size="item.size || 'small'"
+                            :size="item.size || 'medium'"
                             :separator="item.separator || '/'"
                             :placeholder="item.disabled || allDisabled ? '' : item.placehold || formType[item.type] + item.label"
                             :style="item.inputStyle || {}"
                             @change="a => (item.selectFun && item.selectFun(a)) || function() {}"
-                            @active-item-change="a => (item.activeFun && item.activeFun(a)) || function() {}"
-                            @before-filter="a => (item.filterFun && item.filterFun(a)) || function() {}"
                         ></el-cascader>
-                        <span v-if="item.extra" class="spider_form_data_extra" :style="item.extraStyle || {}">{{ item.extra }}</span>
+                        <span v-if="item.connect" class="spider_form_data_connect">{{ item.connect }}</span>
+                        <span
+                            v-if="item.extra"
+                            class="spider_form_data_extra"
+                            :style="item.extraStyle || {}"
+                            @click="a => (item.extraFun && item.extraFun()) || function() {}"
+                            >{{ item.extra }}</span
+                        >
                     </el-form-item>
 
                     <el-form-item
                         v-else-if="item.type === 'select' && !item.hidden"
                         :prop="item.name"
-                        :class="{ form_select: true, selectAuto: item.selectAuto }"
+                        :class="{ rowOrColumnInput: item.rowOrColumn }"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
                     >
@@ -157,16 +173,16 @@
                             v-if="item.filterSearch"
                             v-model="formData[item.name]"
                             :disabled="item.disabled"
-                            filterable
-                            :clearable="true"
+                            :filterable="item.filterable"
+                            :clearable="item.clearable"
                             :multiple="item.multiple"
-                            :multiple-limit="item.limit"
-                            :allow-create="item.create"
-                            :default-first-option="item.create"
+                            :multiple-limit="item.multipleLimit"
+                            :allow-create="item.allowCreate"
+                            :default-first-option="item.allowCreate"
                             :placeholder="item.disabled || allDisabled ? '' : item.placehold || formType[item.type] + item.label"
                             :style="item.inputStyle || {}"
                             :filter-method="item.filterSearch || function() {}"
-                            :popper-class="item.data && item.data.length > 0 ? '' : 'noDataHidden'"
+                            
                             @change="a => (item.selectFun && item.selectFun(a)) || function() {}"
                         >
                             <el-option
@@ -181,15 +197,14 @@
                             v-else
                             v-model="formData[item.name]"
                             :disabled="item.disabled"
-                            :clearable="true"
-                            :filterable="!item.forbidfilterable"
-                            :multiple-limit="item.limit"
+                            :clearable="item.clearable"
+                            :filterable="item.filterable"
+                            :multiple-limit="item.multipleLimit"
                             :multiple="item.multiple"
-                            :allow-create="item.create"
-                            :default-first-option="item.create"
+                            :allow-create="item.allowCreate"
+                            :default-first-option="item.allowCreate"
                             :placeholder="item.disabled || allDisabled ? '' : item.placehold || formType[item.type] + item.label"
                             :style="item.inputStyle || {}"
-                            :popper-class="item.data && item.data.length > 0 ? '' : 'noDataHidden'"
                             @change="a => (item.selectFun && item.selectFun(a)) || function() {}"
                         >
                             <el-option
@@ -200,14 +215,24 @@
                                 :disabled="selectItem.disabled"
                             ></el-option>
                         </el-select>
-                        <p v-if="item.hint" :style="{ margin: 0 }">{{ item.hint }}</p>
+                        <span v-if="item.connect" class="spider_form_data_connect">{{ item.connect }}</span>
+                        <span
+                            v-if="item.extra"
+                            class="spider_form_data_extra"
+                            :style="item.extraStyle || {}"
+                            @click="a => (item.extraFun && item.extraFun()) || function() {}"
+                            >{{ item.extra }}</span
+                        >
                     </el-form-item>
                     <el-form-item
                         v-else-if="item.type === 'twoDate' && !item.hidden"
                         :prop="item.name"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
-                        :style="item.inputStyle || {}"
+                        :style="{ 
+                            ...item.inputStyle,
+                            width: twoDateStyle(item.inputStyle, item.labelWidth || labelWidth)
+                        }"
                     >
                         <el-col :span="11">
                             <el-form-item :prop="'begin' + item.name">
@@ -217,7 +242,6 @@
                                     :format="item.format || 'yyyy-MM-dd HH:mm:ss'"
                                     :value-format="item.format || 'yyyy-MM-dd HH:mm:ss'"
                                     :placeholder="item.disabled || allDisabled ? '' : item.placehold || formType[item.type] + '开始' + item.label"
-                                    :style="item.inputStyle || { width: '100%' }"
                                     :disabled="item.disabled"
                                 ></el-date-picker>
                             </el-form-item>
@@ -231,7 +255,6 @@
                                     :format="item.format || 'yyyy-MM-dd HH:mm:ss'"
                                     :value-format="item.format || 'yyyy-MM-dd HH:mm:ss'"
                                     :placeholder="item.disabled || allDisabled ? '' : item.placehold || formType[item.type] + '结束' + item.label"
-                                    :style="item.inputStyle || { width: '100%' }"
                                     :disabled="item.disabled"
                                 ></el-date-picker>
                             </el-form-item>
@@ -257,6 +280,7 @@
                     </el-form-item>
                     <el-form-item
                         v-else-if="item.type === 'textarea' && !item.hidden"
+                        :class="{ rowOrColumnInput: item.rowOrColumn }"
                         :prop="item.name"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
@@ -266,14 +290,23 @@
                             type="textarea"
                             :placeholder="item.disabled || allDisabled ? '' : item.placehold || formType[item.type] + item.label"
                             :disabled="item.disabled"
-                            :maxlength="item.maxlength"
-                            :minlength="item.minlength"
+                            :maxlength="item.maxLength"
+                            :minlength="item.minLength"
                             :style="item.inputStyle || {}"
                             :autosize="item.autosize || (item.disabled || allDisabled ? { minRows: 1, maxRows: 10 } : { minRows: 2, maxRows: 10 })"
                         ></el-input>
+                        <span v-if="item.connect" class="spider_form_data_connect">{{ item.connect }}</span>
+                        <span
+                            v-if="item.extra"
+                            class="spider_form_data_extra"
+                            :style="item.extraStyle || {}"
+                            @click="a => (item.extraFun && item.extraFun()) || function() {}"
+                            >{{ item.extra }}</span
+                        >
                     </el-form-item>
                     <el-form-item
                         v-else-if="item.type === 'switch' && !item.hidden"
+                        :class="{ rowOrColumnInput: item.rowOrColumn }"
                         :prop="item.name"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
@@ -281,19 +314,34 @@
                         <el-switch
                             v-model="formData[item.name]"
                             :disabled="item.disabled"
-                            :active-color="item.active || '#409EFF'"
-                            :inactive-color="item.inactive || '#C0CCDA'"
+                            :active-color="item.activeColor || '#409EFF'"
+                            :inactive-color="item.inactiveColor || '#C0CCDA'"
                         >
                         </el-switch>
+                        <span v-if="item.connect" class="spider_form_data_connect">{{ item.connect }}</span>
+                        <span
+                            v-if="item.extra"
+                            class="spider_form_data_extra"
+                            :style="item.extraStyle || {}"
+                            @click="a => (item.extraFun && item.extraFun()) || function() {}"
+                            >{{ item.extra }}</span
+                        >
                     </el-form-item>
                     <el-form-item
-                        v-else-if="item.type === 'ue'"
+                        v-else-if="item.type === 'ue' && !item.hidden"
                         :prop="item.name"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
                     >
-                        <!-- <UE :disabled="item.disabled || allDisabled" :defaultMsg="formData[item.name]" id="ue2" ref="ue"></UE> -->
-                        <UE v-if="!item.disabled && !allDisabled" id="ue2" ref="ue" :form-data="formData" :default-msg="formData[item.name]"></UE>
+                        <UE 
+                            v-if="!item.disabled && !allDisabled" 
+                            id="ue2" 
+                            ref="ue" 
+                            :form-data="formData" 
+                            :default-msg="formData[item.name]" 
+                            :uploadUrl="item.uploadUrl"
+                            :uploadAK="item.uploadAK"
+                        ></UE>
                         <div v-else v-html="formData[item.name]"></div>
                     </el-form-item>
                     <el-form-item
@@ -316,11 +364,19 @@
                                 >{{ checkItem.label || checkItem.itemLabel || checkItem.paramName || checkItem.name }}</el-checkbox
                             >
                         </el-checkbox-group>
-                        <span v-if="item.extra" class="spider_form_data_extra" :style="item.extraStyle || {}">{{ item.extra }}</span>
+                        <span v-if="item.connect" class="spider_form_data_connect">{{ item.connect }}</span>
+                        <span
+                            v-if="item.extra"
+                            class="spider_form_data_extra"
+                            :style="item.extraStyle || {}"
+                            @click="a => (item.extraFun && item.extraFun()) || function() {}"
+                            >{{ item.extra }}</span
+                        >
                     </el-form-item>
                     <el-form-item
                         v-else-if="item.type === 'radio' && !item.hidden"
                         :prop="item.name"
+                        :class="{ rowOrColumnInput: item.rowOrColumn }"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
                     >
@@ -354,6 +410,14 @@
                                 >{{ checkItem.label || checkItem.itemLabel || checkItem.paramName || checkItem.name }}</el-radio
                             >
                         </el-radio-group>
+                        <span v-if="item.connect" class="spider_form_data_connect">{{ item.connect }}</span>
+                        <span
+                            v-if="item.extra"
+                            class="spider_form_data_extra"
+                            :style="item.extraStyle || {}"
+                            @click="a => (item.extraFun && item.extraFun()) || function() {}"
+                            >{{ item.extra }}</span
+                        >
                     </el-form-item>
                     <el-form-item
                         v-else-if="item.type === 'cut' && !item.hidden"
@@ -415,13 +479,14 @@
                         <div class="tagList">
                             <el-tag
                                 v-for="(value, tagIndex) in item.data"
-                                :key="value.name + tagIndex"
-                                closable
-                                :size="value.size"
-                                :type="value.type"
+                                :key="JSON.stringify(value) + tagIndex"
+                                :closable="item.closable"
+                                :hit="item.hit"
+                                :size="item.size || 'medium '"
+                                :type="item.typeColor"
                                 @close="() => (item.closeFun && item.closeFun(value)) || function() {}"
                             >
-                                {{ value.name }}
+                                {{ value.value || value.itemValue || value.paramValue || value.name }}
                             </el-tag>
                         </div>
                     </el-form-item>
@@ -448,39 +513,6 @@
                             :uploadAK="item.uploadAK"
                         ></Upload>
                     </el-form-item>
-                    <!-- 不是通用的树结构 -->
-                    <el-form-item
-                        v-else-if="item.type === 'tree' && !item.hidden"
-                        :prop="item.name"
-                        :label="item.label && `${item.label}：`"
-                        :label-width="item.labelWidth || labelWidth"
-                    >
-                        <div>
-                            <div class="treeSurround">
-                                <div v-for="(treeItem, treeIndex) of item.data" :key="treeIndex" class="treeSurroundinner">
-                                    <p v-if="item.belongChannelObj">{{ item.belongChannelObj[treeItem.belongChannel] }}</p>
-                                    <el-tree
-                                        ref="tree"
-                                        :data="treeItem.columns"
-                                        show-checkbox
-                                        default-expand-all
-                                        :check-strictly="item.checkstrictly"
-                                        :default-checked-keys="formData[item.name]"
-                                        node-key="id"
-                                        highlight-current
-                                        :props="item.default"
-                                        @check="
-                                            (current, checkObj) => {
-                                                checkFun(current, checkObj, item.name, item.checkstrictly, treeIndex);
-                                            }
-                                        "
-                                    >
-                                    </el-tree>
-                                </div>
-                            </div>
-                            <p v-if="item.data.length && item.hint">{{ item.hint }}</p>
-                        </div>
-                    </el-form-item>
                     <el-form-item
                         v-else-if="item.type === 'table' && !item.hidden"
                         :prop="item.name"
@@ -493,51 +525,12 @@
                             :table-data="item.tableData"
                             :table-title="item.tableTitle"
                             :search-params="{}"
-                            :show-header="!item.hiddenHeader"
-                            :stripe="!item.nostripe"
+                            :show-header="item.showHeader"
+                            :stripe="item.stripe"
                             :from-type="'form'"
                             :unique-select="!!item.uniqueSelect"
                         ></table-item>
                     </el-form-item>
-                    <!-- 单独用于某个页面，不适用与所有的组件 -->
-                    <el-form-item
-                        v-else-if="item.type === 'addPerson' && !item.hidden"
-                        :class="{ hasBtn: true }"
-                        :prop="item.name"
-                        :label="item.label && `${item.label}：`"
-                        :label-width="item.labelWidth || labelWidth"
-                    >
-                        <div v-for="(userItem, userIndex) of formData[item.name]" :key="userIndex">
-                            <span class="projectuserName">{{ userItem.userName }} {{ userItem.phone }}</span>
-                            <el-checkbox v-model="userItem.admin">设置为管理员</el-checkbox>
-                            <span class="projectdel" @click="() => item.delbtnFun(index, userItem.id)">删除</span>
-                        </div>
-                        <el-button :type="item.btnType || 'primary'" @click="item.addbtnFun">{{ item.btnText }}</el-button>
-                    </el-form-item>
-                    <!-- 楼盘纪事 -->
-                    <el-form-item  v-else-if="item.type === 'recordEvent' && !item.hidden" :prop="item.name" :label="item.label && `${item.label}：`" :label-width="item.labelWidth || labelWidth">
-                        <record-event
-                            :formData="formData"
-                            :name="item.name"
-                            :rowsName="item.rowsName"
-                            :minRows="item.minRows"
-                            :maxRows="item.maxRows"
-                        ></record-event>
-                    </el-form-item>
-                    <!-- 售卖资格 -->
-                    <el-form-item  v-else-if="item.type === 'sellStatus' && !item.hidden" :prop="item.name" :label="item.label && `${item.label}：`" :label-width="item.labelWidth || labelWidth">
-                        <sell-Status
-                            :formData="formData"
-                            :name="item.name"
-                            :rowsName="item.rowsName"
-                            :minRows="item.minRows"
-                            :maxRows="item.maxRows"
-                        ></sell-Status>
-                    </el-form-item>
-
-                </el-col>
-                <el-col v-if="annotation" :span="24" class="dialogFormAnnotation">
-                    <div v-if="annotation" class="dialog-annotation">{{ annotation }}</div>
                 </el-col>
                 <el-col v-if="buttons.length > 0 || cancelBtn || saveBtn" :span="searchSpan">
                      <el-form-item :label-width="searchSpan !== 24 ? '0px' : labelWidth" :class="{ elbtnStyle: true, bottomFixed: bottomFixed }">
@@ -549,7 +542,7 @@
                                 :disabled="!!btn.disabled"
                                 :class="{ restBtn: index === 0 }"
                                 :type="btn.type || 'primary'"
-                                :size="searchFooterMar ? 'small' : 'medium'"
+                                :size="'medium'"
                                 @click="
                                     () => {
                                         validateFun('form', btn.onclick, btn.validate, btn.loading);
@@ -573,8 +566,6 @@ import Map from '@/components/map/';
 import Upload from '@/components/upload/';
 import TableItem from '@/components/table/';
 import qrcode from '@/components/qrcode/';
-import recordEvent from '@/components/recordEvent/';
-import sellStatus from '@/components/sellStatus/';
 import { flatten, isEmptyObject, debounceWork } from '@/components/utils';
 import { formRules } from './rules';
 
@@ -636,11 +627,6 @@ export default {
             type: Boolean,
             default: false,
         },
-        // search表单的时候不展示
-        searchFooterMar: {
-            type: Boolean,
-            default: false,
-        },
         // search的时候所占宽度
         searchSpan: {
             type: Number,
@@ -656,20 +642,15 @@ export default {
             type: Boolean,
             default: false,
         },
-        // modalForm的注释信息
-        annotation: {
-            type: String,
-            default: '',
-        },
         // 表单是否居中
         flexleftOrCenter: {
             type: String,
             default: 'left',
         },
-        // 不禁止样式
+        // 是否禁止样式
         disabledStyle: {
             type: Boolean,
-            default: true,
+            default: false,
         },
         // 按钮悬浮
         bottomFixed: {
@@ -927,6 +908,12 @@ export default {
                 window.form_loading.close();
             }
         },
+        twoDateStyle(inputStyle, labelWidth) {
+            if (inputStyle.width) {
+                return parseInt(inputStyle.width) + parseInt(labelWidth) + 'px';
+            }
+            return 'auto';
+        },
     },
 };
 </script>
@@ -937,6 +924,13 @@ export default {
     margin: 0 auto;
 }
 .spider_form_data {
+    position: relative;
+    .el-date-editor.el-input {
+        width: 100%;
+    }
+    .el-range-editor.el-input__inner {
+        justify-content: space-between;
+    }
     .blue {
         color: #0091e8;
     }
@@ -949,13 +943,11 @@ export default {
     .pointer {
         cursor: pointer;
     }
-    .paddingLeft {
-        padding-left: 8px;
-    }
     .el-form {
         display: inline-block;
         width: 100%;
         position: relative;
+        padding-bottom: 40px;
     }
     .data_table {
         margin-top: 12px;
@@ -1072,11 +1064,6 @@ export default {
     .el-input-group__append button.el-button {
         margin-left: -20px;
     }
-    .el-radio-button__orig-radio:checked + .el-radio-button__inner {
-        background: orange;
-        border-color: orange;
-        box-shadow: -1px 0 0 0 orange;
-    }
     .el-radio-button:focus:not(.is-focus):not(:active):not(.is-disabled) {
         -webkit-box-shadow: none;
         box-shadow: none;
@@ -1086,10 +1073,6 @@ export default {
         .el-input-group__append {
             display: none;
         }
-    }
-    .dialog-annotation {
-        text-align: left;
-        color: rgba(150, 150, 150, 1);
     }
     .el-autocomplete {
         width: 100%;
@@ -1137,23 +1120,17 @@ export default {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 32px;
+            height: 36px;
         }
     }
     .spider_form_data_extra {
         display: inline-block;
-        margin-left: 8px;
         color: #666;
     }
     .spider_form_data_connect {
         width: 36px;
         text-align: center;
         color: #666;
-    }
-    .selectAuto {
-        .el-select {
-            width: auto;
-        }
     }
     .spider_form_data_cut {
         font-size: 20px;
@@ -1182,7 +1159,7 @@ export default {
     .bottomFixed {
         position: fixed;
         bottom: 0;
-        z-index: 10;
+        z-index: 1000;
         padding: 8px 0 12px 32px;
         margin-left: -32px;
         box-shadow: 2px 0px 5px #ccc;
@@ -1192,11 +1169,6 @@ export default {
     }
     .el-input-number.is-controls-right .el-input__inner {
         text-align: left;
-    }
-    .form_select .el-form-item__content {
-        color: orange;
-        display: flex;
-        flex-direction: column;
     }
     .el-form-item--medium .el-form-item__label {
         color: #aaa;
@@ -1240,7 +1212,7 @@ export default {
         margin-left: 8px;
     }
     .el-date-editor.el-input {
-        width: auto;
+        width: 100%;
     }
     .el-select {
         width: auto;

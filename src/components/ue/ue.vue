@@ -17,10 +17,12 @@ export default {
         };
     },
     props: {
+        // 默认值
         defaultMsg: {
             default: '',
             type: String,
         },
+        // 配置参数
         config: {
             type: Object,
             default: () => ({
@@ -28,11 +30,20 @@ export default {
                 initialFrameHeight: 550,
             }),
         },
+        // 多个的时候
         id: {
             type: String,
         },
+        // 数据由对象包裹
         formData: {
+            type: Object,
             required: true,
+        },
+        // ak，上传的话是必须的
+        uploadAK: {
+            required: true,
+            type: String,
+            default: '',
         },
         // 上传url
         uploadUrl: {
@@ -43,6 +54,9 @@ export default {
     },
     mounted() {
         if (this.id) this.initEditor();
+        if (this.uploadAK) {
+            sessionStorage.setItem('ak', this.uploadAK);
+        }
         this.timer && clearInterval(this.timer);
 
         this.timer = setInterval(() => {
@@ -73,7 +87,11 @@ export default {
             });
             this.editor.addListener('blur', () => {
                 this.valueChange(this.editor.getContent());
-                this.editor.hasContents() && this.$parent.clearValidate();
+                if (this.editor.hasContents()) {
+                    if (this.$parent && this.$parent.clearValidate) {
+                        this.$parent.clearValidate();
+                    }
+                }
             });
         },
         // 获取内容方法
@@ -83,9 +101,14 @@ export default {
         validateValue() {
             if (!this.editor.hasContents()) {
                 this.$parent.$parent.$parent.validateField(this.$parent.labelFor);
+                if (this.$parent && this.$parent.$parent && this.$parent.$parent.$parent && this.$parent.clearValidate) {
+                    this.$parent.clearValidate();
+                }
                 this.formData[this.$parent.labelFor] = '';
             } else {
-                this.$parent.clearValidate();
+                if (this.$parent && this.$parent.clearValidate) {
+                    this.$parent.clearValidate();
+                }
                 this.valueChange(this.editor.getContent());
             }
         },

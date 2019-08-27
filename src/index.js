@@ -14,31 +14,33 @@ import SearchItem from '@/components/search/index.js';
 import TableItem from '@/components/table/index.js';
 import Upload from '@/components/upload/index.js';
 import UE from '@/components/ue/index.js';
+import MapItem from '@/components/map/index.js';
 import Wrapper from '@/components/wrapper.vue';
 Vue.use(Element);
-const components = [Form, QRCode, ListPage, SearchItem, ModalForm, TableItem, Upload, Wrapper, UE];
+const components = [Form, QRCode, ListPage, SearchItem, ModalForm, TableItem, Upload, Wrapper, UE, MapItem];
 
 const install = function(Vue, opts = {}) {
-  components.map(component => {
-    Vue.component(component.name, component);
-  });
+    components.map(component => {
+        Vue.component(component.name, component);
+    });
 };
 
 /* 支持使用标签的方式引入 */
 if (typeof window !== 'undefined' && window.Vue) {
-  console.log(22222);
-  install(window.Vue);
+    console.log(22222);
+    install(window.Vue);
 }
 
 export default {
-  install,
-  Form,
-  QRCode,
-  ModalForm,
-  ListPage,
-  SearchItem,
-  TableItem,
-  Wrapper,
-  Upload,
-  UE,
+    install,
+    Form,
+    QRCode,
+    ModalForm,
+    ListPage,
+    SearchItem,
+    TableItem,
+    Wrapper,
+    Upload,
+    UE,
+    MapItem,
 };

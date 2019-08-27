@@ -1,5 +1,9 @@
 <style lang="scss">
 .isDialog.isFlagSearch {
+    .bottomFixed {
+        margin-left: -16px;
+        padding-left: 16px;
+    }
     .el-dialog {
         position: fixed;
         right: 0;
@@ -34,6 +38,9 @@
     }
     ._dialogFooter {
         height: auto;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
     }
     @keyframes dialog-fade-in {
         0% {
@@ -66,12 +73,12 @@
     }
 }
 
-.btnFixed {
-    .bottomFixed {
-        margin-left: -16px;
-        padding-left: 16px;
-    }
-}
+// .el_dialog_myself {
+//     .bottomFixed {
+//         margin-left: -16px;
+//         padding-left: 16px;
+//     }
+// }
 
 .el-dialog__header {
     display: flex;
@@ -155,7 +162,6 @@
                 :form-items="formDialogItems"
                 :all-disabled="allDisabled"
                 :form-data="formData"
-                :search-footer-mar="searchFooterMar"
                 :label-width="labelWidth"
                 :model-form="true"
                 :buttons="modalBtns"
@@ -204,10 +210,6 @@ export default {
             type: Boolean,
             default: false,
             required: true,
-        },
-        searchFooterMar: {
-            type: Boolean,
-            default: false,
         },
         //重新命名按钮及事件
         modalBtns: {

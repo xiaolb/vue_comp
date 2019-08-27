@@ -69,6 +69,7 @@ export default {
         },
         // 提示 为数组的时候是多个，否则为字符串
         hint: {
+            type: [Array, String],
             default: '',
         },
         // 图片还是视频
@@ -91,6 +92,7 @@ export default {
             type: Object,
             default: () => {},
         },
+        // 大小限制
         size: {
             type: Number,
             default: 10000,
@@ -153,7 +155,9 @@ export default {
                 this.formData[this.bindName] = newFileList;
             } else {
                 this.formData[this.bindName] = null;
-                this.$parent.$parent.$parent.validateField([this.bindName]);
+                if (this.$parent && this.$parent.$parent && this.$parent.$parent.$parent && this.$parent.$parent.$parent.validateField) {
+                    this.$parent.$parent.$parent.validateField([this.bindName]);
+                }
             }
         },
         handleAvatarSuccess(res) {
@@ -166,7 +170,9 @@ export default {
             if (this.flagType === 'video') {
                 this.isLoading(false);
             }
-            this.$parent.clearValidate();
+            if (this.$parent && this.$parent.clearValidate) {
+                this.$parent.clearValidate();
+            }
             console.log('========上传成功========', this.formData, res.Data);
         },
         handlePictureCardPreview(file) {

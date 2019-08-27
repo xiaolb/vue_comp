@@ -7,7 +7,6 @@
             :data="tableData"
             tooltip-effect="dark"
             :style="{ width: '100%' }"
-            align="center"
             :span-method="mergeSpan"
             :show-header="showHeader"
             :class="{ noData: !tableData.length }"
@@ -46,36 +45,24 @@
                         v-for="colTwoItem of colItem.mergeColHeader || []"
                         :key="colTwoItem.prop"
                         :width="colTwoItem.width"
-                        align="left"
+                        :align="colTwoItem.align || 'left'"
                         :prop="colTwoItem.prop"
                         :label="colTwoItem.label"
-                        :formatter="
-                            colTwoItem.render ||
-                                function(rows) {
-                                    return rows[colTwoItem.prop] === '' || rows[colTwoItem.prop] === undefined || rows[colTwoItem.prop] === null
-                                        ? '-'
-                                        : rows[colTwoItem.prop];
-                                }
-                        "
+                        :sortable="colTwoItem.sortable"
+                        :sort-method="a => colTwoItem.filterSort(a) || function() {}"
+                        :formatter="colTwoItem.render || (rows => hintValue(rows[colTwoItem.prop]))"
                     >
                         <template v-if="colTwoItem.mergeColHeader">
                             <el-table-column
                                 v-for="colThreeItem of colTwoItem.mergeColHeader || []"
                                 :key="colThreeItem.prop"
                                 :width="colThreeItem.width"
-                                align="left"
+                                :align="colThreeItem.align || 'left'"
                                 :prop="colThreeItem.prop"
                                 :label="colThreeItem.label"
-                                :formatter="
-                                    colThreeItem.render ||
-                                        function(rows) {
-                                            return rows[colThreeItem.prop] === '' ||
-                                                rows[colThreeItem.prop] === undefined ||
-                                                rows[colThreeItem.prop] === null
-                                                ? '-'
-                                                : rows[colThreeItem.prop];
-                                        }
-                                "
+                                :sortable="colThreeItem.sortable"
+                                :sort-method="a => colThreeItem.filterSort(a) || function() {}"
+                                :formatter="colThreeItem.render || (rows => hintValue(rows[colThreeItem.prop]))"
                             >
                             </el-table-column>
                         </template>

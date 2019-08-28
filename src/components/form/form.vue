@@ -12,7 +12,7 @@
                 :size="'medium'"
                 :rules="rules"
             >
-                <el-col v-for="(item, index) of formItems" :key="index" :span="item.span">
+                <el-col v-for="(item, index) of formItems" :key="index" :span="item.span || 24">
                     <el-form-item
                         v-if="item.type === 'addRowsInput' && !item.hidden"
                         :prop="item.name"
@@ -647,11 +647,6 @@ export default {
             type: String,
             default: 'left',
         },
-        // 是否禁止样式
-        disabledStyle: {
-            type: Boolean,
-            default: false,
-        },
         // 按钮悬浮
         bottomFixed: {
             type: Boolean,
@@ -681,10 +676,10 @@ export default {
         };
     },
     mounted() {
-        this.disabledStyle && this.isDisabledStyle();
+        this.allDisabled && this.isDisabledStyle();
     },
     updated() {
-        this.disabledStyle && this.isDisabledStyle();
+        this.allDisabled && this.isDisabledStyle();
     },
     created() {
         this.createRules();

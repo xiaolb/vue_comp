@@ -55,6 +55,45 @@ const faMenus = [
         sonMenus: [],
         menuName: 'qrcode二维码',
     },
+    {
+        href: '/listPage',
+        menuId: '1a',
+        menuName: '一级导航',
+        sonMenus: [],
+    },
+    {
+        href: '',
+        menuId: '2a',
+        menuName: '二级导航',
+        sonMenus: [
+            {
+                href: '/ueditor',
+                menuId: '2a-1',
+                menuName: '二级导航一级',
+                sonMenus: [],
+            },
+        ],
+    },
+    {
+        href: '',
+        menuId: '3a',
+        menuName: '三级导航',
+        sonMenus: [
+            {
+                href: '',
+                menuId: '3a-1',
+                menuName: '三级导航2',
+                sonMenus: [
+                    {
+                        href: '/map',
+                        menuId: '3a-1-1',
+                        menuName: '三级导航3',
+                        sonMenus: [],
+                    },
+                ],
+            },
+        ],
+    },
 ];
 
 export default faMenus;

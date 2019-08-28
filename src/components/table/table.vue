@@ -92,24 +92,29 @@ export default {
     name: 'TableItem',
     components: {},
     props: {
+        //table表格是否有斑马线
         stripe: {
             type: Boolean,
             default: true,
         },
+        //是否显示表头
         showHeader: {
             type: Boolean,
             default: true,
         },
+        //table表格数据
         tableData: {
             type: Array,
             required: true,
             default: () => [],
         },
+        //table表格表头
         tableTitle: {
             type: Array,
             required: true,
             default: () => [],
         },
+        // 搜索请求字段数据及表格分页数据
         searchParams: {
             type: Object,
             required: true,
@@ -174,9 +179,13 @@ export default {
                     this.height = 10000;
                     return;
                 }
-                const tableHeight = document.querySelector('.data_table').offsetHeight;
+                const data_table = document.querySelector('.data_table');
+                if (!data_table) {
+                    return;
+                }
+                const tableHeight = data_table.offsetHeight;
                 if (this.fromType === 'other') {
-                    this.height = window.innerHeight - document.querySelector('.data_table').offsetTop - 90;
+                    this.height = window.innerHeight - data_table.offsetTop - 90;
                 } else if (this.fromType === 'listPage') {
                     this.height = tableHeight - 56;
                 } else if (this.fromType === 'form') {

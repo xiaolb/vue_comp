@@ -13,14 +13,14 @@
                         active-text-color="#ffd04b" class="el-menu-vertical-demo" :router="true">
                     <template v-for="item in faMenus">
                         <template v-if="item.sonMenus && item.sonMenus.length">
-                            <el-submenu :index="String(item.menuId)"  :key="item.menuId">
+                            <el-submenu :index="item.menuId"  :key="item.menuId">
                                 <template slot="title">
                                     <i class="el-icon-menu"></i>
                                     {{ item.menuName }}
                                 </template>
 
                                 <template v-for="(firstVal, firstindex) of item.sonMenus">
-                                    <el-submenu v-if="firstVal.sonMenus && firstVal.sonMenus.length > 0"  :index="String(firstVal.menuId)"  :key="firstVal.menuId">
+                                    <el-submenu v-if="firstVal.sonMenus && firstVal.sonMenus.length > 0"  :index="firstVal.menuId"  :key="firstVal.menuId">
                                         <template slot="title">
                                             <i class="el-icon-menu"></i>
                                             {{ firstVal.menuName }}
@@ -32,17 +32,15 @@
                                             </el-menu-item>
                                         </el-menu-item-group>
                                     </el-submenu>
-
-                                    <el-menu-item-group :index="String(firstVal.menuId)"  :key="firstVal.menuId">
-                                        <el-menu-item 
-                                            :key="firstindex"
-                                            :index="firstVal.href">{{ firstVal.menuName }}
-                                        </el-menu-item>
-                                    </el-menu-item-group>
+                                    <el-menu-item 
+                                        v-else
+                                        :key="firstindex"
+                                        :index="firstVal.href">{{ firstVal.menuName }}
+                                    </el-menu-item>
                                 </template>
                             </el-submenu>
                         </template>
-                        <el-menu-item :index="item.href" :key="item.href">
+                        <el-menu-item v-else :index="item.href" :key="item.menuId">
                             <i class="el-icon-menu"></i>
                             {{ item.menuName }}
                          </el-menu-item>

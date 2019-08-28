@@ -32,7 +32,6 @@ export default {
             allDisabled: false,
             formSearchWidth: '1200px',
             flexleftOrCenter: 'left',
-            disabledStyle: false,
             bottomFixed: true,
         };
     },
@@ -333,11 +332,12 @@ export default {
                     name: 'table',
                     label: '表格',
                     type: 'table',
-                    tableData: [{}, {}, {}],
+                    tableData: [{}, {}, {}], // 表格数据
+                    // table表格表头
                     tableTitle: [{ prop: 'num', fixed: 'left', type: 'selection' }, { prop: 'id', label: 'ID' }],
-                    showHeader: true,
-                    stripe: true,
-                    uniqueSelect: true,
+                    showHeader: true, // 是否显示表头
+                    stripe: true, // table表格是否有斑马线
+                    uniqueSelect: true, // 表格是否单选
                 },
                 {
                     ...common,
@@ -345,16 +345,17 @@ export default {
                     label: '视频图片上传',
                     type: 'videoOrPicture',
 
-                    maxi: 3,
-                    hint: '默认图片',
+                    maxi: 3, // 最大上传数
+                    hint: '默认图片', // 图片提示 (数组的时候多个，单个字符串)
                     // hint: ['默认图片1', '默认图片2'],
-                    flagType: 'picture',
-                    size: 10,
-                    isFacePic: true,
-                    isWrite: true,
-                    uploadUrl: 'http://bigdata-api.apitops.com/api/v1/common/upload/files',
-                    uploadAK: '31c5df4c-054c-40a9-98fc-99e0fea40ef3',
+                    flagType: 'picture', // 图片还是视频 video/picture
+                    size: 10, // 大小限制
+                    isFacePic: true, // 是否展示封面图标
+                    uploadUrl: 'http://bigdata-api.apitops.com/api/v1/common/upload/files', // 上传url
+                    uploadAK: '31c5df4c-054c-40a9-98fc-99e0fea40ef3', // ak，上传的话是必须的
+                    isWrite: true, // 是否展示可写图标
                     isWriteFun: () => {
+                        // 是否可写操作
                         console.log('写入图片');
                     },
                 },
@@ -364,7 +365,7 @@ export default {
                     label: '文本点击事件',
                     type: 'handleClick',
                     handleClickData: 'handleClick', // 当前字段，btnTitle存在的时候不生效
-                    // btnTitle: '编辑', // 分割标题
+                    btnTitle: '编辑', // 分割标题
                     inputStyle: {
                         color: 'orange',
                     },
@@ -399,21 +400,20 @@ export default {
                     label: '富文本',
                     type: 'ue',
                     span: 24,
-                    uploadUrl: 'http://bigdata-api.apitops.com/api/v1/common/upload/files',
-                    uploadAK: '31c5df4c-054c-40a9-98fc-99e0fea40ef3',
-                    // hidden: true,
+                    uploadUrl: 'http://bigdata-api.apitops.com/api/v1/common/upload/files', // 上传url
+                    uploadAK: '31c5df4c-054c-40a9-98fc-99e0fea40ef3', // ak，上传的话是必须的
                 },
                 {
                     ...common,
                     name: 'map',
                     label: '地图',
+                    type: 'map',
                     span: 24,
-                    // hidden: true,
                     inputStyle: {
+                        // input框设置样式
                         width: '800px',
                     },
-                    type: 'map',
-                    bindName: ['lng', 'lat'],
+                    bindName: ['lng', 'lat'], // 绑定经纬度的name[经度，纬度]
                 },
             ];
         },

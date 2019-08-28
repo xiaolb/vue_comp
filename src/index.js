@@ -1,10 +1,13 @@
 import Vue from 'vue';
 import Element from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
 import '../static/UE/ueditor.config.js';
 import '../static/UE/ueditor.all.js';
 import '../static/UE/lang/zh-cn/zh-cn.js';
 import '../static/UE/ueditor.parse.min.js';
+
+if ('development' === process.env.NODE_ENV) {
+    require('element-ui/lib/theme-chalk/index.css');
+}
 
 import Form from '@/components/form/index.js';
 import QRCode from '@/components/qrcode/index.js';

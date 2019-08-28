@@ -908,7 +908,7 @@ export default {
                 window.form_loading.close();
             }
         },
-        twoDateStyle(inputStyle, labelWidth) {
+        twoDateStyle(inputStyle = {}, labelWidth) {
             if (inputStyle.width) {
                 return parseInt(inputStyle.width) + parseInt(labelWidth) + 'px';
             }

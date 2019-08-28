@@ -1,7 +1,7 @@
 <template>
     <div
-        :class="{ spider_form_data: true, disabledStyle: allDisabled, modelForm: modelForm }"
-        :style="{ width: !modelForm ? formSearchWidth : '' }"
+        :class="{ spider_form_data: true, searchFlag: searchFooterMar,  disabledStyle: allDisabled, modelForm: modelForm }"
+        :style="{ width: searchFooterMar && !modelForm ? formSearchWidth : '' }"
     >
         <div :class="{ flexLeftOrCenter: flexleftOrCenter === 'center' }">
             <el-form
@@ -9,7 +9,7 @@
                 :model="formData"
                 :disabled="allDisabled"
                 :label-width="labelWidth"
-                :size="'medium'"
+                :size="searchFooterMar ? 'small' : 'medium'"
                 :rules="rules"
             >
                 <el-col v-for="(item, index) of formItems" :key="index" :span="item.span || 24">
@@ -542,7 +542,7 @@
                                 :disabled="!!btn.disabled"
                                 :class="{ restBtn: index === 0 }"
                                 :type="btn.type || 'primary'"
-                                :size="'medium'"
+                                :size="searchFooterMar ? 'small' : 'medium'"
                                 @click="
                                     () => {
                                         validateFun('form', btn.onclick, btn.validate, btn.loading);
@@ -624,6 +624,11 @@ export default {
         },
         // 表单不可编辑
         allDisabled: {
+            type: Boolean,
+            default: false,
+        },
+        // search表单的时候不展示
+        searchFooterMar: {
             type: Boolean,
             default: false,
         },

@@ -122,9 +122,19 @@ export default {
                 {
                     prop: 'propertyTypeNameList',
                     label: '物业类型',
+                    filters: [
+                        { text: '别墅', value: '别墅' },
+                        { text: '住宅', value: '住宅' },
+                        { text: '公寓', value: '公寓' },
+                        { text: '商铺', value: '商铺' },
+                    ],
+                    filterHandler: (value, row, column) => {
+                        console.log(value, row, column);
+                    },
                     render: row => {
                         return <p>{row.propertyTypeNameList && row.propertyTypeNameList.join()}</p>;
                     },
+                    filterPlacement: 'bottom-end',
                 },
                 { prop: 'newhouseType', label: '类型', width: 66 },
                 { prop: 'source', label: '来源' },

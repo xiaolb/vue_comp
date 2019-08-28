@@ -33,7 +33,7 @@ export default {
         return {
             // search 字段
             title: '某某搜索',
-            formSearchWidth: '481px',
+            formSearchWidth: '420px',
             tableState: '关于表格的说明',
             searchParams: {
                 pageIndex: 1,
@@ -106,7 +106,7 @@ export default {
                     name: 'keyword',
                     type: 'input',
                     placehold: '通过楼盘名称、小区、开发商名称等搜索',
-                    span: this.filterBtn.length > 0 ? 13 : 16,
+                    span: this.filterBtn.length > 0 ? 12 : 16,
                     labelWidth: '6px',
                     append: true,
                     appendFun: () => {},

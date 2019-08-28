@@ -39,6 +39,9 @@
                 :sortable="colItem.sortable"
                 :sort-method="a => colItem.filterSort(a) || function() {}"
                 :formatter="colItem.render || (rows => hintValue(rows[colItem.prop]))"
+                :filters="colItem.filters" 
+                :filter-method="colItem.filterHandler"
+                :filter-placement="colItem.filterPlacement || 'bottom-end'"
             >
                 <template v-if="colItem.mergeColHeader">
                     <el-table-column

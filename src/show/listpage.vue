@@ -3,7 +3,7 @@
         <list-page
             ref="listpage"
             :formSearchItems="formSearchItems"
-            :formSearchWidth="formSearchWidth"
+            :formWidth="formWidth"
             :tableState="tableState"
             :restButtons="restButtons"
             :filterBtn="filterBtn"
@@ -23,7 +23,7 @@
         <modal-form
             v-if="searchVisible" 
             :title="'高级筛选'"
-            :width="'500px'"
+            :width="'800px'"
             ref="highSearch"
             :visible="searchVisible"
             :formDialogItems="formImmediateItems"
@@ -76,7 +76,7 @@ export default {
         return {
             // listPage 字段
             tableState: '关于表格的说明',
-            formSearchWidth: '481px',
+            formWidth: '481px',
             title: '某某列表',
             searchParams: {
                 pageIndex: 1,
@@ -239,7 +239,7 @@ export default {
                     name: '筛选',
                     type: 'default',
                     onclick: () => {
-                        // this.searchVisible = true;
+                        this.searchVisible = true;
                         this.preVisible = true;
                     },
                 },

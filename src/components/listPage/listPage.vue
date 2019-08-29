@@ -9,7 +9,7 @@
             :filter-btn="filterBtn"
             :table-state="tableState"
             :title="title"
-            :form-search-width="formSearchWidth"
+            :form-search-width="formWidth"
         ></search-item>
         <table-item
             ref="tableSelect"
@@ -96,7 +96,7 @@ export default {
             default: '',
         },
         // 搜索时表单的宽度
-        formSearchWidth: {
+        formWidth: {
             type: String,
             default: '',
         },

@@ -1,7 +1,7 @@
 <template>
     <div
         :class="{ spider_form_data: true, searchFlag: searchFooterMar,  disabledStyle: allDisabled, modelForm: modelForm }"
-        :style="{ width: searchFooterMar && !modelForm ? formSearchWidth : '' }"
+        :style="{ width: !modelForm ? formWidth : '' }"
     >
         <div :class="{ flexLeftOrCenter: flexleftOrCenter === 'center' }">
             <el-form
@@ -638,9 +638,9 @@ export default {
             default: 24,
         },
         // 搜索时表单的宽度，默认800
-        formSearchWidth: {
+        formWidth: {
             type: String,
-            default: '800px',
+            default: '',
         },
         // 是否从modal过来
         modelForm: {

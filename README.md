@@ -79,7 +79,7 @@ ListPage中包含两个组件SearchItem(搜索列表）和TableItem(列表展示
 | SearchItem |  formSearchItems | 搜索选项(详细字段见formItem) | Array[Objec]  |   | []
 | SearchItem |  tableState | 表格的数据展示 | String  |   | ''
 | SearchItem |  title | 当前页的title | String  |   | ''
-| SearchItem |  formSearchWidth | 搜索时表单的宽度 | String  |   | ‘800px’
+| SearchItem |  formWidth | 搜索时表单的宽度 | String  |   | ‘800px’
 | SearchItem |  restButtons | 其他的操作按钮。新增之类的 | Array  |   | []
 | SearchItem |  filterBtn | 筛选按钮(查询，筛选) | Array  |   | []
 | |  |  |   |   | |
@@ -106,7 +106,7 @@ ListPage中包含两个组件SearchItem(搜索列表）和TableItem(列表展示
 |  formSearchItems |  搜索选项(详细字段见formItem) | Array |  |   | []
 |  tableState | 表格的数据展示（单独用的时候没有太大的必要） | String|  |   | ''
 |  title | 当前页的title | String | |   | ''
-|  formSearchWidth | 搜索时表单的宽度（刷选按钮：大于700占2，480-700占3，小于等于480占4） | String|  |   | ‘800px’
+|  formWidth | 搜索时表单的宽度（刷选按钮：大于700占2，480-700占3，小于等于480占4） | String|  |   | ‘800px’
 |  restButtons | 其他的操作按钮。新增之类的 | Array | |   | []
 |  filterBtn | 筛选按钮(查询，筛选) | Array | |   | []
 |  searchParams | 搜索请求字段数据及表格分页数据 | Object|  |  true | {}
@@ -267,7 +267,7 @@ ListPage中包含两个组件SearchItem(搜索列表）和TableItem(列表展示
 |  cancelBtnText | 操作取消按钮文本样式 | String |  |  |取消|
 |  labelWidth  | 表单域标签的宽度 | String |  |   | 150px|
 |  buttons | 其他的自定义操作 | Array[Object] |  |   | [] |
-|  formSearchWidth | 搜索时表单的宽度，默认800 | String |  |   | 800px|
+|  formWidth | 搜索时表单的宽度，默认800 | String |  |   | 800px|
 |  flexleftOrCenter | 表单位置 | String | left/cente  |   | left|
 |  bottomFixed | 按钮悬浮 | Boolean|  |   | false|
 

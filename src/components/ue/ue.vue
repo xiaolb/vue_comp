@@ -100,9 +100,8 @@ export default {
         },
         validateValue() {
             if (!this.editor.hasContents()) {
-                this.$parent.$parent.$parent.validateField(this.$parent.labelFor);
-                if (this.$parent && this.$parent.$parent && this.$parent.$parent.$parent && this.$parent.clearValidate) {
-                    this.$parent.clearValidate();
+                if (this.$parent && this.$parent.$parent && this.$parent.$parent.$parent && this.$parent.validateField) {
+                    this.$parent.$parent.$parent.validateField(this.$parent.labelFor);
                 }
                 this.formData[this.$parent.labelFor] = '';
             } else {

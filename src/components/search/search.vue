@@ -83,7 +83,7 @@
                         :save-btn="false"
                         :cancel-btn="false"
                         :search-footer-mar="true"
-                        :form-search-width="formSearchWidth"
+                        :form-search-width="formWidth"
                         :buttons="filterBtn"
                         :search-span="searchSpan"
                     ></form-item>
@@ -134,7 +134,7 @@ export default {
             default: '',
         },
         // 搜索时表单的宽度
-        formSearchWidth: {
+        formWidth: {
             type: String,
             default: '',
         },
@@ -145,11 +145,11 @@ export default {
     computed: {
         searchSpan() {
             let span = 2;
-            if (parseFloat(this.formSearchWidth) >= 700) {
+            if (parseFloat(this.formWidth) >= 700) {
                 span = 2;
-            } else if (parseFloat(this.formSearchWidth) > 480) {
+            } else if (parseFloat(this.formWidth) > 480) {
                 span = 3;
-            } else if (parseFloat(this.formSearchWidth) <= 480) {
+            } else if (parseFloat(this.formWidth) <= 480) {
                 span = 4;
             }
             return span;

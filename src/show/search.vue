@@ -3,7 +3,7 @@
         <search-item
             ref="search"
             :formSearchItems="formSearchItems"
-            :formSearchWidth="formSearchWidth"
+            :formWidth="formWidth"
             :tableState="tableState"
             :restButtons="restButtons"
             :filterBtn="filterBtn"
@@ -33,7 +33,7 @@ export default {
         return {
             // search 字段
             title: '某某搜索',
-            formSearchWidth: '420px',
+            formWidth: '420px',
             tableState: '关于表格的说明',
             searchParams: {
                 pageIndex: 1,

@@ -10,7 +10,7 @@
             :buttons="buttons"
             :form-data="formData"
             :all-disabled="allDisabled"
-            :formSearchWidth="formSearchWidth"
+            :formWidth="formWidth"
             :flexleftOrCenter="flexleftOrCenter"
             :bottom-fixed="bottomFixed"
         ></Form>
@@ -22,17 +22,18 @@ export default {
     name: 'formitemtest',
     data() {
         return {
-            saveBtnText: '确定',
-            cancelBtnText: '返回',
-            labelWidth: '250px',
-            buttons: [],
-            saveBtn: true,
-            cancelBtn: true,
-            formData: { checkboxs: [], handleClick: 'handleClick' },
-            allDisabled: false,
-            formSearchWidth: '1200px',
-            flexleftOrCenter: 'left',
-            bottomFixed: true,
+            saveBtnText: '确定', // 操作保存按钮文本样式
+            cancelBtnText: '返回', // 操作取消按钮文本样式
+            labelWidth: '250px', // 表单域标签的宽度
+            buttons: [], // 其他的自定义操作
+            saveBtn: true, // 是否显示保存按钮
+            cancelBtn: true, // 是否展示取消按钮
+            formData: { checkboxs: [], handleClick: 'handleClick' }, // 表单数据
+            allDisabled: false, // 表单是否禁止编辑
+            formWidth: '1200px', // 表单的宽度
+            flexleftOrCenter: 'left', // 表单位置 left/cente
+            bottomFixed: true, //按钮悬浮
+            formItems: [{}], // 表单选项
         };
     },
     computed: {

@@ -15,7 +15,7 @@
                         v-if="btnButtons.length"
                         :class="{ alignRight: true, btnButton: true }"
                         :style="{
-                            width: btnButtons.length * 57 + 12 * btnCount + 'px',
+                            width: btnButtons.length * 56 + 12 * btnCount + 'px',
                         }"
                     >
                         <el-button
@@ -33,8 +33,8 @@
                     <el-col
                         v-if="groupbtnButtons.length"
                         :style="{
-                            width: groupbtnButtons.length * 55 + 12 * groupbtnCount + 8 + 1 + 'px',
-                            marginLeft: btnButtons.length ? '4px' : '0px',
+                            width: groupbtnButtons.length * (56 - 1) + 12 * groupbtnCount + 1 + 'px',
+                            marginLeft: btnButtons.length ? '10px' : '0px',
                         }"
                     >
                         <el-button-group>
@@ -55,7 +55,7 @@
                         v-if="dropbtnButtons.length"
                         :style="{
                             width: dropbtnButtons.length * 75 + 12 * dropbtnCount + 8 + 1 + 'px',
-                            marginLeft: btnButtons.length || groupbtnButtons.length ? '4px' : '0px',
+                            marginLeft: btnButtons.length || groupbtnButtons.length ? '10px' : '0px',
                         }"
                     >
                         <el-dropdown
@@ -83,7 +83,7 @@
                         :save-btn="false"
                         :cancel-btn="false"
                         :search-footer-mar="true"
-                        :form-search-width="formWidth"
+                        :form-width="formWidth"
                         :buttons="filterBtn"
                         :search-span="searchSpan"
                     ></form-item>

@@ -9,7 +9,7 @@
             :filter-btn="filterBtn"
             :table-state="tableState"
             :title="title"
-            :form-search-width="formWidth"
+            :form-width="formWidth"
         ></search-item>
         <table-item
             ref="tableSelect"

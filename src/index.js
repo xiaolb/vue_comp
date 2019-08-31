@@ -1,12 +1,13 @@
-import Vue from 'vue';
-import Element from 'element-ui';
 import '../static/UE/ueditor.config.js';
 import '../static/UE/ueditor.all.js';
 import '../static/UE/lang/zh-cn/zh-cn.js';
 import '../static/UE/ueditor.parse.min.js';
-
+let Element, Vue;
 if ('development' === process.env.NODE_ENV) {
+    Vue = require('vue');
+    Element = require('element-ui');
     require('element-ui/lib/theme-chalk/index.css');
+    Vue.default.use(Element);
 }
 
 import Form from '@/components/form/index.js';
@@ -19,7 +20,7 @@ import Upload from '@/components/upload/index.js';
 import UE from '@/components/ue/index.js';
 import MapItem from '@/components/map/index.js';
 import Wrapper from '@/components/wrapper.vue';
-Vue.use(Element);
+
 const components = [Form, QRCode, ListPage, SearchItem, ModalForm, TableItem, Upload, Wrapper, UE, MapItem];
 
 const install = function(Vue, opts = {}) {

@@ -100,7 +100,7 @@ export default {
         },
         validateValue() {
             if (!this.editor.hasContents()) {
-                if (this.$parent && this.$parent.$parent && this.$parent.$parent.$parent && this.$parent.validateField) {
+                if (this.$parent && this.$parent.$parent && this.$parent.$parent.$parent && this.$parent.$parent.$parent.validateField) {
                     this.$parent.$parent.$parent.validateField(this.$parent.labelFor);
                 }
                 this.formData[this.$parent.labelFor] = '';

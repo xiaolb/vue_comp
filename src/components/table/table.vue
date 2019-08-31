@@ -13,22 +13,8 @@
             :max-height="height"
             @selection-change="handleSelectionChange"
         >
-            <!-- :default-expand-all="true" -->
-            <el-table-column v-if="expand" type="expand">
-                <template v-if="props.row.childItems.length" slot-scope="props">
-                    <table-item
-                        ref="tableExpandSelect"
-                        :stripe="stripe"
-                        :table-data="props.row.childItems"
-                        :table-title="props.row.childItems.length > 0 ? tableTitle : tableTitle.slice(1)"
-                        :search-params="searchParams"
-                        :show-header="false"
-                        @searchList="() => {}"
-                    ></table-item>
-                </template>
-            </el-table-column>
             <el-table-column
-                v-for="colItem of expand ? tableTitle.slice(1) : tableTitle"
+                v-for="colItem of tableTitle"
                 :key="colItem.prop"
                 :type="colItem.type"
                 :width="colItem.width"
@@ -54,6 +40,9 @@
                         :sortable="colTwoItem.sortable"
                         :sort-method="a => colTwoItem.filterSort(a) || function() {}"
                         :formatter="colTwoItem.render || (rows => hintValue(rows[colTwoItem.prop]))"
+                        :filters="colTwoItem.filters" 
+                        :filter-method="colTwoItem.filterHandler"
+                        :filter-placement="colTwoItem.filterPlacement || 'bottom-end'"
                     >
                         <template v-if="colTwoItem.mergeColHeader">
                             <el-table-column
@@ -66,6 +55,9 @@
                                 :sortable="colThreeItem.sortable"
                                 :sort-method="a => colThreeItem.filterSort(a) || function() {}"
                                 :formatter="colThreeItem.render || (rows => hintValue(rows[colThreeItem.prop]))"
+                                :filters="colThreeItem.filters" 
+                                :filter-method="colThreeItem.filterHandler"
+                                :filter-placement="colThreeItem.filterPlacement || 'bottom-end'"
                             >
                             </el-table-column>
                         </template>
@@ -157,9 +149,6 @@ export default {
             const last = tempcount > this.searchParams.count ? this.searchParams.count : tempcount;
             return `${pre}-${last}`;
         },
-        expand() {
-            return this.tableTitle && this.tableTitle[0] && this.tableTitle[0].type === 'expand';
-        },
         hasData() {
             return this.tableData && this.tableData[0] && this.tableData[0].childItems.length;
         },
@@ -246,6 +235,9 @@ export default {
 <style lang="scss">
 .data_table {
     width: 100%;
+    .el-table__fixed-right-patch {
+        background: #f5f7fa;
+    }
     .pagination {
         display: flex;
         justify-content: flex-end;
@@ -314,17 +306,6 @@ export default {
         padding: 6px 0;
         background-color: #f5f7fa;
         color: #303133;
-    }
-    .el-table__expanded-cell[class*='cell'] {
-        padding: 0 0 0 47px;
-    }
-    .el-table__expanded-cell {
-        border: none;
-        .el-table {
-            height: auto;
-            border: none;
-            border-left: 1px solid #ebeef5;
-        }
     }
     .el-table::before {
         height: 0;

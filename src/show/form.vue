@@ -13,7 +13,28 @@
             :formWidth="formWidth"
             :flexleftOrCenter="flexleftOrCenter"
             :bottom-fixed="bottomFixed"
-        ></Form>
+            :formItemsBtn="formItemsBtn"
+        >
+            <div slot="appendinput">appendinput</div>
+            <div slot="appendcut">appendcut</div>
+            <div slot="appendcheckboxs">checkboxs</div>
+            <div slot="appendnumber">number</div>
+            <div slot="appenddate">date</div>
+            <div slot="appendtextarea">textarea</div>
+            <div slot="appendswitch">switch</div>
+            <div slot="appendradio">radio</div>
+            <div slot="appendtable">table</div>
+            <div slot="appendtag">tag </div>
+            <div slot="appendue">ue </div>
+            <div slot="appendmap">map</div>
+            <div slot="appendautocomplete">autocomplete</div>
+            <div slot="appendcascader">cascader</div>
+            <div slot="appendselect">select</div>
+            <div slot="appendtwoDate">twoDate</div>
+            <div slot="appendvideoOrPicture">videoOrPicture</div>
+            <div slot="appendhandleClick">handleClick</div>
+            <div slot="appendqrcode">qrcode</div>
+        </Form>
     </div>
 </template>
 <script>
@@ -24,8 +45,22 @@ export default {
         return {
             saveBtnText: '确定', // 操作保存按钮文本样式
             cancelBtnText: '返回', // 操作取消按钮文本样式
-            labelWidth: '250px', // 表单域标签的宽度
-            buttons: [], // 其他的自定义操作
+            labelWidth: '140px', // 表单域标签的宽度
+            buttons: [
+                {
+                    name: '红色按钮', // 按钮名字
+                    hidden: false, // 是否隐藏
+                    onclick: () => {
+                        // 按钮点击事件
+                        console.log('红色按钮事件');
+                        console.log(this.formData);
+                    },
+                    disabled: false, // 是否禁止
+                    type: 'danger', // 按钮类型
+                    validate: false, // 是否表单校验
+                    loading: true, // 是否要loading
+                },
+            ], // 其他的自定义操作
             saveBtn: true, // 是否显示保存按钮
             cancelBtn: true, // 是否展示取消按钮
             formData: { checkboxs: [], handleClick: 'handleClick' }, // 表单数据
@@ -33,7 +68,6 @@ export default {
             formWidth: '1200px', // 表单的宽度
             flexleftOrCenter: 'left', // 表单位置 left/cente
             bottomFixed: true, //按钮悬浮
-            formItems: [{}], // 表单选项
         };
     },
     computed: {
@@ -50,7 +84,24 @@ export default {
                 required: true, // 是否必填
                 inputStyle: {
                     // item的样式编写
-                    width: '360px',
+                    width: '460px',
+                },
+                classList: {
+                    // 对表单进行样式调整
+                    // 类名: '是否这个类',
+                    autocomplete: true,
+                },
+
+                appendSlot: false, // 是否添加自定义slot
+
+                rowOrColumn: true, // flex的方向，有connect或extra时用
+                connect: '补充', // 符号什么 一到两字
+                extra: '补充说明', // 补充说明
+                extraStyle: {
+                    color: '#00ff00',
+                }, //extra样式补充
+                extraFun: () => {
+                    console.log('点击事件');
                 },
             };
             return [
@@ -60,9 +111,11 @@ export default {
                     labelWidth: '0px',
                     label: '分隔符',
                     type: 'cut',
-                    span: 24,
                     cutName: '分隔符', // 分割标题
-                    btnTitle: '编辑', // 操作字段
+                    cutNameDescribe: '楼盘各个批次', // cutName的说明
+                    span: 24,
+                    btnTitle: '新增一个', // 操作字段
+                    btnDescribe: '找不到我要的小区 ? , ', //操作字段前缀
                     btnFuntion: () => {
                         // 操作函数
                         console.log('操作按钮');
@@ -75,7 +128,7 @@ export default {
                     type: 'checkboxs',
 
                     span: 24,
-                    rowOrColumn: false, // flex的方向，有connect或extra时用
+
                     column: false, // 复选框竖着
                     data: [
                         // 可选项数据源，键名可通过 Props 属性配置
@@ -88,14 +141,77 @@ export default {
                         // 选择事件
                         console.log(value);
                     },
-
-                    connect: '补充', // 符号什么 一到两字
-                    extra: '补充说明', // 补充说明
-                    extraStyle: {
-                        color: '#00ff00',
-                    }, //extra样式补充
-                    extraFun: () => {
-                        console.log('点击事件');
+                },
+                {
+                    ...common,
+                    name: 'test',
+                    label: '22222',
+                    type: 'input',
+                    span: 6,
+                    classList: {
+                        ...common.classList,
+                        noRightBorder: true,
+                    },
+                    connect: '',
+                    extra: '',
+                },
+                {
+                    // ...common,
+                    labelWidth: '0px',
+                    name: 'test1',
+                    label: '',
+                    span: 6,
+                    type: 'input',
+                    classList: {
+                        noLeftBorder: true,
+                        noRightBorder: true,
+                    },
+                    suffix: true,
+                    suffixIcon: 'el-icon-delete',
+                    suffixStyle: {
+                        color: 'purple',
+                        fontSize: '16px',
+                    },
+                    suffixFun: () => {
+                        console.log('suffixFun');
+                    },
+                },
+                {
+                    // ...common,
+                    labelWidth: '0px',
+                    name: 'test1',
+                    label: '',
+                    span: 6,
+                    type: 'input',
+                    classList: {
+                        noLeftBorder: true,
+                        noRightBorder: true,
+                    },
+                    appendHtml: true,
+                    appendHtmlText: '<i>测试</i>',
+                    appendHtmlStyle: {
+                        color: 'pink',
+                    },
+                    appendHtmlFun: () => {
+                        console.log('appendHtmlFun');
+                    },
+                },
+                {
+                    // ...common,
+                    labelWidth: '0px',
+                    name: 'test1',
+                    label: '',
+                    span: 6,
+                    type: 'input',
+                    classList: {
+                        noLeftBorder: true,
+                        noRightBorder: true,
+                    },
+                    append: true, // 是否有slot,输入框的操作
+                    appendIcon: 'el-icon-delete',
+                    appendFun: () => {
+                        // 和append配套操作
+                        console.log('appendFun');
                     },
                 },
                 {
@@ -103,27 +219,44 @@ export default {
                     name: 'input',
                     label: '输入框',
                     type: 'input',
+                    span: 24,
 
-                    rowOrColumn: false, // flex的方向，有connect或extra时用
+                    // append: true, // 是否有slot, 按钮
+                    appendIcon: 'el-icon-delete', // slot 的 icon
+                    appendFun: () => {
+                        // 和append配套操作
+                        console.log('appendFun');
+                    },
+
+                    // suffix: true, // 是否有slot, 图标
+                    suffixIcon: 'el-icon-delete', // slot 的 icon
+                    suffixStyle: {
+                        // 是否有slot, 图标样式
+                        color: 'purple',
+                        fontSize: '16px',
+                    },
+                    suffixFun: () => {
+                        // 和suffix配套操作
+                        console.log('suffixFun');
+                    },
+
+                    appendHtml: true, // 是否有slot, html
+                    appendHtmlText: '<i>测试</i>', // slot的html
+                    appendHtmlStyle: {
+                        // 文本样式
+                        color: 'pink',
+                    },
+                    appendHtmlFun: () => {
+                        // 和appendHtml配套操作
+                        console.log('appendHtmlFun');
+                    },
+
                     maxLength: 20, // 最大数量
                     minLength: 10, // 最小数量
                     clearable: true, // 是否可清除
                     change: value => {
                         // 字段变换的函数
                         console.log(value, '失去焦点之后');
-                    },
-                    append: true, // 是否有slot,输入框的操作
-                    appendFun: () => {
-                        // 和append配套操作
-                        console.log('other thing');
-                    },
-                    connect: '补充', // 符号什么 一到两字
-                    extra: '补充说明', // 补充说明
-                    extraStyle: {
-                        color: '#00ff00',
-                    }, //extra样式补充
-                    extraFun: () => {
-                        console.log('点击事件');
                     },
                 },
                 {
@@ -132,27 +265,49 @@ export default {
                     label: '数字框',
                     type: 'number',
 
-                    rowOrColumn: false, // flex的方向，有connect或extra时用
                     maxi: 20, // 最大数
                     mini: 10, // 最小数
                     precision: 2, // 几位小数
-
-                    connect: '补充', // 符号什么 一到两字
-                    extra: '补充说明', // 补充说明
-                    extraStyle: {
-                        color: '#00ffff',
-                    }, //extra样式补充
-                    extraFun: () => {
-                        console.log('点击事件');
-                    },
                 },
                 {
                     ...common,
                     name: 'autocomplete',
                     label: '自动匹配',
                     type: 'autocomplete',
+                    classList: {
+                        autocomplete: true,
+                    },
 
-                    rowOrColumn: false, // flex的方向，有connect或extra时用
+                    // append: true, // 是否有slot, 按钮
+                    appendIcon: 'el-icon-delete', // slot 的 icon
+                    appendFun: () => {
+                        // 和append配套操作
+                        console.log('appendFun');
+                    },
+
+                    suffix: true, // 是否有slot, 图标
+                    suffixIcon: 'el-icon-delete', // slot 的 icon
+                    suffixStyle: {
+                        // 是否有slot, 图标样式
+                        color: 'purple',
+                        fontSize: '16px',
+                    },
+                    suffixFun: () => {
+                        // 和suffix配套操作
+                        console.log('suffixFun');
+                    },
+
+                    // appendHtml: true, // 是否有slot, html
+                    appendHtmlText: '<i>测试</i>', // slot的html
+                    appendHtmlStyle: {
+                        // 文本样式
+                        color: 'pink',
+                    },
+                    appendHtmlFun: () => {
+                        // 和appendHtml配套操作
+                        console.log('appendHtmlFun');
+                    },
+
                     clearable: true, // 是否可清除
                     querySearchAsync: (filterVaule, cb) => {
                         // 搜索操作
@@ -162,15 +317,6 @@ export default {
                         // 当前选中的值
                         console.log(value);
                     },
-
-                    connect: '补充', // 符号什么 一到两字
-                    extra: '补充说明', // 补充说明
-                    extraStyle: {
-                        color: '#f0f',
-                    }, //extra样式补充
-                    extraFun: () => {
-                        console.log('点击事件');
-                    },
                 },
                 {
                     ...common,
@@ -178,7 +324,6 @@ export default {
                     label: '级联',
                     type: 'cascader',
 
-                    rowOrColumn: false, // flex的方向，有connect或extra时用
                     data: cascaderData, // 可选项数据源，键名可通过 Props 属性配置
                     props: {
                         // 配置选项，具体见element级联Props
@@ -188,22 +333,12 @@ export default {
                     },
                     debounce: 300, // 搜索关键词输入的去抖延迟，毫秒
                     filterable: true, // 是否可搜索选项
-                    size: 'small', // 尺寸，默认medium
                     separator: '', // 分隔符 默认/
                     clearable: true, // 是否可清除
                     change_on_select: true, // 是否允许选择任意一级的选项
                     selectFun: value => {
                         //当绑定值变化时触发的事件
                         console.log(value);
-                    },
-
-                    connect: '补充', // 符号什么 一到两字
-                    extra: '补充说明', // 补充说明
-                    extraStyle: {
-                        color: '#f0f',
-                    }, //extra样式补充
-                    extraFun: () => {
-                        console.log('点击事件');
                     },
                 },
                 {
@@ -212,7 +347,6 @@ export default {
                     label: '选择',
                     type: 'select',
 
-                    rowOrColumn: false, // flex的方向，有connect或extra时用
                     multiple: true, // 是否可多选
                     multipleLimit: 2, // 多选限制
                     allowCreate: true, // 是否允许创建
@@ -228,15 +362,6 @@ export default {
                     selectFun: value => {
                         console.log(value);
                     }, // 选择函数
-
-                    connect: '补充', // 符号什么 一到两字
-                    extra: '补充说明', // 补充说明
-                    extraStyle: {
-                        color: '#f0f',
-                    }, //extra样式补充
-                    extraFun: () => {
-                        console.log('点击事件');
-                    },
                 },
                 {
                     ...common,
@@ -262,22 +387,12 @@ export default {
                     label: '多行文本',
                     type: 'textarea',
 
-                    rowOrColumn: false, // flex的方向，有connect或extra时用
                     maxLength: 20, // 最大数量
                     minLength: 10, // 最小数量
                     autosize: {
                         //  最小最大行 默认最小：编辑2行，查看一行，最大10行
                         minRows: 2,
                         maxRows: 10,
-                    },
-
-                    connect: '补充', // 符号什么 一到两字
-                    extra: '补充说明', // 补充说明
-                    extraStyle: {
-                        color: '#00ff00',
-                    }, //extra样式补充
-                    extraFun: () => {
-                        console.log('点击事件');
                     },
                 },
                 {
@@ -286,18 +401,8 @@ export default {
                     label: '开关',
                     type: 'switch',
 
-                    rowOrColumn: false, // flex的方向，有connect或extra时用
                     activeColor: '#ff0000', // 打开颜色
-                    inactiveColor: '#00ff00', // 关闭颜色
-
-                    connect: '补充', // 符号什么 一到两字
-                    extra: '补充说明', // 补充说明
-                    extraStyle: {
-                        color: '#00ff00',
-                    }, //extra样式补充
-                    extraFun: () => {
-                        console.log('点击事件');
-                    },
+                    inactive: '#00ff00', // 关闭颜色
                 },
                 {
                     ...common,
@@ -306,7 +411,7 @@ export default {
                     type: 'radio',
                     // disabled: true,
                     radioBtn: true, // 是否变成按钮形状
-                    rowOrColumn: false, // flex的方向，有connect或extra时用
+
                     data: [
                         // 可选项数据源，键名可通过 Props 属性配置
                         { value: 'value', label: 'label' },
@@ -317,15 +422,6 @@ export default {
                     selectFun: value => {
                         // 选择事件
                         console.log(value);
-                    },
-
-                    connect: '补充', // 符号什么 一到两字
-                    extra: '补充说明', // 补充说明
-                    extraStyle: {
-                        color: '#00ff00',
-                    }, //extra样式补充
-                    extraFun: () => {
-                        console.log('点击事件');
                     },
                 },
                 {
@@ -346,7 +442,7 @@ export default {
                     label: '视频图片上传',
                     type: 'videoOrPicture',
 
-                    maxi: 3, // 最大上传数
+                    // maxi: 3, // 最大上传数
                     hint: '默认图片', // 图片提示 (数组的时候多个，单个字符串)
                     // hint: ['默认图片1', '默认图片2'],
                     flagType: 'picture', // 图片还是视频 video/picture
@@ -397,6 +493,15 @@ export default {
                 },
                 {
                     ...common,
+                    name: 'qrcode',
+                    label: '二维码',
+                    type: 'qrcode',
+                    url: 'https://www.baidu.com/',
+                    id: 'tops_qrcode1',
+                    // qrState: '百度',
+                },
+                {
+                    ...common,
                     name: 'ue',
                     label: '富文本',
                     type: 'ue',
@@ -418,6 +523,81 @@ export default {
                 },
             ];
         },
+        formItemsBtn() {
+            let common = {
+                name: 'common', // 绑定数据的名字
+                label: '公用', // 展示label
+                type: 'common', // 对应的type组件
+                span: 12, // 当前宽度的多少份，24为100%
+                hidden: false, // 是否隐藏当前item
+                labelWidth: '140px', // 当前item的宽度，没有的话用form的labelWidth
+                disabled: false, // 是否不可编辑
+                placehold: '', // 提示语
+                required: true, // 是否必填
+                inputStyle: {
+                    // item的样式编写
+                    width: '460px',
+                },
+                classList: {
+                    // 对表单进行样式调整
+                    // 类名: '是否这个类',
+                    autocomplete: true,
+                },
+
+                rowOrColumn: true, // flex的方向，有connect或extra时用
+                connect: '补充', // 符号什么 一到两字
+                extra: '补充说明', // 补充说明
+                extraStyle: {
+                    color: '#00ff00',
+                }, //extra样式补充
+                extraFun: () => {
+                    console.log('点击事件');
+                },
+            };
+            return [
+                {
+                    // ...common,
+                    name: 'switchbtn',
+                    label: '',
+                    type: 'switch',
+                    labelWidth: '0px',
+
+                    activeColor: '#ff0000', // 打开颜色
+                    inactive: '#00ff00', // 关闭颜色
+                },
+                {
+                    // ...common,
+                    name: 'switchbtn2',
+                    label: '',
+                    type: 'switch',
+                    labelWidth: '10px',
+
+                    activeColor: '#ff0000', // 打开颜色
+                    inactive: '#00ff00', // 关闭颜色
+                },
+                {
+                    // ...common,
+                    name: 'radio1',
+                    label: '',
+                    type: 'radio',
+                    labelWidth: '10px',
+                    // disabled: true,
+                    radioBtn: true, // 是否变成按钮形状
+
+                    data: [
+                        // 可选项数据源，键名可通过 Props 属性配置
+                        { value: 'value', label: 'label' },
+                        { itemValue: 'itemValue', itemLabel: 'itemLabel' },
+                        { paramValue: 'paramValue', paramName: 'paramName' },
+                        { id: 'id', name: 'name' },
+                    ],
+                    selectFun: value => {
+                        // 选择事件
+                        console.log(value);
+                    },
+                },
+            ];
+        },
     },
 };
 </script>
@@ -427,5 +607,23 @@ export default {
     padding: 32px;
     height: 100vh;
     overflow-y: scroll;
+}
+</style>
+<style lang="scss">
+#formitemtest {
+    .noLeftBorder {
+        // .el-input__inner {
+        //     border-color: pink;
+        // }
+    }
+    .autocomplete {
+        .el-form-item__label {
+            color: pink;
+        }
+        // .el-input__inner,
+        // .el-textarea__inner {
+        //     border-color: pink;
+        // }
+    }
 }
 </style>

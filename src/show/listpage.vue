@@ -69,14 +69,14 @@
 import { debounce } from '@/components/utils';
 import * as restureObj from './listpage';
 console.log(restureObj);
-
+import { debounceWork } from '@/components/utils';
 export default {
     name: 'listpageTest',
     data() {
         return {
             // listPage 字段
             tableState: '关于表格的说明',
-            formWidth: '481px',
+            formWidth: '564px',
             title: '某某列表',
             searchParams: {
                 pageIndex: 1,
@@ -103,6 +103,14 @@ export default {
                 {
                     prop: 'villageName',
                     label: '所属小区',
+                    filters: [{ text: '别墅', value: '别墅' }, { text: '住宅', value: '住宅' }],
+                    // 表头过滤刷选函数
+                    filterHandler: (value, row, column) => {
+                        if (debounceWork('form', 500)) {
+                            console.log(column['property']);
+                        }
+                        return true;
+                    },
                     width: 120,
                     render: row => {
                         return <a onClick={() => {}}>{row.villageName}</a>;
@@ -120,29 +128,23 @@ export default {
                     },
                 },
                 {
-                    prop: 'propertyTypeNameList',
-                    label: '物业类型',
-                    filters: [
-                        { text: '别墅', value: '别墅' },
-                        { text: '住宅', value: '住宅' },
-                        { text: '公寓', value: '公寓' },
-                        { text: '商铺', value: '商铺' },
-                    ],
-                    filterHandler: (value, row, column) => {
-                        console.log(value, row, column);
-                    },
-                    render: row => {
-                        return <p>{row.propertyTypeNameList && row.propertyTypeNameList.join()}</p>;
-                    },
-                    filterPlacement: 'bottom-end',
-                },
-                { prop: 'newhouseType', label: '类型', width: 66 },
-                { prop: 'source', label: '来源' },
-                {
-                    prop: 'mergebig',
-                    width: 220,
-                    label: '时间和人',
-                    align: 'center',
+                    // 必填
+                    prop: 'propertyTypeNameList', // table表格当前列的name(和tableData数据对应)
+                    label: '列的展示', // table表格当前列的展示值
+
+                    /**
+                     * type：对应列的类型。
+                     * 如果设置了 selection 则显示多选框；
+                     * 如果设置了 index 则显示该行的索引（从 1 开始计算）；
+                     * 如果设置了 expand 则显示为一个可展开的按钮）
+                     * 可选 selection/index/expand
+                     *  */
+                    type: '',
+                    width: 120, // table表格当前列的宽度
+                    align: 'center', // 当前列是否居左(默认左)
+                    sortable: false, //当前列是否排序(默认不排序)
+                    filterSort: value => {}, //排序操作
+                    // 表头合并（最多支持三级）
                     mergeColHeader: [
                         {
                             prop: 'creatorName',
@@ -168,7 +170,7 @@ export default {
                                 {
                                     prop: 'firstLiveTime',
                                     label: '入市时间',
-                                    width: 110,
+                                    width: 120,
                                     align: 'center',
                                     sortable: true,
                                     filterSort: () => this.filterSort(),
@@ -176,7 +178,7 @@ export default {
                                 {
                                     prop: 'updateTime',
                                     label: '更新时间',
-                                    width: 110,
+                                    width: 120,
                                     align: 'center',
                                     sortable: true,
                                     filterSort: () => this.filterSort(),
@@ -184,7 +186,27 @@ export default {
                             ],
                         },
                     ],
+                    // 表头过滤刷选
+                    // filters: [{ text: '别墅', value: '别墅' }, { text: '住宅', value: '住宅' }],
+                    // // 表头过滤刷选函数
+                    // filterHandler: (value, row, column) => {
+                    //     console.log(value, row, column);
+                    // },
+                    /**
+                     * 刷选项的位置
+                     * top/top-start/top-end/
+                     * bottom/bottom-start/bottom-end/
+                     * left/left-start/left-end/
+                     * right/right-start/right-end
+                     *  */
+                    filterPlacement: 'top',
+                    // 需要自定义一些样式
+                    render: row => {
+                        return <p>{row.propertyTypeNameList && row.propertyTypeNameList.join()}</p>;
+                    },
                 },
+                { prop: 'newhouseType', label: '类型', width: 66 },
+                { prop: 'source', label: '来源' },
                 { prop: 'sellStatus', label: '销售状态', width: 78 },
                 {
                     prop: 'onlineStatus',
@@ -267,21 +289,28 @@ export default {
         formSearchItems() {
             return [
                 {
-                    name: 'provinceId',
-                    label: '',
-                    type: 'select',
-                    placehold: '请选择省份',
-                    span: 8,
+                    name: 'type',
+                    type: 'radio',
                     labelWidth: '0px',
-                    data: [],
-                    selectFun: id => {},
+                    radioBtn: true,
+                    span: 13,
+                    data: [
+                        { label: '全部', value: '' },
+                        { label: '代理商楼盘', value: '1' },
+                        { label: '销冠合作', value: '2' },
+                        { label: '全网楼盘', value: '3' },
+                    ],
+                    selectFun: () => {},
+                    classList: {
+                        colorText: true,
+                    },
                 },
                 {
                     name: 'keyword',
                     type: 'input',
                     placehold: '通过楼盘名称、小区、开发商名称等搜索',
-                    span: this.filterBtn.length > 0 ? 13 : 16,
-                    labelWidth: '6px',
+                    span: this.filterBtn.length > 0 ? 8 : 11,
+                    labelWidth: '10px',
                     append: true,
                     appendFun: () => {},
                 },
@@ -396,6 +425,21 @@ export default {
         box-shadow: 2px 0px 5px #ccc;
         background: white;
         padding: 8px 0 12px 136px;
+    }
+}
+</style>
+<style lang="scss">
+#listpage {
+    .colorText {
+        .el-radio-button__orig-radio:checked + .el-radio-button__inner {
+            background-color: orange;
+            border-color: orange;
+            box-shadow: -1px 0 0 0 orange;
+            color: white;
+        }
+        .el-radio-button__inner:hover {
+            color: orange;
+        }
     }
 }
 </style>

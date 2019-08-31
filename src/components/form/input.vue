@@ -1,0 +1,56 @@
+<template>
+    <el-input
+        v-model="formData[item.name]"
+        :disabled="item.disabled"
+        :placeholder="item.disabled || allDisabled ? '' : item.placehold || formType[item.type] + item.label"
+        :style="item.inputStyle || {}"
+        :clearable="item.clearable"
+        :maxlength="item.maxLength"
+        :minlength="item.minLength"
+        @change="a => (item.change && item.change(a)) || function() {}"
+    >
+        <el-button 
+            v-if="item.append" 
+            slot="append"
+            :icon="item.appendIcon || 'el-icon-search'" 
+            @click="() => (item.appendFun && item.appendFun()) || function(){}"
+        ></el-button>
+        <i
+            v-if="item.suffix" 
+            slot="suffix"
+            :style="item.suffixStyle || {}"
+            :class="item.suffixIcon"
+            @click="() => (item.suffixFun && item.suffixFun()) || function(){}"
+        ></i>
+        <span
+            v-if="item.appendHtml" 
+            slot="suffix"
+            :style="item.appendHtmlStyle || {}"
+            v-html="item.appendHtmlText || ''"
+            @click="() => (item.appendHtmlFun && item.appendHtmlFun()) || function(){}"
+        ></span>
+    </el-input>
+</template>
+<script>
+export default {
+    name: 'InputItem',
+    props: {
+        item: {
+            type: Object,
+            required: true,
+        },
+        formData: {
+            type: Object,
+            required: true,
+        },
+        formType: {
+            type: Object,
+            required: true,
+        },
+        allDisabled: {
+            type: Boolean,
+            required: true,
+        },
+    },
+};
+</script>

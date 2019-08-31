@@ -23,10 +23,10 @@ export default {
     data() {
         return {
             item: {
-                maxi: 3,
+                maxi: 11,
                 hint: '默认图片',
                 hint: ['默认图片1', '默认图片2'],
-                name: 'picture',
+                name: 'video',
                 size: 10,
                 isFacePic: true,
                 isWrite: true,
@@ -41,6 +41,18 @@ export default {
                 picture: [
                     {
                         url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/f137a9562d774b09938ec3360b551d04.jpg',
+                    },
+                    {
+                        url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/c1355b4172784268bf8c925e3de2a052.jpg',
+                    },
+                    {
+                        url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/c1355b4172784268bf8c925e3de2a052.jpg',
+                    },
+                    {
+                        url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/c1355b4172784268bf8c925e3de2a052.jpg',
+                    },
+                    {
+                        url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/c1355b4172784268bf8c925e3de2a052.jpg',
                     },
                     {
                         url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/c1355b4172784268bf8c925e3de2a052.jpg',

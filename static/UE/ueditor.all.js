@@ -1,7 +1,7 @@
 /*!
  * UEditor
  * version: ueditor
- * build: Tue Aug 25 2015 15:23:01 GMT+0800 (CST)
+ * build: Wed Aug 10 2016 11:06:16 GMT+0800 (CST)
  */
 
 (function(){
@@ -766,6 +766,24 @@ var utils = UE.utils = {
 
         }) : '';
     },
+    /**
+     * 将url中的html字符转义， 仅转义  ', ", <, > 四个字符
+     * @param  { String } str 需要转义的字符串
+     * @param  { RegExp } reg 自定义的正则
+     * @return { String }     转义后的字符串
+     */
+    unhtmlForUrl:function (str, reg) {
+        return str ? str.replace(reg || /[<">']/g, function (a) {
+            return {
+                '<':'&lt;',
+                '&':'&amp;',
+                '"':'&quot;',
+                '>':'&gt;',
+                "'":'&#39;'
+            }[a]
+
+        }) : '';
+    },
 
     /**
      * 将str中的转义字符还原成html字符
@@ -1482,6 +1500,7 @@ utils.each(['String', 'Function', 'Array', 'Number', 'RegExp', 'Object', 'Date']
         return Object.prototype.toString.apply(obj) == '[object ' + v + ']';
     }
 });
+
 
 // core/EventBase.js
 /**
@@ -2563,7 +2582,7 @@ var domUtils = dom.domUtils = {
      * ```
      */
     on:function (element, type, handler) {
-// debugger
+
         var types = utils.isArray(type) ? type : utils.trim(type).split(/\s+/),
             k = types.length;
         if (k) while (k--) {
@@ -2622,7 +2641,6 @@ var domUtils = dom.domUtils = {
      * ```
      */
     un:function (element, type, handler) {
-        // debugger
         var types = utils.isArray(type) ? type : utils.trim(type).split(/\s+/),
             k = types.length;
         if (k) while (k--) {
@@ -3917,7 +3935,7 @@ var domUtils = dom.domUtils = {
      * @return { Boolean } 是否是空元素
      */
     isEmptyBlock:function (node,reg) {
-        if(!node || node.nodeType != 1)
+        if(node.nodeType != 1)
             return 0;
         reg = reg || new RegExp('[ \xa0\t\r\n' + domUtils.fillChar + ']', 'g');
 
@@ -5513,7 +5531,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
                 if (current.nodeType == 3 || dtd[tagName][current.tagName]) {
                     range.setStartBefore(current);
                     node = current;
-                    while (node && (node.nodeType == 3 || (dtd[tagName] && dtd[tagName][node.tagName])) && node !== end) {
+                    while (node && (node.nodeType == 3 || dtd[tagName][node.tagName]) && node !== end) {
                         pre = node;
                         node = domUtils.getNextDomNode(node, node.nodeType == 1, null, function (parent) {
                             return dtd[tagName][parent.tagName];
@@ -6722,6 +6740,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
         me.uid = uid++;
         EventBase.call(me);
         me.commands = {};
+        console.log('UE.Editor')
         me.options = utils.extend(utils.clone(options || {}), UEDITOR_CONFIG, true);
         me.shortcutkeys = {};
         me.inputRules = [];
@@ -7059,8 +7078,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
                 setTimeout(function () {
                     me.body.contentEditable = true;
                 }, 100);
-                let _myTimer = setInterval(function () {
-                    if(!me.body) return clearInterval(_myTimer)
+                setInterval(function () {
                     me.body.style.height = me.iframe.offsetHeight - 20 + 'px'
                 }, 100)
             }
@@ -7709,7 +7727,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
          */
         setEnabled: function () {
             var me = this, range;
-            if (me.body && me.body.contentEditable == 'false') {
+            if (me.body.contentEditable == 'false') {
                 me.body.contentEditable = true;
                 range = me.selection.getRange();
                 //有可能内容丢失了
@@ -7873,8 +7891,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
          * ```
          */
         getLang: function (path) {
-            if(!this.options) return;
-            var lang = this.options ? UE.I18N[this.options.lang] : '';
+            var lang = UE.I18N[this.options.lang];
             if (!lang) {
                 throw Error("not import language file");
             }
@@ -8024,15 +8041,14 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
 // core/Editor.defaultoptions.js
 //维护编辑器一下默认的不在插件中的配置项
 UE.Editor.defaultOptions = function(editor){
+
     var _url = editor.options.UEDITOR_HOME_URL;
-    console.log(_url)
-    console.log('编辑器配置路径1')
     return {
         isShow: true,
         initialContent: '',
         initialStyle:'',
         autoClearinitialContent: false,
-        iframeCssUrl: './'+_url + 'themes/iframe.css',
+        iframeCssUrl: _url + 'themes/iframe.css',
         textarea: 'editorValue',
         focus: false,
         focusInEnd: true,
@@ -8060,15 +8076,20 @@ UE.Editor.defaultOptions = function(editor){
 
     UE.Editor.prototype.loadServerConfig = function(){
         var me = this;
+        console.log('loadServerConfig ')
         setTimeout(function(){
             try{
                 me.options.imageUrl && me.setOpt('serverUrl', me.options.imageUrl.replace(/^(.*[\/]).+([\.].+)$/, '$1controller$2'));
 
-                var configUrl = me.getActionUrl('config'),
+                var configUrl = me.getActionUrl('config')
                     isJsonp = utils.isCrossDomainUrl(configUrl);
 
+                    
                 /* 发出ajax请求 */
                 me._serverConfigLoaded = false;
+
+                me.fireEvent('serverConfigLoaded');
+                me._serverConfigLoaded = true;
 
                 // configUrl && UE.ajax.request(configUrl,{
                 //     'method': 'GET',
@@ -8077,8 +8098,8 @@ UE.Editor.defaultOptions = function(editor){
                 //         try {
                 //             var config = isJsonp ? r:eval("("+r.responseText+")");
                 //             utils.extend(me.options, config);
-                            me.fireEvent('serverConfigLoaded');
-                            me._serverConfigLoaded = true;
+                //             me.fireEvent('serverConfigLoaded');
+                //             me._serverConfigLoaded = true;
                 //         } catch (e) {
                 //             showErrorMsg(me.getLang('loadconfigFormatError'));
                 //         }
@@ -8107,7 +8128,6 @@ UE.Editor.defaultOptions = function(editor){
     };
 
     UE.Editor.prototype.afterConfigReady = function(handler){
-        // debugger
         if (!handler || !utils.isFunction(handler)) return;
         var me = this;
         var readyHandler = function(){
@@ -8193,13 +8213,13 @@ UE.ajax = function() {
                 }
             };
 
-
         if (typeof url === "object") {
             ajaxOptions = url;
             url = ajaxOptions.url;
         }
         if (!xhr || !url) return;
         var ajaxOpts = ajaxOptions ? utils.extend(defaultAjaxOptions,ajaxOptions) : defaultAjaxOptions;
+
         var submitStr = json2str(ajaxOpts);  // { name:"Jim",city:"Beijing" } --> "name=Jim&city=Beijing"
         //如果用户直接通过data参数传递json对象过来，则也要将此json对象转化为字符串
         if (!utils.isEmptyObject(ajaxOpts.data)){
@@ -8217,19 +8237,8 @@ UE.ajax = function() {
         var method = ajaxOpts.method.toUpperCase();
         var str = url + (url.indexOf("?")==-1?"?":"&") + (method=="POST"?"":submitStr+ "&noCache=" + +new Date);
         xhr.open(method, str, ajaxOpts.async);
-        xhr.setRequestHeader('Authorization', url_queryString('ak') || sessionStorage.getItem('ak'));
+        xhr.setRequestHeader('Authorization', sessionStorage.getItem('ak'));
         xhr.withCredentials = true;
-        function url_queryString(name) {
-            // eslint-disable-next-line no-useless-escape
-            const rex = new RegExp('[?&]\s*' + name + '\s*=([^&$#]*)', 'i');
-            let str = location.pathname && location.pathname !== '/' ? location.pathname : location.search;
-            const r = rex.exec(str);
-
-            if (r && r.length === 2) {
-                name === 'ak' && window.sessionStorage.setItem('ak', r[1]);
-                return decodeURIComponent(r[1]);
-            }
-        };
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4) {
                 if (!timeIsOut && xhr.status == 200) {
@@ -8240,9 +8249,8 @@ UE.ajax = function() {
             }
         };
         if (method == "POST") {
-            // xhr.setRequestHeader('Content-Type', 'multipart/form-data;');
-            // xhr.processData = false;
-            // xhr.contentType=false,
+            // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            // xhr.send(submitStr);
             xhr.send(ajaxOpts.data);
         } else {
             xhr.send(null);
@@ -11122,6 +11130,29 @@ UE.commands['insertimage'] = {
             return;
         }
 
+        function unhtmlData(imgCi) {
+
+            utils.each('width,height,border,hspace,vspace'.split(','), function (item) {
+
+                if (imgCi[item]) {
+                    imgCi[item] = parseInt(imgCi[item], 10) || 0;
+                }
+            });
+
+            utils.each('src,_src'.split(','), function (item) {
+
+                if (imgCi[item]) {
+                    imgCi[item] = utils.unhtmlForUrl(imgCi[item]);
+                }
+            });
+            utils.each('title,alt'.split(','), function (item) {
+
+                if (imgCi[item]) {
+                    imgCi[item] = utils.unhtml(imgCi[item]);
+                }
+            });
+        }
+
         if (img && /img/i.test(img.tagName) && (img.className != "edui-faked-video" || img.className.indexOf("edui-upload-video")!=-1) && !img.getAttribute("word_img")) {
             var first = opt.shift();
             var floatStyle = first['floatStyle'];
@@ -11137,10 +11168,11 @@ UE.commands['insertimage'] = {
             }
 
         } else {
-            
             var html = [], str = '', ci;
             ci = opt[0];
             if (opt.length == 1) {
+                unhtmlData(ci);
+
                 str = '<img src="' + ci.src + '" ' + (ci._src ? ' _src="' + ci._src + '" ' : '') +
                     (ci.width ? 'width="' + ci.width + '" ' : '') +
                     (ci.height ? ' height="' + ci.height + '" ' : '') +
@@ -11157,6 +11189,7 @@ UE.commands['insertimage'] = {
 
             } else {
                 for (var i = 0; ci = opt[i++];) {
+                    unhtmlData(ci);
                     str = '<p ' + (ci['floatStyle'] == 'center' ? 'style="text-align: center" ' : '') + '><img src="' + ci.src + '" ' +
                         (ci.width ? 'width="' + ci.width + '" ' : '') + (ci._src ? ' _src="' + ci._src + '" ' : '') +
                         (ci.height ? ' height="' + ci.height + '" ' : '') +
@@ -11173,6 +11206,7 @@ UE.commands['insertimage'] = {
         me.fireEvent('afterinsertimage', opt)
     }
 };
+
 
 // plugins/justify.js
 /**
@@ -12640,7 +12674,7 @@ UE.plugins['paragraph'] = function() {
                         } );
                     }
                     tmpRange.setEndAfter( tmpNode );
-
+                    
                     para = range.document.createElement( style );
                     if(attrs){
                         domUtils.setAttributes(para,attrs);
@@ -12652,7 +12686,7 @@ UE.plugins['paragraph'] = function() {
                     //需要内容占位
                     if(domUtils.isEmptyNode(para)){
                         domUtils.fillChar(range.document,para);
-
+                        
                     }
 
                     tmpRange.insertNode( para );
@@ -12776,7 +12810,7 @@ UE.plugins['paragraph'] = function() {
 
         },
         doDirectionality = function(range,editor,forward){
-
+            
             var bookmark,
                 filterFn = function( node ) {
                     return   node.nodeType == 1 ? !domUtils.isBookmarkNode(node) : !domUtils.isWhitespace(node);
@@ -14427,6 +14461,10 @@ UE.plugin.register('copy', function () {
 
     function initZeroClipboard() {
 
+        setTimeout(() => {
+            console.log(ZeroClipboard)
+        }, 5000)
+
         ZeroClipboard.config({
             debug: false,
             swfPath: me.options.UEDITOR_HOME_URL + 'third-party/zeroclipboard/ZeroClipboard.swf'
@@ -14473,6 +14511,7 @@ UE.plugin.register('copy', function () {
                             type: "text/javascript",
                             defer: "defer"
                         }, function () {
+                            debugger
                             initZeroClipboard();
                         });
                     }
@@ -16425,9 +16464,8 @@ UE.plugins['list'] = function () {
         if(opt.sourceEditor == "codemirror"){
 
             me.addListener("ready",function(){
-                // debugger
                 utils.loadFile(document,{
-                    src : './' + opt.codeMirrorJsUrl || opt.UEDITOR_HOME_URL + "third-party/codemirror/codemirror.js",
+                    src : opt.codeMirrorJsUrl || opt.UEDITOR_HOME_URL + "third-party/codemirror/codemirror.js",
                     tag : "script",
                     type : "text/javascript",
                     defer : "defer"
@@ -16442,7 +16480,7 @@ UE.plugins['list'] = function () {
                     tag : "link",
                     rel : "stylesheet",
                     type : "text/css",
-                    href : './' + opt.codeMirrorCssUrl || opt.UEDITOR_HOME_URL + "third-party/codemirror/codemirror.css"
+                    href : opt.codeMirrorCssUrl || opt.UEDITOR_HOME_URL + "third-party/codemirror/codemirror.css"
                 });
 
             });
@@ -16981,17 +17019,7 @@ UE.plugins['fiximgclick'] = (function () {
             updateContainerStyle: function (dir, offset) {
                 var me = this,
                     dom = me.resizer, tmp;
-                // 对角线等比缩放的处理 start
-                if(!dom.scale && dom.offsetWidth && dom.offsetHeight) dom.scale = dom.offsetWidth/dom.offsetHeight;
-                var computedX = offset.y ? dom.scale*offset.y : 0;
-                var computedY = offset.x ? offset.x/dom.scale : 0;
-                if(me.dragId === '2' || me.dragId === '5') {
-                    offset.y = -computedY;
-                } else {
-                    offset.x = Math.abs(computedX) > Math.abs(offset.x) ? computedX : offset.x;
-                    offset.y = Math.abs(computedY) > Math.abs(offset.y) ? computedY : offset.y;
-                }
-                // 对角线等比缩放的处理 end
+
                 if (rect[dir][0] != 0) {
                     tmp = parseInt(dom.style.left) + offset.x;
                     dom.style.left = me._validScaledProp('left', tmp) + 'px';
@@ -17459,7 +17487,7 @@ UE.plugins['autoheight'] = function () {
             if(lastScrollY === null){
                 lastScrollY = this.scrollY
             }else if(this.scrollY == 0 && lastScrollY != 0){
-                me.window && me.window.scrollTo(0,0);
+                me.window.scrollTo(0,0);
                 lastScrollY = null;
             }
         }
@@ -17551,7 +17579,7 @@ UE.plugins['autofloat'] = function() {
         var rect3 = getPosition(me.container);
         var offset=me.options.toolbarTopOffset||0;
         if (rect3.top < 0 && rect3.bottom - toolbarBox.offsetHeight > offset) {
-            setFloating();
+            // setFloating();
         }else{
             unsetFloating();
         }
@@ -17628,6 +17656,14 @@ UE.plugins['video'] = function (){
      * @param addParagraph  是否需要添加P 标签
      */
     function creatInsertStr(url,width,height,id,align,classname,type){
+
+        url = utils.unhtmlForUrl(url);
+        align = utils.unhtml(align);
+        classname = utils.unhtml(classname);
+
+        width = parseInt(width, 10) || 0;
+        height = parseInt(height, 10) || 0;
+
         var str;
         switch (type){
             case 'image':
@@ -17762,6 +17798,7 @@ UE.plugins['video'] = function (){
         }
     };
 };
+
 
 // plugins/table.core.js
 /**
@@ -22651,8 +22688,7 @@ UE.plugins['elementpath'] = function(){
                 if(ci.nodeType == 3) {
                     continue;
                 }
-                var name;
-                ci.tagName && ( name = ci.tagName.toLowerCase());
+                var name = ci.tagName.toLowerCase();
                 if(name == 'img' && ci.getAttribute('anchorname')){
                     name = 'anchor';
                 }
@@ -22701,7 +22737,7 @@ UE.plugins['formatmatch'] = function(){
      });
 
     function addList(type,evt){
-
+        
         if(browser.webkit){
             var target = evt.target.tagName == 'IMG' ? evt.target : null;
         }
@@ -22767,7 +22803,7 @@ UE.plugins['formatmatch'] = function(){
 
     me.commands['formatmatch'] = {
         execCommand : function( cmdName ) {
-
+          
             if(flag){
                 flag = 0;
                 list = [];
@@ -22776,7 +22812,7 @@ UE.plugins['formatmatch'] = function(){
             }
 
 
-
+              
             var range = me.selection.getRange();
             img = range.getClosedNode();
             if(!img || img.tagName != 'IMG'){
@@ -23775,6 +23811,7 @@ UE.plugin.register('autoupload', function (){
         me.execCommand('inserthtml', loadingHtml);
 
         /* 判断后端配置是否没有加载成功 */
+        console.log(filetype + 'ActionName')
         if (!me.getOpt(filetype + 'ActionName')) {
             errorHandler(me.getLang('autoupload.errorLoadConfig'));
             return;
@@ -23800,6 +23837,7 @@ UE.plugin.register('autoupload', function (){
         fd.append(fieldName, file, file.name || ('blob.' + file.type.substr('image/'.length)));
         fd.append('type', 'ajax');
         xhr.open("post", url, true);
+        console.log('addEventListener(load)')
         xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         xhr.addEventListener('load', function (e) {
             try{
@@ -23871,10 +23909,10 @@ UE.plugin.register('autoupload', function (){
                     //设置loading的样式
                     utils.cssRule('loading',
                         '.loadingclass{display:inline-block;cursor:default;background: url(\''
-                            + './' + this.options.themePath
+                            + this.options.themePath
                             + this.options.theme +'/images/loading.gif\') no-repeat center center transparent;border:1px solid #cccccc;margin-left:1px;height: 22px;width: 22px;}\n' +
                             '.loaderrorclass{display:inline-block;cursor:default;background: url(\''
-                            + './' + this.options.themePath
+                            + this.options.themePath
                             + this.options.theme +'/images/loaderror.png\') no-repeat center center transparent;border:1px solid #cccccc;margin-right:1px;height: 22px;width: 22px;' +
                             '}',
                         this.document);
@@ -24441,7 +24479,7 @@ UE.plugin.register('simpleupload', function (){
     var me = this,
         isLoaded = false,
         containerBtn;
-// debugger
+
     function initUploadBtn(){
         var w = containerBtn.offsetWidth || 20,
             h = containerBtn.offsetHeight || 20,
@@ -24458,7 +24496,7 @@ UE.plugin.register('simpleupload', function (){
             btnIframeDoc = (btnIframe.contentDocument || btnIframe.contentWindow.document);
             btnIframeBody = btnIframeDoc.body;
             wrapper = btnIframeDoc.createElement('div');
-            // debugger
+
             wrapper.innerHTML = '<form id="edui_form_' + timestrap + '" target="edui_iframe_' + timestrap + '" method="POST" enctype="multipart/form-data" action="' + me.getOpt('serverUrl') + '" ' +
             'style="' + btnStyle + '">' +
             '<input id="edui_input_' + timestrap + '" type="file" accept="image/*" name="' + me.options.imageFieldName + '" ' +
@@ -24482,7 +24520,72 @@ UE.plugin.register('simpleupload', function (){
             var input = btnIframeDoc.getElementById('edui_input_' + timestrap);
             var iframe = btnIframeDoc.getElementById('edui_iframe_' + timestrap);
 
+            // domUtils.on(input, 'change', function(){
+            //     if(!input.value) return;
+            //     var loadingId = 'loading_' + (+new Date()).toString(36);
+            //     var params = utils.serializeParam(me.queryCommandValue('serverparam')) || '';
 
+            //     var imageActionUrl = me.getActionUrl(me.getOpt('imageActionName'));
+            //     var allowFiles = me.getOpt('imageAllowFiles');
+
+            //     me.focus();
+            //     me.execCommand('inserthtml', '<img class="loadingclass" id="' + loadingId + '" src="' + me.options.themePath + me.options.theme +'/images/spacer.gif" title="' + (me.getLang('simpleupload.loading') || '') + '" >');
+
+            //     function callback(){
+            //         try{
+            //             console.log('上传成功之后的处理');
+            //             var link, json, loader,
+            //                 body = (iframe.contentDocument || iframe.contentWindow.document).body,
+            //                 result = body.innerText || body.textContent || '';
+            //             json = (new Function("return " + result))();
+            //             link = me.options.imageUrlPrefix + json.url;
+            //             if(json.state == 'SUCCESS' && json.url) {
+            //                 loader = me.document.getElementById(loadingId);
+            //                 loader.setAttribute('src', link);
+            //                 loader.setAttribute('_src', link);
+            //                 loader.setAttribute('title', json.title || '');
+            //                 loader.setAttribute('alt', json.original || '');
+            //                 loader.removeAttribute('id');
+            //                 domUtils.removeClasses(loader, 'loadingclass');
+            //             } else {
+            //                 showErrorLoader && showErrorLoader(json.state);
+            //             }
+            //         }catch(er){
+            //             showErrorLoader && showErrorLoader(me.getLang('simpleupload.loadError'));
+            //         }
+            //         form.reset();
+            //         domUtils.un(iframe, 'load', callback);
+            //     }
+            //     function showErrorLoader(title){
+            //         if(loadingId) {
+            //             var loader = me.document.getElementById(loadingId);
+            //             loader && domUtils.remove(loader);
+            //             me.fireEvent('showmessage', {
+            //                 'id': loadingId,
+            //                 'content': title,
+            //                 'type': 'error',
+            //                 'timeout': 4000
+            //             });
+            //         }
+            //     }
+
+            //     /* 判断后端配置是否没有加载成功 */
+            //     if (!me.getOpt('imageActionName')) {
+            //         errorHandler(me.getLang('autoupload.errorLoadConfig'));
+            //         return;
+            //     }
+            //     // 判断文件格式是否错误
+            //     var filename = input.value,
+            //         fileext = filename ? filename.substr(filename.lastIndexOf('.')):'';
+            //     if (!fileext || (allowFiles && (allowFiles.join('') + '.').indexOf(fileext.toLowerCase() + '.') == -1)) {
+            //         showErrorLoader(me.getLang('simpleupload.exceedTypeError'));
+            //         return;
+            //     }
+
+            //     domUtils.on(iframe, 'load', callback);
+            //     form.action = utils.formatUrl(imageActionUrl + (imageActionUrl.indexOf('?') == -1 ? '?':'&') + params);
+            //     form.submit();
+            // });
             domUtils.on(input, 'change', function(){
                 // debugger
                 if(!input.value) return;
@@ -24591,13 +24694,12 @@ UE.plugin.register('simpleupload', function (){
             me.addListener('selectionchange', function () {
                 clearTimeout(stateTimer);
                 stateTimer = setTimeout(function() {
-                    // debugger
                     var state = me.queryCommandState('simpleupload');
-                    // if (state == -1) {
-                        // input.disabled = 'disabled';
-                    // } else {
+                    if (state == -1) {
+                        input.disabled = 'disabled';
+                    } else {
                         input.disabled = false;
-                    // }
+                    }
                 }, 400);
             });
             isLoaded = true;
@@ -24623,7 +24725,6 @@ UE.plugin.register('simpleupload', function (){
             },
             /* 初始化简单上传按钮 */
             'simpleuploadbtnready': function(type, container) {
-                // debugger
                 containerBtn = container;
                 me.afterConfigReady(initUploadBtn);
             }
@@ -24825,6 +24926,88 @@ UE.plugin.register('insertfile', function (){
 });
 
 
+
+
+// plugins/xssFilter.js
+/**
+ * @file xssFilter.js
+ * @desc xss过滤器
+ * @author robbenmu
+ */
+
+UE.plugins.xssFilter = function() {
+
+	var config = UEDITOR_CONFIG;
+	var whitList = config.whitList;
+
+	function filter(node) {
+
+		var tagName = node.tagName;
+		var attrs = node.attrs;
+
+		if (!whitList.hasOwnProperty(tagName)) {
+			node.parentNode.removeChild(node);
+			return false;
+		}
+
+		UE.utils.each(attrs, function (val, key) {
+
+			if (whitList[tagName].indexOf(key) === -1) {
+				node.setAttr(key);
+			}
+		});
+	}
+
+	// 添加inserthtml\paste等操作用的过滤规则
+	if (whitList && config.xssFilterRules) {
+		this.options.filterRules = function () {
+
+			var result = {};
+
+			UE.utils.each(whitList, function(val, key) {
+				result[key] = function (node) {
+					return filter(node);
+				};
+			});
+
+			return result;
+		}();
+	}
+
+	var tagList = [];
+
+	UE.utils.each(whitList, function (val, key) {
+		tagList.push(key);
+	});
+
+	// 添加input过滤规则
+	//
+	if (whitList && config.inputXssFilter) {
+		this.addInputRule(function (root) {
+
+			root.traversal(function(node) {
+				if (node.type !== 'element') {
+					return false;
+				}
+				filter(node);
+			});
+		});
+	}
+	// 添加output过滤规则
+	//
+	if (whitList && config.outputXssFilter) {
+		this.addOutputRule(function (root) {
+
+			root.traversal(function(node) {
+				if (node.type !== 'element') {
+					return false;
+				}
+				filter(node);
+			});
+		});
+	}
+
+};
 
 
 // ui/ui.js
@@ -25208,7 +25391,7 @@ UE.ui = baidu.editor.ui = {};
         domUtils = baidu.editor.dom.domUtils,
         UIBase = baidu.editor.ui.UIBase,
         uiUtils = baidu.editor.ui.uiUtils;
-
+    
     var Mask = baidu.editor.ui.Mask = function (options){
         this.initOptions(options);
         this.initUIBase();
@@ -25504,7 +25687,7 @@ UE.ui = baidu.editor.ui = {};
         }
     };
     utils.inherits(Popup, UIBase);
-
+    
     domUtils.on( document, 'mousedown', function ( evt ) {
         var el = evt.target || evt.srcElement;
         closeAllPopup( evt,el );
@@ -25563,8 +25746,8 @@ UE.ui = baidu.editor.ui = {};
     //         'a5a5a5,262626,494429,17365d,366092,953734,76923c,5f497a,31859b,e36c09,' +
     //         '7f7f7f,0c0c0c,1d1b10,0f243e,244061,632423,4f6128,3f3151,205867,974806,' +
     //         'c00000,ff0000,ffc000,ffff00,92d050,00b050,00b0f0,0070c0,002060,7030a0,').split(',');
-    var COLORS = (
-        '333333,ff801a,4086FF').split(',');
+    var COLORS = ('333333,ff801a,4086FF').split(',');
+
     function genColorPicker(noColorText,editor){
         var html = '<div id="##" class="edui-colorpicker %%">' +
             '<div class="edui-colorpicker-topbar edui-clearfix">' +
@@ -25601,7 +25784,7 @@ UE.ui = baidu.editor.ui = {};
     var utils = baidu.editor.utils,
         uiUtils = baidu.editor.ui.uiUtils,
         UIBase = baidu.editor.ui.UIBase;
-
+    
     var TablePicker = baidu.editor.ui.TablePicker = function (options){
         this.initOptions(options);
         this.initTablePicker();
@@ -25685,7 +25868,7 @@ UE.ui = baidu.editor.ui = {};
     var browser = baidu.editor.browser,
         domUtils = baidu.editor.dom.domUtils,
         uiUtils = baidu.editor.ui.uiUtils;
-
+    
     var TPL_STATEFUL = 'onmousedown="$$.Stateful_onMouseDown(event, this);"' +
         ' onmouseup="$$.Stateful_onMouseUp(event, this);"' +
         ( browser.ie ? (
@@ -25694,7 +25877,7 @@ UE.ui = baidu.editor.ui = {};
         : (
         ' onmouseover="$$.Stateful_onMouseOver(event, this);"' +
         ' onmouseout="$$.Stateful_onMouseOut(event, this);"' ));
-
+    
     baidu.editor.ui.Stateful = {
         alwalysHoverable: false,
         target:null,//目标元素和this指向dom不一样
@@ -25744,24 +25927,19 @@ UE.ui = baidu.editor.ui = {};
             }
         },
         Stateful_postRender: function (){
-            
             if (this.disabled && !this.hasState('disabled')) {
-                // debugger
                 this.addState('disabled');
             }
         },
         hasState: function (state){
-            // debugger
             return domUtils.hasClass(this.getStateDom(), 'edui-state-' + state);
         },
         addState: function (state){
-            // debugger
             if (!this.hasState(state)) {
                 this.getStateDom().className += ' edui-state-' + state;
             }
         },
         removeState: function (state){
-            // debugger
             if (this.hasState(state)) {
                 domUtils.removeClasses(this.getStateDom(), ['edui-state-' + state]);
             }
@@ -27324,7 +27502,7 @@ UE.ui = baidu.editor.ui = {};
         setValue : function(value){
             this._value = value;
         }
-
+        
     };
     utils.inherits(MenuButton, SplitButton);
 })();
@@ -27793,7 +27971,6 @@ UE.ui = baidu.editor.ui = {};
                 editorui.buttons[cmd] = ui;
                 editor.addListener('selectionchange', function (type, causeByUi, uiReady) {
                     var state = editor.queryCommandState(cmd);
-                    // debugger
                     if (state == -1) {
                         ui.setDisabled(true);
                         ui.setChecked(false);
@@ -27907,7 +28084,6 @@ UE.ui = baidu.editor.ui = {};
                 }
                 (function (cmd) {
                     editorui[cmd] = function (editor, iframeUrl, title) {
-                        console.log('编辑器配置路径2')
                         iframeUrl = iframeUrl || (editor.options.iframeUrlMap || {})[cmd] || iframeUrlMap[cmd];
                         title = editor.options.labelMap[cmd] || editor.getLang("labelMap." + cmd) || '';
 
@@ -27915,7 +28091,7 @@ UE.ui = baidu.editor.ui = {};
                         //没有iframeUrl不创建dialog
                         if (iframeUrl) {
                             dialog = new editorui.Dialog(utils.extend({
-                                iframeUrl:'./' + editor.ui.mapUrl(iframeUrl),
+                                iframeUrl:editor.ui.mapUrl(iframeUrl),
                                 editor:editor,
                                 className:'edui-for-' + cmd,
                                 title:title,
@@ -28008,11 +28184,10 @@ UE.ui = baidu.editor.ui = {};
 
         });
         editorui.buttons['snapscreen'] = ui;
-        console.log('编辑器配置路径3')
         iframeUrl = iframeUrl || (editor.options.iframeUrlMap || {})["snapscreen"] || iframeUrlMap["snapscreen"];
         if (iframeUrl) {
             var dialog = new editorui.Dialog({
-                iframeUrl:'./' + editor.ui.mapUrl(iframeUrl),
+                iframeUrl:editor.ui.mapUrl(iframeUrl),
                 editor:editor,
                 className:'edui-for-snapscreen',
                 title:title,
@@ -28504,12 +28679,11 @@ UE.ui = baidu.editor.ui = {};
     // 表情
     editorui["emotion"] = function (editor, iframeUrl) {
         var cmd = "emotion";
-        console.log('编辑器配置路径4')
         var ui = new editorui.MultiMenuPop({
             title:editor.options.labelMap[cmd] || editor.getLang("labelMap." + cmd + "") || '',
             editor:editor,
             className:'edui-for-' + cmd,
-            iframeUrl:'./' + editor.ui.mapUrl(iframeUrl || (editor.options.iframeUrlMap || {})[cmd] || iframeUrlMap[cmd])
+            iframeUrl:editor.ui.mapUrl(iframeUrl || (editor.options.iframeUrlMap || {})[cmd] || iframeUrlMap[cmd])
         });
         editorui.buttons[cmd] = ui;
 
@@ -28537,7 +28711,6 @@ UE.ui = baidu.editor.ui = {};
 
     /* 简单上传插件 */
     editorui["simpleupload"] = function (editor) {
-        // debugger
         var name = 'simpleupload',
             ui = new editorui.Button({
                 className:'edui-for-' + name,
@@ -28709,7 +28882,7 @@ UE.ui = baidu.editor.ui = {};
             function setCount(editor,ui) {
                 editor.setOpt({
                     wordCount:true,
-                    maximumWords:20000,
+                    maximumWords:10000,
                     wordCountMsg:editor.options.wordCountMsg || editor.getLang("wordCountMsg"),
                     wordOverFlowMsg:editor.options.wordOverFlowMsg || editor.getLang("wordOverFlowMsg")
                 });
@@ -29280,9 +29453,8 @@ UE.ui = baidu.editor.ui = {};
     UE.ui.Editor = function (options) {
         var editor = new UE.Editor(options);
         editor.options.editor = editor;
-        console.log('编辑器配置路径5')
         utils.loadFile(document, {
-            href:'./' + editor.options.themePath + editor.options.theme + "/css/ueditor.css",
+            href:editor.options.themePath + editor.options.theme + "/css/ueditor.css",
             tag:"link",
             type:"text/css",
             rel:"stylesheet"
@@ -29349,8 +29521,8 @@ UE.ui = baidu.editor.ui = {};
                     if (opt.initialFrameWidth) {
                         opt.minFrameWidth = opt.initialFrameWidth;
                     } else {
-                        opt.minFrameWidth = opt.initialFrameWidth = holder && holder.offsetWidth;
-                        var styleWidth = holder && holder.style.width;
+                        opt.minFrameWidth = opt.initialFrameWidth = holder.offsetWidth;
+                        var styleWidth = holder.style.width;
                         if(/%$/.test(styleWidth)) {
                             opt.initialFrameWidth = styleWidth;
                         }
@@ -29358,14 +29530,14 @@ UE.ui = baidu.editor.ui = {};
                     if (opt.initialFrameHeight) {
                         opt.minFrameHeight = opt.initialFrameHeight;
                     } else {
-                        opt.initialFrameHeight = opt.minFrameHeight = holder && holder.offsetHeight;
+                        opt.initialFrameHeight = opt.minFrameHeight = holder.offsetHeight;
                     }
                     for(var i = 0 ,ci;ci=parents[i];i++){
                         ci.style.display =  displays[i]
                     }
                     //编辑器最外容器设置了高度，会导致，编辑器不占位
                     //todo 先去掉，没有找到原因
-                    if(holder && holder.style.height){
+                    if(holder.style.height){
                         holder.style.height = ''
                     }
                     editor.container.style.width = opt.initialFrameWidth + (/%$/.test(opt.initialFrameWidth) ? '' : 'px');
@@ -29402,6 +29574,7 @@ UE.ui = baidu.editor.ui = {};
      */
     UE.getEditor = function (id, opt) {
         var editor = instances[id];
+        console.log('UE.getEditor')
         if (!editor) {
             editor = instances[id] = new UE.ui.Editor(opt);
             editor.render(id);

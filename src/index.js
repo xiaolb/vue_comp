@@ -1,8 +1,8 @@
-import '../static/UE/ueditor.config.js';
-import '../static/UE/ueditor.all.js';
-import '../static/UE/lang/zh-cn/zh-cn.js';
-import '../static/UE/ueditor.parse.min.js';
 let Element, Vue;
+require('@static/UE/ueditor.config.js');
+require('@static/UE/ueditor.all.js');
+require('@static/UE/lang/zh-cn/zh-cn.js');
+require('@static/UE/ueditor.parse.min.js');
 if ('development' === process.env.NODE_ENV) {
     Vue = require('vue');
     Element = require('element-ui');
@@ -21,7 +21,7 @@ import UE from '@/components/ue/index.js';
 import MapItem from '@/components/map/index.js';
 import Wrapper from '@/components/wrapper.vue';
 
-const components = [Form, QRCode, ListPage, SearchItem, ModalForm, TableItem, Upload, Wrapper, UE, MapItem];
+const components = [UE, Form, QRCode, ListPage, SearchItem, ModalForm, TableItem, Upload, Wrapper, MapItem];
 
 const install = function(Vue, opts = {}) {
     components.map(component => {

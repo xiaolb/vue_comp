@@ -58,7 +58,6 @@ div.edui-box {
 /* control layout */
 .edui-default .edui-button-body, .edui-splitbutton-body, .edui-menubutton-body, .edui-combox-body {
     position: relative;
-    height: 22px;
 }
 
 .edui-default .edui-popup {
@@ -443,7 +442,6 @@ div.edui-box {
     border-radius: 2px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
-    height: 22px;
 }
 
 .edui-default .edui-toolbar .edui-combox-body .edui-splitborder {

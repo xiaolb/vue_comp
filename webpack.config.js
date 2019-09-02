@@ -63,6 +63,7 @@ module.exports = {
         alias: {
             vue$: 'vue/dist/vue.esm.js',
             '@': resolve('./src'),
+            '@static': resolve('./static'),
         },
         extensions: ['*', '.js', '.vue', '.json'],
     },
@@ -83,7 +84,24 @@ module.exports = {
             }),
             new OptimizeCssAssetsPlugin({}),
         ],
-        splitChunks: {},
+        splitChunks: {
+            automaticNameDelimiter: '~',
+            // name: true,
+            cacheGroups: {
+                common: {
+                    chunks: 'initial',
+                    name: 'common',
+                    minChunks: 2,
+                    priority: -20,
+                },
+                async: {
+                    chunks: 'async',
+                    name: 'async-common',
+                    minChunks: 2,
+                    priority: -20,
+                },
+            },
+        },
     },
 };
 

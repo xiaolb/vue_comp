@@ -270,6 +270,8 @@
 
         var conUrl = convert_url(url);
 
+        conUrl = utils.unhtmlForUrl(conUrl);
+
         $G("preview").innerHTML = '<div class="previewMsg"><span>'+lang.urlError+'</span></div>'+
         '<embed class="previewVideo" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"' +
             ' src="' + conUrl + '"' +
@@ -284,8 +286,8 @@
     function insertUpload(){
         var videoObjs=[],
             uploadDir = editor.getOpt('videoUrlPrefix'),
-            width = $G('upload_width').value || 420,
-            height = $G('upload_height').value || 280,
+            width = parseInt($G('upload_width').value, 10) || 420,
+            height = parseInt($G('upload_height').value, 10) || 280,
             align = findFocus("upload_alignment","name") || 'none';
         for(var key in uploadVideoList) {
             var file = uploadVideoList[key];
@@ -394,8 +396,7 @@
                 fileVal: editor.getOpt('videoFieldName'),
                 duplicate: true,
                 fileSingleSizeLimit: fileMaxSize,
-                compress: false,
-                withCredentials:true,
+                compress: false
             });
             uploader.addButton({
                 id: '#filePickerBlock'
@@ -715,18 +716,7 @@
 
             uploader.on('uploadBeforeSend', function (file, data, header) {
                 //这里可以通过data对象添加POST参数
-                header['Authorization'] = url_queryString('ak') ||sessionStorage.getItem('ak');
-                function url_queryString(name) {
-                    // eslint-disable-next-line no-useless-escape
-                    const rex = new RegExp('[?&]\s*' + name + '\s*=([^&$#]*)', 'i');
-                    let str = location.pathname && location.pathname !== '/' ? location.pathname : location.search;
-                    const r = rex.exec(str);
-        
-                    if (r && r.length === 2) {
-                        name === 'ak' && window.sessionStorage.setItem('ak', r[1]);
-                        return decodeURIComponent(r[1]);
-                    }
-                };
+                header['X_Requested_With'] = 'XMLHttpRequest';
             });
 
             uploader.on('uploadProgress', function (file, percentage) {
@@ -743,12 +733,11 @@
                 try {
                     var responseText = (ret._raw || ret),
                         json = utils.str2json(responseText);
-                    var type = json.Data.split(',')
-                    if (json.Code === 0) {
+                    if (json.state == 'SUCCESS') {
                         uploadVideoList.push({
-                            'url': json.Data,
+                            'url': json.url,
                             'type': json.type,
-                            'original':json.original || ''
+                            'original':json.original
                         });
                         $file.append('<span class="success"></span>');
                     } else {

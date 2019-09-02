@@ -1,7 +1,5 @@
-
 (function () {
     var parent = window.parent;
-
     //dialog对象
     dialog = parent.$EDITORUI[window.frameElement.id.replace( /_iframe$/, '' )];
     //当前打开dialog的编辑器实例
@@ -32,24 +30,8 @@
             }
         }, 0 )
     };
-    // debugger
-    console.log('--------------------------', parent.ENV)
-    console.log('--------------------------', document.location.href.split('//')[0] + editor.options.themePath + editor.options.theme + "/dialogbase.css?cache="+Math.random())
-    var absoluteRoad = ''
-    if (parent.ENV === 'local') {
-        absoluteRoad = '';
-    }else if (parent.ENV === 'dev') {
-        absoluteRoad = '/dev/content-center';
-    }else if (parent.ENV === 'test') {
-        absoluteRoad = '/test/content-center';
-    }else if (parent.ENV === 'beta') {
-        absoluteRoad = '/beta/content-center';
-    }else if (parent.ENV === 'v5') {
-        absoluteRoad = '/content-center';
-    }
     utils.loadFile(document,{
-        // href:document.location.href.split('//')[0] + editor.options.themePath + editor.options.theme + "/dialogbase.css?cache="+Math.random(),
-        href:'./'+editor.options.themePath + editor.options.theme + "/dialogbase.css?cache="+Math.random(),
+        href:editor.options.themePath + editor.options.theme + "/dialogbase.css?cache="+Math.random(),
         tag:"link",
         type:"text/css",
         rel:"stylesheet"

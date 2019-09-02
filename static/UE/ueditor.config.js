@@ -9,8 +9,7 @@
  * 当升级编辑器时，可直接使用旧版配置文件替换新版配置文件,不用担心旧版配置文件中因缺少新功能所需的参数而导致脚本报错。
  **************************提示********************************/
 
-(function () {
-
+(function() {
     /**
      * 编辑器资源文件根路径。它所表示的含义是：以编辑器实例化页面为当前路径，指向编辑器资源文件（即dialog等文件夹）的路径。
      * 鉴于很多同学在使用编辑器的时候出现的种种路径问题，此处强烈建议大家使用"相对于网站根目录的相对路径"进行配置。
@@ -19,134 +18,216 @@
      * 因此，UEditor提供了针对不同页面的编辑器可单独配置的根路径，具体来说，在需要实例化编辑器的页面最顶部写上如下代码即可。当然，需要令此处的URL等于对应的配置。
      * window.UEDITOR_HOME_URL = "/xxxx/xxxx/";
      */
-    // window.UEDITOR_HOME_URL = "/vue2-management-platform/static/UE/"  // vue2-management-platform是为gh-pages添加，本地开发写"/static/UE/"足以
-    window.UEDITOR_HOME_URL = ""
-    //   var URL = getUEBasePath();
+    // var URL = window.UEDITOR_HOME_URL || getUEBasePath();
     /**
-    * 配置项主体。注意，此处所有涉及到路径的配置别遗漏URL变量。
-    */
-    window.ENV = process.env.ENV;
-    console.log('--------------------------', process.env.ENV)
+     * 配置项主体。注意，此处所有涉及到路径的配置别遗漏URL变量。
+     */
     window.UEDITOR_CONFIG = {
-
         //为编辑器实例添加一个路径，这个不能被注释
+        UEDITOR_HOME_URL: '/static/UE/',
 
-        UEDITOR_HOME_URL: "/static/UE/"
-        // UEDITOR_HOME_URL: absoluteRoad
-
-        // 服务器统一请求接口路径
-        // , serverUrl: window.UEDITOR_HOME_URL + "broker-oa-web/api/v5/article-console/article/image/upload"
-
-        //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的从新定义
-        , toolbars: [[
-            // 'fullscreen', 'source', '|', 'undo', 'redo', '|',
-            // 'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
-            // 'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
-            // 'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
-            // 'directionalityltr', 'directionalityrtl', 'indent', '|',
-            // 'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
-            // 'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
-            // 'simpleupload', 'insertimage', 'emotion', 'scrawl', 'insertvideo', 'music', 'attachment', 'map', 'insertframe', 'pagebreak', 'template', 'background', '|',
-            // 'horizontal', 'date', 'time', 'spechars', '|',
-            // 'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
-            // 'print', 'preview', 'searchreplace', 'drafts'
-            'fullscreen', 'source', '|', 'undo', 'redo', '|',
-            'bold', 'italic', 'superscript', 'subscript', 'removeformat', '|', 'forecolor', 'cleardoc', '|',
-            'paragraph', '|',
-            'link', '|',
-            'imagecenter', '|',
-            'simpleupload', 'insertimage',
-        ]],
+        //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的重新定义
+        toolbars: [
+            [
+                // 'fullscreen', 'source', '|', 'undo', 'redo', '|',
+                // 'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
+                // 'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
+                // 'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
+                // 'directionalityltr', 'directionalityrtl', 'indent', '|',
+                // 'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
+                // 'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
+                // 'simpleupload', 'insertimage', 'emotion', 'scrawl', 'insertvideo', 'music', 'attachment', 'map', 'insertframe', 'pagebreak', 'template', 'background', '|',
+                // 'horizontal', 'date', 'time', 'spechars', '|',
+                // 'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
+                // 'print', 'preview', 'searchreplace', 'drafts'
+                'fullscreen',
+                'source',
+                '|',
+                'undo',
+                'redo',
+                '|',
+                'bold',
+                'italic',
+                'superscript',
+                'subscript',
+                'removeformat',
+                '|',
+                'forecolor',
+                'cleardoc',
+                '|',
+                'paragraph',
+                '|',
+                'link',
+                '|',
+                'imagecenter',
+                '|',
+                'simpleupload',
+                'insertimage',
+            ],
+        ],
         /* 上传图片配置项 */
-        "imageActionName": "uploadimage", /* 执行上传图片的action名称 */
-        "imageFieldName": "upfile", /* 提交的图片表单名称 */
-        "imageMaxSize": 2048000, /* 上传大小限制，单位B */
-        "imageAllowFiles": [".png", ".jpg", ".jpeg", ".gif", ".bmp"], /* 上传图片格式显示 */
-        "imageCompressEnable": true, /* 是否压缩图片,默认是true */
-        "imageCompressBorder": 1600, /* 图片压缩最长边限制 */
-        "imageInsertAlign": "center", /* 插入的图片浮动方式 */
-        "imageUrlPrefix": "", /* 图片访问路径前缀 */
-        // "imagePathFormat": "/ueditor/jsp/upload/image/{yyyy}{mm}{dd}/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
-        /* {filename} 会替换成原文件名,配置这项需要注意中文乱码问题 */
-        /* {rand:6} 会替换成随机数,后面的数字是随机数的位数 */
-        /* {time} 会替换成时间戳 */
-        /* {yyyy} 会替换成四位年份 */
-        /* {yy} 会替换成两位年份 */
-        /* {mm} 会替换成两位月份 */
-        /* {dd} 会替换成两位日期 */
-        /* {hh} 会替换成两位小时 */
-        /* {ii} 会替换成两位分钟 */
-        /* {ss} 会替换成两位秒 */
-        /* 非法字符 \ : * ? " < > | */
-        /* 具请体看线上文档: fex.baidu.com/ueditor/#use-format_upload_filename */
+        imageActionName: 'uploadimage' /* 执行上传图片的action名称 */,
+        imageFieldName: 'upfile' /* 提交的图片表单名称 */,
+        imageMaxSize: 2048000 /* 上传大小限制，单位B */,
+        imageAllowFiles: ['.png', '.jpg', '.jpeg', '.gif', '.bmp'] /* 上传图片格式显示 */,
+        imageCompressEnable: true /* 是否压缩图片,默认是true */,
+        imageCompressBorder: 1600 /* 图片压缩最长边限制 */,
+        imageInsertAlign: 'center' /* 插入的图片浮动方式 */,
+        imageUrlPrefix: '' /* 图片访问路径前缀 */,
 
         /* 涂鸦图片上传配置项 */
-        "scrawlActionName": "uploadscrawl", /* 执行上传涂鸦的action名称 */
-        "scrawlFieldName": "upfile", /* 提交的图片表单名称 */
+        scrawlActionName: 'uploadscrawl' /* 执行上传涂鸦的action名称 */,
+        scrawlFieldName: 'upfile' /* 提交的图片表单名称 */,
         // "scrawlPathFormat": "/ueditor/jsp/upload/image/{yyyy}{mm}{dd}/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
-        "scrawlMaxSize": 2048000, /* 上传大小限制，单位B */
-        "scrawlUrlPrefix": "", /* 图片访问路径前缀 */
-        "scrawlInsertAlign": "none",
+        scrawlMaxSize: 2048000 /* 上传大小限制，单位B */,
+        scrawlUrlPrefix: '' /* 图片访问路径前缀 */,
+        scrawlInsertAlign: 'none',
 
         /* 截图工具上传 */
-        "snapscreenActionName": "uploadimage", /* 执行上传截图的action名称 */
+        snapscreenActionName: 'uploadimage' /* 执行上传截图的action名称 */,
         // "snapscreenPathFormat": "/ueditor/jsp/upload/image/{yyyy}{mm}{dd}/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
-        "snapscreenUrlPrefix": "", /* 图片访问路径前缀 */
-        "snapscreenInsertAlign": "none", /* 插入的图片浮动方式 */
+        snapscreenUrlPrefix: '' /* 图片访问路径前缀 */,
+        snapscreenInsertAlign: 'none' /* 插入的图片浮动方式 */,
 
         /* 抓取远程图片配置 */
-        "catcherLocalDomain": ["127.0.0.1", "localhost", "img.baidu.com"],
-        "catcherActionName": "catchimage", /* 执行抓取远程图片的action名称 */
-        "catcherFieldName": "source", /* 提交的图片列表表单名称 */
+        catcherLocalDomain: ['127.0.0.1', 'localhost', 'img.baidu.com'],
+        catcherActionName: 'catchimage' /* 执行抓取远程图片的action名称 */,
+        catcherFieldName: 'source' /* 提交的图片列表表单名称 */,
         // "catcherPathFormat": "/ueditor/jsp/upload/image/{yyyy}{mm}{dd}/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
-        "catcherUrlPrefix": "", /* 图片访问路径前缀 */
-        "catcherMaxSize": 2048000, /* 上传大小限制，单位B */
-        "catcherAllowFiles": [".png", ".jpg", ".jpeg", ".gif", ".bmp"], /* 抓取图片格式显示 */
+        catcherUrlPrefix: '' /* 图片访问路径前缀 */,
+        catcherMaxSize: 2048000 /* 上传大小限制，单位B */,
+        catcherAllowFiles: ['.png', '.jpg', '.jpeg', '.gif', '.bmp'] /* 抓取图片格式显示 */,
 
         /* 上传视频配置 */
-        "videoActionName": "uploadvideo", /* 执行上传视频的action名称 */
-        "videoFieldName": "upfile", /* 提交的视频表单名称 */
+        videoActionName: 'uploadvideo' /* 执行上传视频的action名称 */,
+        videoFieldName: 'upfile' /* 提交的视频表单名称 */,
         // "videoPathFormat": "/ueditor/jsp/upload/video/{yyyy}{mm}{dd}/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
-        "videoUrlPrefix": "", /* 视频访问路径前缀 */
-        "videoMaxSize": 102400000, /* 上传大小限制，单位B，默认100MB */
-        "videoAllowFiles": [
-            ".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg", ".mpg",
-            ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid"], /* 上传视频格式显示 */
+        videoUrlPrefix: '' /* 视频访问路径前缀 */,
+        videoMaxSize: 102400000 /* 上传大小限制，单位B，默认100MB */,
+        videoAllowFiles: [
+            '.flv',
+            '.swf',
+            '.mkv',
+            '.avi',
+            '.rm',
+            '.rmvb',
+            '.mpeg',
+            '.mpg',
+            '.ogg',
+            '.ogv',
+            '.mov',
+            '.wmv',
+            '.mp4',
+            '.webm',
+            '.mp3',
+            '.wav',
+            '.mid',
+        ] /* 上传视频格式显示 */,
 
         /* 上传文件配置 */
-        "fileActionName": "uploadfile", /* controller里,执行上传视频的action名称 */
-        "fileFieldName": "upfile", /* 提交的文件表单名称 */
+        fileActionName: 'uploadfile' /* controller里,执行上传视频的action名称 */,
+        fileFieldName: 'upfile' /* 提交的文件表单名称 */,
         // "filePathFormat": "/ueditor/jsp/upload/file/{yyyy}{mm}{dd}/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
-        "fileUrlPrefix": "", /* 文件访问路径前缀 */
-        "fileMaxSize": 51200000, /* 上传大小限制，单位B，默认50MB */
-        "fileAllowFiles": [
-            ".png", ".jpg", ".jpeg", ".gif", ".bmp",
-            ".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg", ".mpg",
-            ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid",
-            ".rar", ".zip", ".tar", ".gz", ".7z", ".bz2", ".cab", ".iso",
-            ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".pdf", ".txt", ".md", ".xml"
-        ], /* 上传文件格式显示 */
+        fileUrlPrefix: '' /* 文件访问路径前缀 */,
+        fileMaxSize: 51200000 /* 上传大小限制，单位B，默认50MB */,
+        fileAllowFiles: [
+            '.png',
+            '.jpg',
+            '.jpeg',
+            '.gif',
+            '.bmp',
+            '.flv',
+            '.swf',
+            '.mkv',
+            '.avi',
+            '.rm',
+            '.rmvb',
+            '.mpeg',
+            '.mpg',
+            '.ogg',
+            '.ogv',
+            '.mov',
+            '.wmv',
+            '.mp4',
+            '.webm',
+            '.mp3',
+            '.wav',
+            '.mid',
+            '.rar',
+            '.zip',
+            '.tar',
+            '.gz',
+            '.7z',
+            '.bz2',
+            '.cab',
+            '.iso',
+            '.doc',
+            '.docx',
+            '.xls',
+            '.xlsx',
+            '.ppt',
+            '.pptx',
+            '.pdf',
+            '.txt',
+            '.md',
+            '.xml',
+        ] /* 上传文件格式显示 */,
 
         /* 列出指定目录下的图片 */
-        "imageManagerActionName": "listimage", /* 执行图片管理的action名称 */
+        imageManagerActionName: 'listimage' /* 执行图片管理的action名称 */,
         // "imageManagerListPath": "/ueditor/jsp/upload/image/", /* 指定要列出图片的目录 */
-        "imageManagerListSize": 20, /* 每次列出文件数量 */
-        "imageManagerUrlPrefix": "", /* 图片访问路径前缀 */
-        "imageManagerInsertAlign": "none", /* 插入的图片浮动方式 */
-        "imageManagerAllowFiles": [".png", ".jpg", ".jpeg", ".gif", ".bmp"], /* 列出的文件类型 */
+        imageManagerListSize: 20 /* 每次列出文件数量 */,
+        imageManagerUrlPrefix: '' /* 图片访问路径前缀 */,
+        imageManagerInsertAlign: 'none' /* 插入的图片浮动方式 */,
+        imageManagerAllowFiles: ['.png', '.jpg', '.jpeg', '.gif', '.bmp'] /* 列出的文件类型 */,
 
         /* 列出指定目录下的文件 */
-        "fileManagerActionName": "listfile", /* 执行文件管理的action名称 */
+        fileManagerActionName: 'listfile' /* 执行文件管理的action名称 */,
         // "fileManagerListPath": "/ueditor/jsp/upload/file/", /* 指定要列出文件的目录 */
-        "fileManagerUrlPrefix": "", /* 文件访问路径前缀 */
-        "fileManagerListSize": 20, /* 每次列出文件数量 */
-        "fileManagerAllowFiles": [
-            ".png", ".jpg", ".jpeg", ".gif", ".bmp",
-            ".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg", ".mpg",
-            ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid",
-            ".rar", ".zip", ".tar", ".gz", ".7z", ".bz2", ".cab", ".iso",
-            ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".pdf", ".txt", ".md", ".xml"
-        ] /* 列出的文件类型 */
+        fileManagerUrlPrefix: '' /* 文件访问路径前缀 */,
+        fileManagerListSize: 20 /* 每次列出文件数量 */,
+        fileManagerAllowFiles: [
+            '.png',
+            '.jpg',
+            '.jpeg',
+            '.gif',
+            '.bmp',
+            '.flv',
+            '.swf',
+            '.mkv',
+            '.avi',
+            '.rm',
+            '.rmvb',
+            '.mpeg',
+            '.mpg',
+            '.ogg',
+            '.ogv',
+            '.mov',
+            '.wmv',
+            '.mp4',
+            '.webm',
+            '.mp3',
+            '.wav',
+            '.mid',
+            '.rar',
+            '.zip',
+            '.tar',
+            '.gz',
+            '.7z',
+            '.bz2',
+            '.cab',
+            '.iso',
+            '.doc',
+            '.docx',
+            '.xls',
+            '.xlsx',
+            '.ppt',
+            '.pptx',
+            '.pdf',
+            '.txt',
+            '.md',
+            '.xml',
+        ] /* 列出的文件类型 */,
         //当鼠标放在工具栏上时显示的tooltip提示,留空支持自动多语言配置，否则以配置值为准
         //,labelMap:{
         //    'anchor':'', 'undo':''
@@ -179,12 +260,12 @@
 
         //,autoClearinitialContent:true //是否自动清除编辑器初始内容，注意：如果focus属性设置为true,这个也为真，那么编辑器一上来就会触发导致初始化的内容看不到了
 
-        // ,focus:false //初始化时，是否让编辑器获得焦点true或false
+        //,focus:false //初始化时，是否让编辑器获得焦点true或false
 
         //如果自定义，最好给p标签如下的行高，要不输入中文时，会有跳动感
         //,initialStyle:'p{line-height:1em}'//编辑器层级的基数,可以用来改变字体等
 
-        //,iframeCssUrl: URL + '/themes/iframe.css' //给编辑器内部引入一个css文件
+        //,iframeCssUrl: URL + '/themes/iframe.css' //给编辑区域的iframe引入一个css文件
 
         //indentValue
         //首行缩进距离,默认是2em
@@ -198,7 +279,7 @@
         //,autoClearEmptyNode : true //getContent时，是否删除空的inlineElement节点（包括嵌套的情况）
 
         //启用自动保存
-        // ,enableAutoSave: true
+        //,enableAutoSave: true
         //自动保存间隔时间， 单位ms
         //,saveInterval: 500
 
@@ -298,8 +379,7 @@
 
         //paragraph
         //段落格式 值留空时支持多语言自动识别，若配置，则以配置值为准
-        // ,'paragraph':{'p':'', 'h1':'', 'h2':'', 'h3':'', 'h4':'', 'h5':'', 'h6':''}
-        , 'paragraph': { 'p': '', 'h2': '', 'h5': '' }
+        paragraph: { p: '', h2: '', h5: '' },
 
         //rowspacingtop
         //段间距 值和显示的名字相同
@@ -395,6 +475,9 @@
         //编辑器底部距离工具栏高度(如果参数大于等于编辑器高度，则设置无效)
         //,toolbarTopOffset:400
 
+        //设置远程图片是否抓取到本地保存
+        //,catchRemoteImageEnable: true //设置是否抓取远程图片
+
         //pageBreakTag
         //分页标识符,默认是_ueditor_page_break_tag_
         //,pageBreakTag:'_ueditor_page_break_tag_'
@@ -423,8 +506,6 @@
         //表格是否可以拖拽
         //,tableDragable: true
 
-        //,disabledTableInTable:true  //禁止表格嵌套
-
         //sourceEditor
         //源码的查看方式,codemirror 是代码高亮，textarea是文本框,默认是codemirror
         //注意默认codemirror只能在ie8+和非ie中使用
@@ -443,71 +524,144 @@
         //    'anchor':'~/dialogs/anchor/anchor.html',
         //}
 
+        //allowLinkProtocol 允许的链接地址，有这些前缀的链接地址不会自动添加http
+        //, allowLinkProtocols: ['http:', 'https:', '#', '/', 'ftp:', 'mailto:', 'tel:', 'git:', 'svn:']
+
         //webAppKey 百度应用的APIkey，每个站长必须首先去百度官网注册一个key后方能正常使用app功能，注册介绍，http://app.baidu.com/static/cms/getapikey.html
         //, webAppKey: ""
+
+        //默认过滤规则相关配置项目
+        //,disabledTableInTable:true  //禁止表格嵌套
+        //,allowDivTransToP:true      //允许进入编辑器的div标签自动变成p标签
+        //,rgb2Hex:true               //默认产出的数据中的color自动从rgb格式变成16进制格式
+
+        // xss 过滤是否开启,inserthtml等操作
+        xssFilterRules: true,
+        //input xss过滤
+        inputXssFilter: true,
+        //output xss过滤
+        outputXssFilter: true,
+        // xss过滤白名单 名单来源: https://raw.githubusercontent.com/leizongmin/js-xss/master/lib/default.js
+        whitList: {
+            a: ['target', 'href', 'title', 'class', 'style'],
+            abbr: ['title', 'class', 'style'],
+            address: ['class', 'style'],
+            area: ['shape', 'coords', 'href', 'alt'],
+            article: [],
+            aside: [],
+            audio: ['autoplay', 'controls', 'loop', 'preload', 'src', 'class', 'style'],
+            b: ['class', 'style'],
+            bdi: ['dir'],
+            bdo: ['dir'],
+            big: [],
+            blockquote: ['cite', 'class', 'style'],
+            br: [],
+            caption: ['class', 'style'],
+            center: [],
+            cite: [],
+            code: ['class', 'style'],
+            col: ['align', 'valign', 'span', 'width', 'class', 'style'],
+            colgroup: ['align', 'valign', 'span', 'width', 'class', 'style'],
+            dd: ['class', 'style'],
+            del: ['datetime'],
+            details: ['open'],
+            div: ['class', 'style'],
+            dl: ['class', 'style'],
+            dt: ['class', 'style'],
+            em: ['class', 'style'],
+            font: ['color', 'size', 'face'],
+            footer: [],
+            h1: ['class', 'style'],
+            h2: ['class', 'style'],
+            h3: ['class', 'style'],
+            h4: ['class', 'style'],
+            h5: ['class', 'style'],
+            h6: ['class', 'style'],
+            header: [],
+            hr: [],
+            i: ['class', 'style'],
+            img: ['src', 'alt', 'title', 'width', 'height', 'id', '_src', 'loadingclass', 'class', 'data-latex'],
+            ins: ['datetime'],
+            li: ['class', 'style'],
+            mark: [],
+            nav: [],
+            ol: ['class', 'style'],
+            p: ['class', 'style'],
+            pre: ['class', 'style'],
+            s: [],
+            section: [],
+            small: [],
+            span: ['class', 'style'],
+            sub: ['class', 'style'],
+            sup: ['class', 'style'],
+            strong: ['class', 'style'],
+            table: ['width', 'border', 'align', 'valign', 'class', 'style'],
+            tbody: ['align', 'valign', 'class', 'style'],
+            td: ['width', 'rowspan', 'colspan', 'align', 'valign', 'class', 'style'],
+            tfoot: ['align', 'valign', 'class', 'style'],
+            th: ['width', 'rowspan', 'colspan', 'align', 'valign', 'class', 'style'],
+            thead: ['align', 'valign', 'class', 'style'],
+            tr: ['rowspan', 'align', 'valign', 'class', 'style'],
+            tt: [],
+            u: [],
+            ul: ['class', 'style'],
+            video: ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width', 'class', 'style'],
+        },
     };
 
     function getUEBasePath(docUrl, confUrl) {
-        window.UEDITOR_HOME_URL = docUrl;
+        return getBasePath(docUrl || self.document.URL || self.location.href, confUrl || getConfigFilePath());
     }
 
     function getConfigFilePath() {
-
         var configPath = document.getElementsByTagName('script');
 
         return configPath[configPath.length - 1].src;
-
     }
 
     function getBasePath(docUrl, confUrl) {
-
         var basePath = confUrl;
 
-
         if (/^(\/|\\\\)/.test(confUrl)) {
-
             basePath = /^.+?\w(\/|\\\\)/.exec(docUrl)[0] + confUrl.replace(/^(\/|\\\\)/, '');
-
         } else if (!/^[a-z]+:/i.test(confUrl)) {
+            docUrl = docUrl
+                .split('#')[0]
+                .split('?')[0]
+                .replace(/[^\\\/]+$/, '');
 
-            docUrl = docUrl.split("#")[0].split("?")[0].replace(/[^\\\/]+$/, '');
-
-            basePath = docUrl + "" + confUrl;
-
+            basePath = docUrl + '' + confUrl;
         }
 
         return optimizationPath(basePath);
-
     }
 
     function optimizationPath(path) {
-
         var protocol = /^[a-z]+:\/\//.exec(path)[0],
             tmp = null,
             res = [];
 
-        path = path.replace(protocol, "").split("?")[0].split("#")[0];
+        path = path
+            .replace(protocol, '')
+            .split('?')[0]
+            .split('#')[0];
 
         path = path.replace(/\\/g, '/').split(/\//);
 
-        path[path.length - 1] = "";
+        path[path.length - 1] = '';
 
         while (path.length) {
-
-            if ((tmp = path.shift()) === "..") {
+            if ((tmp = path.shift()) === '..') {
                 res.pop();
-            } else if (tmp !== ".") {
+            } else if (tmp !== '.') {
                 res.push(tmp);
             }
-
         }
 
-        return protocol + res.join("/");
-
+        return protocol + res.join('/');
     }
 
     window.UE = {
-        getUEBasePath: getUEBasePath
+        getUEBasePath: getUEBasePath,
     };
-
 })();

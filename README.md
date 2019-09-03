@@ -79,7 +79,7 @@ ListPage中包含两个组件SearchItem(搜索列表）和TableItem(列表展示
 | SearchItem |  formSearchItems | 搜索选项(详细字段见formItem) | Array[Objec]  |   | []
 | SearchItem |  tableState | 表格的数据展示 | String  |   | ''
 | SearchItem |  title | 当前页的title | String  |   | ''
-| SearchItem |  formWidth | 搜索时表单的宽度 | String  |   | ‘800px’
+| SearchItem |  formSearchWidth | 搜索时表单的宽度 | String  |   | ‘800px’
 | SearchItem |  restButtons | 其他的操作按钮。新增之类的 | Array  |   | []
 | SearchItem |  filterBtn | 筛选按钮(查询，筛选) | Array  |   | []
 | |  |  |   |   | |
@@ -106,10 +106,29 @@ ListPage中包含两个组件SearchItem(搜索列表）和TableItem(列表展示
 |  formSearchItems |  搜索选项(详细字段见formItem) | Array |  |   | []
 |  tableState | 表格的数据展示（单独用的时候没有太大的必要） | String|  |   | ''
 |  title | 当前页的title | String | |   | ''
-|  formWidth | 搜索时表单的宽度（刷选按钮：大于700占2，480-700占3，小于等于480占4） | String|  |   | ‘800px’
+|  formSearchWidth | 搜索时表单的宽度（刷选按钮：大于700占2，480-700占3，小于等于480占4） | String|  |   | ‘800px’
 |  restButtons | 其他的操作按钮。新增之类的 | Array | |   | []
 |  filterBtn | 筛选按钮(查询，筛选) | Array | |   | []
 |  searchParams | 搜索请求字段数据及表格分页数据 | Object|  |  true | {}
+
+### filterBtn/restButtons  (搜索按钮)
+```
+// 其他的自定义操作
+[
+    {
+        name: '按钮名字', // 按钮名字
+        hidden: false, // 是否隐藏
+        onclick: () => {
+            // 按钮点击事件
+            console.log('红色按钮事件');
+        },
+        disabled: false, // 是否禁止
+        type: 'danger', // 按钮类型
+        validate: true, // 是否表单校验
+        loading: true, // 是否要loading
+    },
+], 
+```
 
 ![search.png](https://imgapi.apitops.com/V5/bigdata-mgr/20190826/e2cf63e5b1a94e2f820038aa0cd8d893.png)
 &nbsp;
@@ -132,24 +151,64 @@ ListPage中包含两个组件SearchItem(搜索列表）和TableItem(列表展示
 |  mergeSpan | 合并行或列 | Function| |   | ()=>{}
 
 #### tableTitle详细参数
-| 参数名 | 功能 | 类型 | 可选值 | 是否必传|
-   :-:  |   :-:   |   :-:   |   :-:  |  :-:  | 
-|  type | 对应列的类型。如果设置了 selection 则显示多选框；如果设置了 index 则显示该行的索引（从 1 开始计算）；如果设置了 expand 则显示为一个可展开的按钮） | String| selection/index/expand | |
-|  prop | table表格当前列的name(和tableData数据对应) | String |  | true  |
-|  label | table表格当前列的展示值 | String | |  true | 
-|  width | table表格当前列的宽度 | 	Number/String |   | |
-|  align | 当前列是否居左(默认左) | String|left/center/right | |
-|  sortable | 当前列是否排序(默认不排序)| Boolean |  | |
-|  filterSort | 排序操作 |  Function |  | |
-|  mergeColHeader | 表头合并（最多支持三级） | Array[Object] | ||
-|  render | 需要自定义一些样式 |	Function(row) {} //row：当前行的数据| | |
+```
+{
+    // 必填
+    prop: 'propertyTypeNameList', // table表格当前列的name(和tableData数据对应)
+    label: '列的展示', // table表格当前列的展示值
 
+    /**
+     * type：对应列的类型。
+     * 如果设置了 selection 则显示多选框；
+     * 如果设置了 index 则显示该行的索引（从 1 开始计算）；
+     * 如果设置了 expand 则显示为一个可展开的按钮）
+     * 可选 selection/index/expand
+     *  */
+    type: '',
+    width: 120, // table表格当前列的宽度
+    align: center, // 当前列是否居左(默认左)
+    sortable: false, //当前列是否排序(默认不排序)
+    filterSort: value => {}, //排序操作
+    // 表头合并（最多支持三级）
+    mergeColHeader: [
+        { prop: 'creatorName', label: '发布人', },
+        {
+            prop: 'merge',
+            label: '时间',
+            mergeColHeader: [
+                { prop: 'firstLiveTime', label: '入市时间', },
+                { prop: 'updateTime', label: '更新时间', },
+            ],
+        },
+    ],
+    // 表头过滤刷选
+    filters: [{ text: '别墅', value: '别墅' }, { text: '住宅', value: '住宅' }],
+    // 表头过滤刷选函数
+    filterHandler: (value, row, column) => {
+        console.log(value, row, column);
+    },
+    /**
+     * 刷选项的位置
+     * top/top-start/top-end/
+     * bottom/bottom-start/bottom-end/
+     * left/left-start/left-end/
+     * right/right-start/right-end
+     *  */
+    filterPlacement: 'bottom-end',
+    // 需要自定义一些样式
+    render: row => {
+        return <p>{row.propertyTypeNameList && row.propertyTypeNameList.join()}</p>;
+    },
+},
+```
 #### searchParams详细参数
-| 参数名 | 功能 | 类型 | 可选值 | 是否必传|
-   :-:  |   :-:   |   :-:   |   :-:  |  :-:  | 
-|  count | 分页总数（为0的时候不展示分页栏） | Number |  |true |
-|  pageNo| 当前为第几页 | Number|  | true  |
-|  pageSize| 每页的数据 | Number| |  true | 
+```
+searchParams: {
+    pageIndex: 1, // 当前页
+    pageSize: 20, // 当前分页数量
+    count: 122, // 总数
+},
+```
 
 ![表格.png](https://imgapi.apitops.com/V5/bigdata-mgr/20190826/3dc447c5cf454580a5fb0e424d3af0db.png)
 &nbsp;
@@ -267,9 +326,29 @@ ListPage中包含两个组件SearchItem(搜索列表）和TableItem(列表展示
 |  cancelBtnText | 操作取消按钮文本样式 | String |  |  |取消|
 |  labelWidth  | 表单域标签的宽度 | String |  |   | 150px|
 |  buttons | 其他的自定义操作 | Array[Object] |  |   | [] |
-|  formWidth | 搜索时表单的宽度，默认800 | String |  |   | 800px|
+|  formWidth | 表单的宽度 | String |  |   | |
 |  flexleftOrCenter | 表单位置 | String | left/cente  |   | left|
 |  bottomFixed | 按钮悬浮 | Boolean|  |   | false|
+|  formItemsBtn | 悬浮按钮旁边的表单（字段同formItems） | Array[Object]|  |   | |
+
+#### buttons 字段
+```
+// 其他的自定义操作
+buttons: [
+    {
+        name: '红色按钮', // 按钮名字
+        hidden: false, // 是否隐藏
+        onclick: () => {
+            // 按钮点击事件
+            console.log('红色按钮事件');
+        },
+        disabled: true, // 是否禁止
+        type: 'danger', // 按钮类型
+        validate: true, // 是否表单校验
+        loading: true, // 是否要loading
+    },
+], 
+```
 
 #### FormItems 公共字段
 
@@ -283,7 +362,7 @@ let common = {
      *  date/ textarea/ switch/ radio/ 
      *  table/ tag /ue / map
      *  autocomplete/ cascader/ select/twoDate/ 
-     *  videoOrPicture/ handleClick/ 
+     *  videoOrPicture/ handleClick/ qrcode
      * */   
     type: 'common', // 对应的type组件
     span: 12, // 当前宽度的多少份，24为100%
@@ -295,6 +374,23 @@ let common = {
     inputStyle: {
         // item的样式编写
         width: '360px',
+    },
+    classList: {
+        // 对表单进行样式调整
+        // 类名: '是否这个类',
+        autocomplete: true,
+    },
+
+    appendSlot: false, // 是否添加自定义slot
+
+    rowOrColumn: true, // flex的方向，有connect或extra时用
+    connect: '补充', // 符号什么 一到两字
+    extra: '补充说明', // 补充说明
+    extraStyle: {
+        color: '#00ff00',
+    }, //extra样式补充
+    extraFun: () => {
+        console.log('点击事件');
     },
 };
 ```
@@ -308,7 +404,9 @@ let common = {
     label: '分隔符',
     type: 'cut',
     cutName: '分隔符', // 分割标题
-    btnTitle: '编辑', // 操作字段
+    cutNameDescribe: '楼盘各个批次', // cutName的说明
+    btnTitle: '新增一个', // 操作字段
+    btnDescribe: '找不到我要的小区 ? , ', //操作字段前缀
     btnFuntion: () => {
         // 操作函数
         console.log('操作按钮');
@@ -324,7 +422,6 @@ let common = {
     label: '复选框',
     type: 'checkboxs',
 
-    rowOrColumn: false, // flex的方向，有connect或extra时用
     column: false, // 复选框竖着
     data: [
         // 可选项数据源，键名可通过 Props 属性配置
@@ -337,15 +434,6 @@ let common = {
         // 选择事件
         console.log(value);
     },
-
-    connect: '补充', // 符号什么 一到两字
-    extra: '补充说明', // 补充说明
-    extraStyle: {
-        color: '#00ff00',
-    }, //extra样式补充
-    extraFun: () => {
-        console.log('点击事件');
-    },
 },
 ```
 #### type=input
@@ -356,26 +444,42 @@ let common = {
     label: '输入框',
     type: 'input',
 
-    rowOrColumn: false, // flex的方向，有connect或extra时用
+    append: true, // 是否有slot, 按钮
+    appendIcon: 'el-icon-delete', // slot 的 icon
+    appendFun: () => {
+        // 和append配套操作
+        console.log('appendFun');
+    },
+
+    suffix: true, // 是否有slot, 图标
+    suffixIcon: 'el-icon-delete', // slot 的 icon
+    suffixStyle: {
+        // 是否有slot, 图标样式
+        color: 'purple',
+        fontSize: '16px',
+    },
+    suffixFun: () => {
+        // 和suffix配套操作
+        console.log('suffixFun');
+    },
+
+    appendHtml: true, // 是否有slot, html
+    appendHtmlText: '<i>测试</i>', // slot的html
+    appendHtmlStyle: {
+        // 文本样式
+        color: 'pink',
+    },
+    appendHtmlFun: () => {
+        // 和appendHtml配套操作
+        console.log('appendHtmlFun');
+    },
+
     maxLength: 20, // 最大数量
     minLength: 10, // 最小数量
     clearable: true, // 是否可清除
     change: value => {
         // 字段变换的函数
         console.log(value, '失去焦点之后');
-    },
-    append: true, // 是否有slot,输入框的操作
-    appendFun: () => {
-        // 和append配套操作
-        console.log('other thing');
-    },
-    connect: '补充', // 符号什么 一到两字
-    extra: '补充说明', // 补充说明
-    extraStyle: {
-        color: '#00ff00',
-    }, //extra样式补充
-    extraFun: () => {
-        console.log('点击事件');
     },
 },
 ```
@@ -387,19 +491,9 @@ let common = {
     label: '数字框',
     type: 'number',
 
-    rowOrColumn: false, // flex的方向，有connect或extra时用
     maxi: 20, // 最大数
     mini: 10, // 最小数
     precision: 2, // 几位小数
-
-    connect: '补充', // 符号什么 一到两字
-    extra: '补充说明', // 补充说明
-    extraStyle: {
-        color: '#00ffff',
-    }, //extra样式补充
-    extraFun: () => {
-        console.log('点击事件');
-    },
 },
 ```
 
@@ -411,7 +505,36 @@ let common = {
     label: '自动匹配',
     type: 'autocomplete',
 
-    rowOrColumn: false, // flex的方向，有connect或extra时用
+    // append: true, // 是否有slot, 按钮
+    appendIcon: 'el-icon-delete', // slot 的 icon
+    appendFun: () => {
+        // 和append配套操作
+        console.log('appendFun');
+    },
+
+    suffix: true, // 是否有slot, 图标
+    suffixIcon: 'el-icon-delete', // slot 的 icon
+    suffixStyle: {
+        // 是否有slot, 图标样式
+        color: 'purple',
+        fontSize: '16px',
+    },
+    suffixFun: () => {
+        // 和suffix配套操作
+        console.log('suffixFun');
+    },
+
+    // appendHtml: true, // 是否有slot, html
+    appendHtmlText: '<i>测试</i>', // slot的html
+    appendHtmlStyle: {
+        // 文本样式
+        color: 'pink',
+    },
+    appendHtmlFun: () => {
+        // 和appendHtml配套操作
+        console.log('appendHtmlFun');
+    },
+
     clearable: true, // 是否可清除
     querySearchAsync: (filterVaule, cb) => {
         // 搜索操作
@@ -420,15 +543,6 @@ let common = {
     selectFun: value => {
         // 当前选中的值
         console.log(value);
-    },
-
-    connect: '补充', // 符号什么 一到两字
-    extra: '补充说明', // 补充说明
-    extraStyle: {
-        color: '#f0f',
-    }, //extra样式补充
-    extraFun: () => {
-        console.log('点击事件');
     },
 },
 ```
@@ -441,7 +555,6 @@ let common = {
     label: '级联',
     type: 'cascader',
 
-    rowOrColumn: false, // flex的方向，有connect或extra时用
     data: cascaderData, // 可选项数据源，键名可通过 Props 属性配置
     props: {
         // 配置选项，具体见element级联Props
@@ -451,22 +564,12 @@ let common = {
     },
     debounce: 300, // 搜索关键词输入的去抖延迟，毫秒
     filterable: true, // 是否可搜索选项
-    size: 'small', // 尺寸，默认medium
     separator: '', // 分隔符 默认/
     clearable: true, // 是否可清除
     change_on_select: true, // 是否允许选择任意一级的选项
     selectFun: value => {
         //当绑定值变化时触发的事件
         console.log(value);
-    },
-
-    connect: '补充', // 符号什么 一到两字
-    extra: '补充说明', // 补充说明
-    extraStyle: {
-        color: '#f0f',
-    }, //extra样式补充
-    extraFun: () => {
-        console.log('点击事件');
     },
 },
 ```
@@ -479,7 +582,6 @@ let common = {
     label: '选择',
     type: 'select',
 
-    rowOrColumn: false, // flex的方向，有connect或extra时用
     multiple: true, // 是否可多选
     multipleLimit: 2, // 多选限制
     allowCreate: true, // 是否允许创建
@@ -495,15 +597,6 @@ let common = {
     selectFun: value => {
         console.log(value);
     }, // 选择函数
-
-    connect: '补充', // 符号什么 一到两字
-    extra: '补充说明', // 补充说明
-    extraStyle: {
-        color: '#f0f',
-    }, //extra样式补充
-    extraFun: () => {
-        console.log('点击事件');
-    },
 },
 ```
 
@@ -543,22 +636,12 @@ let common = {
     label: '多行文本',
     type: 'textarea',
 
-    rowOrColumn: false, // flex的方向，有connect或extra时用
     maxLength: 20, // 最大数量
     minLength: 10, // 最小数量
     autosize: {
         //  最小最大行 默认最小：编辑2行，查看一行，最大10行
         minRows: 2,
         maxRows: 10,
-    },
-
-    connect: '补充', // 符号什么 一到两字
-    extra: '补充说明', // 补充说明
-    extraStyle: {
-        color: '#00ff00',
-    }, //extra样式补充
-    extraFun: () => {
-        console.log('点击事件');
     },
 },
 ```
@@ -572,18 +655,8 @@ let common = {
     label: '开关',
     type: 'switch',
 
-    rowOrColumn: false, // flex的方向，有connect或extra时用
     activeColor: '#ff0000', // 打开颜色
     inactiveColor: '#00ff00', // 关闭颜色
-
-    connect: '补充', // 符号什么 一到两字
-    extra: '补充说明', // 补充说明
-    extraStyle: {
-        color: '#00ff00',
-    }, //extra样式补充
-    extraFun: () => {
-        console.log('点击事件');
-    },
 },
 ```
 
@@ -596,7 +669,6 @@ let common = {
     type: 'radio',
     // disabled: true,
     radioBtn: true, // 是否变成按钮形状
-    rowOrColumn: false, // flex的方向，有connect或extra时用
     data: [
         // 可选项数据源，键名可通过 Props 属性配置
         { value: 'value', label: 'label' },
@@ -608,18 +680,20 @@ let common = {
         // 选择事件
         console.log(value);
     },
-
-    connect: '补充', // 符号什么 一到两字
-    extra: '补充说明', // 补充说明
-    extraStyle: {
-        color: '#00ff00',
-    }, //extra样式补充
-    extraFun: () => {
-        console.log('点击事件');
-    },
 },
 ```
-
+#### type=qrcode
+```
+{
+    ...common,
+    name: 'qrcode',
+    label: '二维码',
+    type: 'qrcode',
+    url: 'https://www.baidu.com/',
+    id: 'tops_qrcode1',
+    // qrState: '百度',
+},
+```
 
 #### type=table
 ```

@@ -116,10 +116,10 @@ export default {
                     span: 24,
                     btnTitle: '新增一个', // 操作字段
                     btnDescribe: '找不到我要的小区 ? , ', //操作字段前缀
-                    btnFuntion: () => {
-                        // 操作函数
-                        console.log('操作按钮');
-                    },
+                    // btnFuntion: () => {
+                    //     // 操作函数
+                    //     console.log('操作按钮');
+                    // },
                 },
                 {
                     ...common,

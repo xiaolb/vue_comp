@@ -243,9 +243,9 @@
                                 <strong>{{ item.cutName }}</strong>
                                 <span v-if="item.cutNameDescribe" class="cutNameDescribe">{{ item.cutNameDescribe }}</span>
                             </header>
-                            <a v-if="item.btnTitle" class="cut_handle">
+                            <a v-if="item.btnTitle || item.btnDescribe" class="cut_handle">
                                 {{ item.btnDescribe }}
-                                <span @click="item.btnFuntion">{{ item.btnTitle }}</span>
+                                <span v-if="item.btnTitle" @click="item.btnFuntion || function() {}">{{ item.btnTitle }}</span>
                             </a>
                         </div>
                     </el-form-item>
@@ -369,7 +369,7 @@
                     <slot v-if="item.type === 'table' && item.appendSlot" name="appendtable"></slot>
                 </el-col>
                 <el-col v-if="buttons.length > 0 || cancelBtn || saveBtn" :span="searchSpan">
-                     <el-form-item :label-width="searchSpan !== 24 ? '0px' : labelWidth" :class="{ bottomFixed: bottomFixed }">
+                     <el-form-item :label-width="searchSpan !== 24 ? '0px' : labelWidth" :class="{ bottomFixed: bottomFixed }" :style="{marginBottom: 0}">
                         <bottomBtnOrForm 
                             v-if="saveBtn || cancelBtn || buttons.length > 0"
                             :formData="formData" 
@@ -382,7 +382,7 @@
                             :buttons="buttons"
                             :form-items="formItems"
                             :searchFooterMar="searchFooterMar"
-                            :refsForm="$refs['form']"
+                            :refsForm="refsForm"
                             :formItemsBtn="formItemsBtn"
                         />
                     </el-form-item>
@@ -536,12 +536,19 @@ export default {
                 tag: '请选择',
             },
             formInterval: null,
+            refsForm: '',
         };
     },
     mounted() {
         this.allDisabled && this.isDisabledStyle();
         this.formInterval = setInterval(() => {
             this.bottomFixedWidth();
+        }, 500);
+        let timer = setInterval(() => {
+            this.refsForm = this.$refs['form'];
+            if (this.refsForm) {
+                window.clearInterval(timer);
+            }
         }, 500);
     },
     updated() {

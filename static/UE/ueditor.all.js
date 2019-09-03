@@ -14511,7 +14511,6 @@ UE.plugin.register('copy', function () {
                             type: "text/javascript",
                             defer: "defer"
                         }, function () {
-                            debugger
                             initZeroClipboard();
                         });
                     }

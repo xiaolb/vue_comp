@@ -30,6 +30,7 @@
 </template>
 <script>
 import { flatten, isEmptyObject, debounceWork } from '@/components/utils';
+import { setInterval, clearInterval } from 'timers';
 
 export default {
     name: 'bottomBtnOrForm',
@@ -81,6 +82,7 @@ export default {
             required: true,
         },
     },
+    mounted() {},
     methods: {
         // button做表单的校验
         validateFun(fun, validate, loading) {

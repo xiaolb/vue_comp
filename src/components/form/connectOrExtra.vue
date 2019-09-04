@@ -1,9 +1,10 @@
 <template>
     <div>
-        <span v-if="item.connect" class="spider_form_data_connect">{{ item.connect }}</span>
+        <span v-if="item.connect"  :class="{spider_form_data_connect: !!item.connect}">{{ item.connect }}</span>
         <span
             v-if="item.extra"
-            class="spider_form_data_extra"
+
+            :class="{spider_form_data_extra: !!item.extra}"
             :style="item.extraStyle || {}"
             @click="a => (item.extraFun && item.extraFun()) || function() {}"
             >{{ item.extra }}</span

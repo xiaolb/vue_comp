@@ -16,7 +16,7 @@
         ></modal-form>
         <modal-form
             v-if="preVisible"    
-            :width="'500px'"
+            :width="'600px'"
             :search="true"
             :visible="preVisible"
             :nobtn="true"
@@ -30,7 +30,7 @@
                     <a @click="() => {}">关联房源</a>
                 </section>
             </div>
-            <Form
+            <!-- <Form
                 :form-items="formImmediateItems"
                 :form-data="searchParams"
                 :labelWidth="'120px'"
@@ -38,7 +38,8 @@
                 :save-btn="false"
                 :bottom-fixed="true"
             >
-            </Form>
+            </Form> -->
+            <MapItem></MapItem>
             <div slot="footer" class="modalFooter">
                 <el-button type="primary" @click="()=>{}">确定</el-button>
                 <el-button @click="()=>{}">取 消</el-button>
@@ -47,8 +48,10 @@
     </div>
 </template>
 <script>
+import MapItem from './map';
 export default {
     name: 'modalFormTest',
+    components: { MapItem },
     data() {
         return {
             // modalForm 字段

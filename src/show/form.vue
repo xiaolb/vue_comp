@@ -67,7 +67,7 @@ export default {
             allDisabled: false, // 表单是否禁止编辑
             formWidth: '1200px', // 表单的宽度
             flexleftOrCenter: 'left', // 表单位置 left/cente
-            bottomFixed: true, //按钮悬浮
+            bottomFixed: false, //按钮悬浮
         };
     },
     computed: {
@@ -84,7 +84,7 @@ export default {
                 required: true, // 是否必填
                 inputStyle: {
                     // item的样式编写
-                    width: '460px',
+                    // width: '460px',
                 },
                 classList: {
                     // 对表单进行样式调整
@@ -396,7 +396,7 @@ export default {
                     },
                 },
                 {
-                    ...common,
+                    // ...common,
                     name: 'switch',
                     label: '开关',
                     type: 'switch',

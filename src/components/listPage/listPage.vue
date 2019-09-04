@@ -24,6 +24,7 @@
             :merge-span="mergeSpan"
             :unique-select="!!uniqueSelect"
             @searchList="searchList"
+            :tableButtons="tableButtons"
         ></table-item>
     </div>
 </template>
@@ -119,6 +120,11 @@ export default {
         uniqueSelect: {
             type: Boolean,
             default: false,
+        },
+        // table其他的操作
+        tableButtons: {
+            type: Array,
+            default: () => [],
         },
     },
 };

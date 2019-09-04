@@ -37,3 +37,9 @@ export default {
     },
 };
 </script>
+<style lang="scss">
+#MapItemTest {
+    background: pink;
+    margin: 30px;
+}
+</style>

@@ -1,13 +1,13 @@
 <template>
-    <div id="bottomBtnOrForm">
-        <section>
+    <div id="bottomBtnOrForm" >
+        <section :class="{section: true, searchsection: searchFooterMar}">
             <el-button v-if="cancelBtn" @click="onCancel('form')">{{ cancelBtnText }}</el-button>
             <el-button v-if="saveBtn" type="primary" @click="onSubmit()">{{ saveBtnText }}</el-button>
             <div v-for="(btn, index) of buttons" :key="btn.name" :class="{ restBtngather: true }">
                 <el-button
                     v-if="!btn.hidden"
                     :disabled="!!btn.disabled"
-                    :class="{ restBtn: index === 0 }"
+                    :class="{ restBtn: index === 0, hasCircle: btn.hasCircle }"
                     :type="btn.type || 'primary'"
                     :size="searchFooterMar ? 'small' : 'medium'"
                     @click="
@@ -21,10 +21,9 @@
         </section>
         <Form 
             ref="btnForm"
-            v-if="formItemsBtn.length > 0"
+            v-if="hasFormItemsBtn"
             :form-items="formItemsBtn"
             :form-data="formData"
-            :formWidth="'400px'"
         ></Form>
     </div>
 </template>
@@ -80,6 +79,11 @@ export default {
         },
         refsForm: {
             required: true,
+        },
+    },
+    computed: {
+        hasFormItemsBtn() {
+            return this.formItemsBtn.length > 0;
         },
     },
     mounted() {},
@@ -188,9 +192,13 @@ export default {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    padding-right: 64px;
-    section {
+
+    .section {
         display: flex;
+        width: 100%;
+    }
+    .searchsection.section {
+        justify-content: flex-end;
     }
     .el-button:nth-child(1),
     .restBtngather:nth-child(1) {
@@ -198,6 +206,20 @@ export default {
     }
     .restBtngather {
         margin-left: 9px;
+        .hasCircle {
+            position: relative;
+        }
+        .hasCircle::after {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #fb5455;
+            border-radius: 50%;
+            position: absolute;
+            top: -4px;
+            right: -4px;
+        }
     }
     .spider_form_data {
         & > div {

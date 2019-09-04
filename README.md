@@ -243,7 +243,6 @@ searchParams: {
 |  width | dialog的宽度 | String|  |   | '600px'
 |  search | 是否是搜索（侧边滑出） | Boolean | |  | false
 |  visible | 是否展示dialog | Boolean | |  true  | |
-|  saveDialogText | 保存按钮文本 | String |  |   | '确定'
 |  nobtn| 没有操作按钮 | Boolean| |   | false
 
 ![upload.png](https://imgapi.apitops.com/V5/bigdata-mgr/20190826/f4465ede56a745dd8912d0f908e302e9.png)

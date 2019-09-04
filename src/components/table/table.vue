@@ -78,6 +78,18 @@
                 @current-change="handleCurrentChange"
             >
             </el-pagination>
+            <div v-if="tableButtons.length > 0" :class="{ tableButtons: true }">
+                <div v-for="(btn) of tableButtons" :key="btn.name" :class="{ tableButton: true }">
+                    <el-button
+                        :class="{hasCircle: btn.hasCircle}"
+                        v-if="!btn.hidden"
+                        :disabled="!!btn.disabled"
+                        :type="btn.type || 'primary'"
+                        size='small'
+                        @click="btn.onclick"
+                    >{{ btn.name }}</el-button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -134,6 +146,11 @@ export default {
         uniqueSelect: {
             type: Boolean,
             default: false,
+        },
+        // table其他的操作
+        tableButtons: {
+            type: Array,
+            default: () => [],
         },
     },
     data() {
@@ -327,6 +344,29 @@ export default {
                 }
             }
         }
+    }
+    .tableButtons {
+        display: flex;
+    }
+    .tableButton {
+        margin-left: 10px;
+        .hasCircle {
+            position: relative;
+        }
+        .hasCircle::after {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #fb5455;
+            border-radius: 50%;
+            position: absolute;
+            top: -4px;
+            right: -4px;
+        }
+    }
+    .tableButton:nth-child(1) {
+        margin-left: 38px;
     }
 }
 </style>

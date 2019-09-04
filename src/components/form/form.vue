@@ -26,7 +26,7 @@
                             :formType="formType"
                             :allDisabled="allDisabled"
                         />
-                        <connect-or-extra :item="item" />
+                        <connect-or-extra v-if="item.connect || item.extra" :item="item" />
                     </el-form-item>
                     <slot v-if="item.type === 'input' && item.appendSlot" name="appendinput"></slot>
                     <el-form-item
@@ -46,7 +46,7 @@
                             :precision="item.precision"
                             :style="item.inputStyle || {}"
                         ></el-input-number>
-                        <connect-or-extra :item="item" />
+                        <connect-or-extra v-if="item.connect || item.extra" :item="item" />
                     </el-form-item>
                     <slot v-if="item.type === 'number' && item.appendSlot" name="appendnumber"></slot>
                     <el-form-item
@@ -62,7 +62,7 @@
                             :formType="formType"
                             :allDisabled="allDisabled"
                         />
-                        <connect-or-extra :item="item" />
+                        <connect-or-extra v-if="item.connect || item.extra" :item="item" />
                     </el-form-item>
                     <slot v-if="item.type === 'autocomplete' && item.appendSlot" name="appendautocomplete"></slot>
                     <el-form-item
@@ -78,7 +78,7 @@
                             :formType="formType"
                             :allDisabled="allDisabled"
                         />
-                        <connect-or-extra :item="item" />
+                        <connect-or-extra v-if="item.connect || item.extra" :item="item" />
                     </el-form-item>
                     <slot v-if="item.type === 'cascader' && item.appendSlot" name="appendcascader"></slot>
                     <el-form-item
@@ -94,7 +94,7 @@
                             :formType="formType"
                             :allDisabled="allDisabled"
                         />
-                        <connect-or-extra :item="item" />
+                        <connect-or-extra v-if="item.connect || item.extra" :item="item" />
                     </el-form-item>
                     <slot v-if="item.type === 'select' && item.appendSlot" name="appendselect"></slot>
                     <el-form-item
@@ -134,7 +134,7 @@
                             :disabled="item.disabled"
                             :style="item.inputStyle || {}"
                         ></el-date-picker>
-                        <connect-or-extra :item="item" />
+                        <connect-or-extra v-if="item.connect || item.extra" :item="item" />
                     </el-form-item>
                     <slot v-if="item.type === 'date' && item.appendSlot" name="appenddate"></slot>
                     <el-form-item
@@ -154,7 +154,7 @@
                             :style="item.inputStyle || {}"
                             :autosize="item.autosize || (item.disabled || allDisabled ? { minRows: 1, maxRows: 10 } : { minRows: 2, maxRows: 10 })"
                         ></el-input>
-                        <connect-or-extra :item="item" />
+                        <connect-or-extra v-if="item.connect || item.extra" :item="item" />
                     </el-form-item>
                     <slot v-if="item.type === 'textarea' && item.appendSlot" name="appendtextarea"></slot>
                     <el-form-item
@@ -171,7 +171,7 @@
                             :inactive-color="item.inactiveColor || '#C0CCDA'"
                         >
                         </el-switch>
-                        <connect-or-extra :item="item" />
+                        <connect-or-extra v-if="item.connect || item.extra" :item="item" />
                     </el-form-item>
                     <slot v-if="item.type === 'switch' && item.appendSlot" name="appendswitch"></slot>
                     <el-form-item
@@ -191,7 +191,7 @@
                             :uploadAK="item.uploadAK"
                         ></UE>
                         <div v-else v-html="formData[item.name]"></div>
-                        <connect-or-extra :item="item" />
+                        <connect-or-extra v-if="item.connect || item.extra" :item="item" />
                     </el-form-item>
                     <slot v-if="item.type === 'ue'  && item.appendSlot" name="appendue"></slot>
                     <el-form-item
@@ -214,7 +214,7 @@
                                 >{{ checkItem.label || checkItem.itemLabel || checkItem.paramName || checkItem.name }}</el-checkbox
                             >
                         </el-checkbox-group>
-                        <connect-or-extra :item="item" />
+                        <connect-or-extra v-if="item.connect || item.extra" :item="item" />
                     </el-form-item>
                     <slot v-if="item.type === 'checkboxs'  && item.appendSlot" name="appendcheckboxs"></slot>
                     <el-form-item
@@ -230,7 +230,7 @@
                             :formType="formType"
                             :allDisabled="allDisabled"
                         />
-                        <connect-or-extra :item="item" />
+                        <connect-or-extra v-if="item.connect || item.extra" :item="item" />
                     </el-form-item>
                     <slot v-if="item.type === 'radio'  && item.appendSlot" name="appendradio"></slot>
                     <el-form-item
@@ -275,7 +275,7 @@
                         :label-width="item.labelWidth || labelWidth"
                     >
                         <qrcode :url="item.url" :id="item.id" :qrState="item.qrState"></qrcode>
-                        <connect-or-extra :item="item" />
+                        <connect-or-extra v-if="item.connect || item.extra" :item="item" />
                     </el-form-item>
                     <slot v-if="item.type === 'qrcode' && item.appendSlot" name="appendqrcode"></slot>
                     <el-form-item
@@ -294,7 +294,7 @@
                             :form-data="formData"
                             :input-style="item.inputStyle"
                         ></Map>
-                        <connect-or-extra :item="item" />
+                        <connect-or-extra v-if="item.connect || item.extra" :item="item" />
                     </el-form-item>
                     <slot v-if="item.type === 'map' && item.appendSlot" name="appendmap"></slot>
                     <el-form-item
@@ -317,7 +317,7 @@
                                 {{ value.value || value.itemValue || value.paramValue || value.name }}
                             </el-tag>
                         </div>
-                        <connect-or-extra :item="item" />
+                        <connect-or-extra v-if="item.connect || item.extra" :item="item" />
                     </el-form-item>
                     <slot v-if="item.type === 'tag' && item.appendSlot" name="appendtag"></slot>
                     <el-form-item
@@ -343,7 +343,7 @@
                             :uploadUrl="item.uploadUrl"
                             :uploadAK="item.uploadAK"
                         ></Upload>
-                        <connect-or-extra :item="item" />
+                        <connect-or-extra v-if="item.connect || item.extra" :item="item" />
                     </el-form-item>
                     <slot v-if="item.type === 'videoOrPicture' && item.appendSlot" name="appendvideoOrPicture"></slot>
                     <el-form-item
@@ -364,7 +364,7 @@
                             :from-type="'form'"
                             :unique-select="!!item.uniqueSelect"
                         ></table-item>
-                        <connect-or-extra :item="item" />
+                        <connect-or-extra v-if="item.connect || item.extra" :item="item" />
                     </el-form-item>
                     <slot v-if="item.type === 'table' && item.appendSlot" name="appendtable"></slot>
                 </el-col>
@@ -793,6 +793,9 @@ export default {
         padding: 0;
         resize: none;
     }
+    .el-input.el-input--medium.el-input--suffix {
+        width: 100%;
+    }
     .el-input.is-disabled .el-input__suffix {
         display: none;
     }
@@ -870,12 +873,15 @@ export default {
         background: white;
         margin-bottom: 0;
         width: 100%;
+        #bottomBtnOrForm {
+            padding-right: 64px;
+        }
     }
     .el-input-number.is-controls-right .el-input__inner {
         text-align: left;
     }
     .el-form-item--medium .el-form-item__label {
-        color: #aaa;
+        color: #606266;
     }
     .tagList {
         .el-tag {

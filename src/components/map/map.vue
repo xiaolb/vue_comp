@@ -1,7 +1,8 @@
 <template>
-    <div>
+    <div id='topsmap'>
         <el-input
             :id="ids.suggestId"
+            class="mapInput"
             ref="mapInput"
             v-model="formData[bindData]"
             :disabled="disabled"
@@ -61,7 +62,7 @@ export default {
             },
             style: {
                 'min-width': '500px',
-                'max-width': '800px',
+                'max-width': '100%',
                 height: '500px',
                 'margin-top': '16px',
             },
@@ -169,10 +170,9 @@ export default {
             map.addOverlay(marker);
             map.centerAndZoom(centPoint, 15); // 初始化地图，设置中心点坐标和地图级别
 
-            currentMap = map;
-
             !this.disabled && this.searchMap(map);
 
+            currentMap = map;
             currentMap.addEventListener('click', e => this.clickMap(e));
         },
         clickMap(e) {
@@ -198,3 +198,19 @@ export default {
     },
 };
 </script>
+
+<style lang="scss">
+#topsmap {
+    position: relative;
+    .mapInput {
+        position: absolute;
+        top: 9px;
+        right: 8px;
+        z-index: 10;
+    }
+}
+/* 百度地图提示被覆盖的问题 */
+.tangram-suggestion-main {
+    z-index: 999999;
+}
+</style>

@@ -19,6 +19,7 @@
             :showHeader="true"
             :uniqueSelect="true"
             :mergeSpan="mergeSpan"
+            :tableButtons="tableButtons"
         ></list-page>
         <modal-form
             v-if="searchVisible" 
@@ -235,6 +236,10 @@ export default {
                     },
                 },
             ],
+            tableButtons: [
+                { name: '上线', hasCircle: true, type: 'default', btnType: 'btn', onclick: () => {} },
+                { name: '下线', type: 'danger', btnType: 'btn', onclick: () => {} },
+            ],
             restButtons: [
                 { name: '上线', type: 'primary', btnType: 'btn', onclick: () => {} },
                 { name: '下线', type: 'danger', btnType: 'btn', onclick: () => {} },
@@ -259,6 +264,7 @@ export default {
             filterBtn: [
                 {
                     name: '筛选',
+                    hasCircle: true,
                     type: 'default',
                     onclick: () => {
                         this.searchVisible = true;

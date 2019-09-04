@@ -1,7 +1,7 @@
 {
     "name": "@ui/vue_comp",
     "description": "关于vue的后台管理组件",
-    "version": "1.0.23",
+    "version": "1.0.26",
     "author": "mapleleaf",
     "license": "MIT",
     "private": false,

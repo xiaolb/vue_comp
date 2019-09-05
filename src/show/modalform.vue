@@ -39,19 +39,21 @@
                 :bottom-fixed="true"
             >
             </Form> -->
-            <MapItem></MapItem>
-            <div slot="footer" class="modalFooter">
+            <!-- <MapItem></MapItem> -->
+            <tableTest></tableTest>
+            <!-- <div slot="footer" class="modalFooter">
                 <el-button type="primary" @click="()=>{}">确定</el-button>
                 <el-button @click="()=>{}">取 消</el-button>
-            </div>
+            </div> -->
         </modal-form>
     </div>
 </template>
 <script>
 import MapItem from './map';
+import tableTest from './table';
 export default {
     name: 'modalFormTest',
-    components: { MapItem },
+    components: { MapItem, tableTest },
     data() {
         return {
             // modalForm 字段

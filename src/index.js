@@ -31,9 +31,13 @@ const install = function(Vue, opts = {}) {
 
 /* 支持使用标签的方式引入 */
 if (typeof window !== 'undefined' && window.Vue) {
-    console.log(22222);
     install(window.Vue);
 }
+
+window.onresize = () => {
+    window.tableChangeHeight && window.tableChangeHeight();
+    window.getModalScrollHeight && window.getModalScrollHeight();
+};
 
 export default {
     install,

@@ -37,10 +37,12 @@
         height: auto;
     }
     ._dialogFooter {
+        position: absolute;
+        z-index: 4;
+        bottom: 0;
         height: auto;
         width: 100%;
-        position: absolute;
-        bottom: 0;
+        background: #ffffff;
     }
     @keyframes dialog-fade-in {
         0% {
@@ -273,6 +275,7 @@ export default {
     },
     mounted() {
         this.getscrollHeight();
+        window.getModalScrollHeight = this.getscrollHeight;
     },
     created() {
         console.log('-------------------dialog弹窗-------------------------');

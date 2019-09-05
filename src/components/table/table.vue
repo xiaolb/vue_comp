@@ -171,9 +171,7 @@ export default {
         },
     },
     mounted() {
-        window.onresize = () => {
-            this.changeHeight();
-        };
+        window.tableChangeHeight = this.changeHeight;
     },
     updated() {
         this.changeHeight();
@@ -184,19 +182,16 @@ export default {
                 return;
             }
             setTimeout(() => {
-                if (!this.searchParams.count) {
-                    this.height = 10000;
-                    return;
-                }
                 const data_table = document.querySelector('.data_table');
+                const pageHeight = this.searchParams.count ? 0 : 44;
                 if (!data_table) {
                     return;
                 }
                 const tableHeight = data_table.offsetHeight;
                 if (this.fromType === 'other') {
-                    this.height = window.innerHeight - data_table.offsetTop - 90;
+                    this.height = window.innerHeight - data_table.offsetTop - 70 + pageHeight;
                 } else if (this.fromType === 'listPage') {
-                    this.height = tableHeight - 56;
+                    this.height = tableHeight - 56 + pageHeight;
                 } else if (this.fromType === 'form') {
                     this.height = 10000;
                 }

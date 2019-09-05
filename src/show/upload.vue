@@ -26,7 +26,7 @@ export default {
                 maxi: 11,
                 hint: '默认图片',
                 hint: ['默认图片1', '默认图片2'],
-                name: 'video',
+                name: 'picture',
                 size: 10,
                 isFacePic: true,
                 isWrite: true,

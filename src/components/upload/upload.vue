@@ -24,10 +24,10 @@
                 <span v-else class="selfIcon">
                     <i class="el-icon-plus avatar-uploader-icon"></i>
                 </span>
-                <div v-if="isPicture" class="scanPic">
-                    <img class="sendPic" src="https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/f137a9562d774b09938ec3360b551d04.jpg" alt="">
+                <div v-if="isPicture && scanPics.length > 0" class="scanPic">
+                    <img class="sendPic" :src="scanPics[0]" alt="">
                 </div>
-                <img v-if="isPicture" class="sendbigPic" src="https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/f137a9562d774b09938ec3360b551d04.jpg" alt="">
+                <img v-if="isPicture  && scanPics.length > 0" class="sendbigPic" :src="scanPics[1]" alt="">
             </el-upload>
             <template v-if="formData[bindName] && (max !== 1 || disabled)">
 
@@ -132,6 +132,11 @@ export default {
             required: true,
             type: String,
             default: '',
+        },
+        // 手机传图
+        scanPics: {
+            type: Array,
+            default: () => [],
         },
     },
     data() {
@@ -423,7 +428,6 @@ export default {
                 opacity: 0;
                 transition: opacity 0.3s;
                 span {
-                    height: 20px;
                     font-size: 14px;
                     color: white;
                     cursor: pointer;

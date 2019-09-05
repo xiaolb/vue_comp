@@ -4,7 +4,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 const NODE_ENV = process.env.NODE_ENV;
 function resolve(dir) {
     return path.join(__dirname, dir);
@@ -117,6 +116,7 @@ if (process.env.NODE_ENV === 'production') {
             filename: '[name].css',
         }),
         new CleanWebpackPlugin(),
+        // copy custom static assets
     ]);
 } else {
     module.exports.devtool = '#source-map';

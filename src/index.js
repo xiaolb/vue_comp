@@ -1,9 +1,9 @@
 let Element, Vue;
-require('@static/UE/ueditor.config.js');
-require('@static/UE/ueditor.all.js');
-require('@static/UE/lang/zh-cn/zh-cn.js');
-require('@static/UE/ueditor.parse.min.js');
 if ('development' === process.env.NODE_ENV) {
+    require('@static/UE/ueditor.config.js');
+    require('@static/UE/ueditor.all.js');
+    require('@static/UE/lang/zh-cn/zh-cn.js');
+    require('@static/UE/ueditor.parse.min.js');
     Vue = require('vue');
     Element = require('element-ui');
     require('element-ui/lib/theme-chalk/index.css');

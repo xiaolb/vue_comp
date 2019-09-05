@@ -14461,10 +14461,6 @@ UE.plugin.register('copy', function () {
 
     function initZeroClipboard() {
 
-        setTimeout(() => {
-            console.log(ZeroClipboard)
-        }, 5000)
-
         ZeroClipboard.config({
             debug: false,
             swfPath: me.options.UEDITOR_HOME_URL + 'third-party/zeroclipboard/ZeroClipboard.swf'

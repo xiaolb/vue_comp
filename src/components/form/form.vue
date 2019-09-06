@@ -533,7 +533,6 @@ export default {
                 switch: '请选择',
                 tag: '请选择',
             },
-            formInterval: null,
             refsForm: '',
         };
     },
@@ -552,9 +551,6 @@ export default {
     },
     created() {
         this.createRules();
-    },
-    destroyed() {
-        this.formInterval && window.clearInterval(this.formInterval);
     },
     methods: {
         createRules() {
@@ -643,7 +639,6 @@ export default {
                 el.parentNode.style.marginBottom = '0';
             }
         },
-
         twoDateStyle(inputStyle = {}, labelWidth) {
             if (inputStyle.width) {
                 return parseInt(inputStyle.width) + parseInt(labelWidth) + 'px';

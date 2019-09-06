@@ -80,6 +80,19 @@ module.exports = {
         minimizer: [
             new UglifyjsWebpackPlugin({
                 // exclude: /\/node_modules/,
+                // include: /\/src/,
+                uglifyOptions: {
+                    //删除注释
+                    output: {
+                        comments: false,
+                    },
+                    //删除console 和 debugger  删除警告
+                    warnings: false,
+                    compress: {
+                        drop_debugger: true,
+                        drop_console: true,
+                    },
+                },
             }),
             new OptimizeCssAssetsPlugin({}),
         ],

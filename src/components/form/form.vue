@@ -19,6 +19,7 @@
                         :prop="item.name"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
+                        :required="!!item.required"
                     >
                         <input-item 
                             :item="item" 
@@ -35,6 +36,7 @@
                         :prop="item.name"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
+                        :required="!!item.required"
                     >
                         <el-input-number
                             v-model="formData[item.name]"
@@ -55,6 +57,7 @@
                         :prop="item.name"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
+                        :required="!!item.required"
                     >
                         <Autocomplete
                             :item="item" 
@@ -71,6 +74,7 @@
                         :prop="item.name"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
+                        :required="!!item.required"
                     >
                         <Cascader
                             :item="item" 
@@ -87,6 +91,7 @@
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
+                        :required="!!item.required"
                     >
                         <select-item
                             :item="item" 
@@ -100,13 +105,14 @@
                     <el-form-item
                         v-else-if="item.type === 'twoDate' && !item.hidden"
                         :prop="item.name"
-                        :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
+                        :class="{ twoDate: item.required, errorHidden: true, rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
                         :style="{ 
                             ...item.inputStyle,
                             width: twoDateStyle(item.inputStyle, item.labelWidth || labelWidth)
                         }"
+                        :required="!!item.required"
                     >
                         <two-date
                             :item="item" 
@@ -122,6 +128,7 @@
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
+                        :required="!!item.required"
                     >
                         <el-date-picker
                             v-model="formData[item.name]"
@@ -143,6 +150,7 @@
                         :prop="item.name"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
+                        :required="!!item.required"
                     >
                         <el-input
                             v-model="formData[item.name]"
@@ -163,6 +171,7 @@
                         :prop="item.name"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
+                        :required="!!item.required"
                     >
                         <el-switch
                             v-model="formData[item.name]"
@@ -180,6 +189,7 @@
                         :prop="item.name"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
+                        :required="!!item.required"
                     >
                         <UE 
                             v-if="!item.disabled && !allDisabled" 
@@ -200,6 +210,7 @@
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
+                        :required="!!item.required"
                     >
                         <el-checkbox-group
                             v-model="formData[item.name]"
@@ -223,6 +234,7 @@
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
+                        :required="!!item.required"
                     >
                         <radio-item
                             :item="item" 
@@ -284,6 +296,7 @@
                         :prop="item.name"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
+                        :required="!!item.required"
                     >
                         <Map
                             ref="map"
@@ -303,6 +316,7 @@
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
+                        :required="!!item.required"
                     >
                         <div class="tagList">
                             <el-tag
@@ -326,6 +340,7 @@
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
+                        :required="!!item.required"
                     >
                         <Upload
                             ref="videoOrPicture"
@@ -352,6 +367,7 @@
                         :prop="item.name"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
+                        :required="!!item.required"
                     >
                         <table-item
                             v-if="!item.btnFun || (item.btnFun && item.tableData && item.tableData.length > 0)"
@@ -399,8 +415,6 @@ import Upload from '@/components/upload/';
 import TableItem from '@/components/table/';
 import qrcode from '@/components/qrcode/';
 import { formRules } from './rules';
-
-import { debounceWork } from '@/components/utils';
 
 import connectOrExtra from './connectOrExtra.vue';
 import InputItem from './input.vue';
@@ -534,16 +548,16 @@ export default {
                 cascader: '请选择',
                 switch: '请选择',
                 tag: '请选择',
+                table: '请选择',
             },
-            formInterval: null,
             refsForm: '',
+            requiredCount: [], // 必填项的个数
         };
     },
     mounted() {
         this.allDisabled && this.isDisabledStyle();
-        this.formInterval = setInterval(() => {
-            this.bottomFixedWidth();
-        }, 500);
+        this.bottomFixedWidth();
+        window.bottomFixedWidth = this.bottomFixedWidth;
         let timer = setInterval(() => {
             this.refsForm = this.$refs['form'];
             if (this.refsForm) {
@@ -551,55 +565,46 @@ export default {
             }
         }, 500);
     },
+    watch: {
+        formItems: {
+            deep: true,
+            handler: function(value) {
+                const curReqCount = value.filter(item => item.required);
+                if (curReqCount.length !== this.requiredCount.length) {
+                    this.requiredCount = curReqCount;
+                    this.createRules();
+                }
+            },
+        },
+    },
     updated() {
         this.allDisabled && this.isDisabledStyle();
     },
     created() {
         this.createRules();
     },
-    destroyed() {
-        this.formInterval && window.clearInterval(this.formInterval);
-    },
     methods: {
         createRules() {
             const { formType, formItems } = this;
+            this.requiredCount = formItems.filter(item => item.required);
             formItems.map(item => {
-                let temp = [];
-                if (item.required) {
-                    temp.push({
-                        required: true,
-                        message: item.placehold || `${formType[item.type]}${item.label}`,
-                        trigger: 'change',
-                    });
-                }
-                if (item.ruleType) {
-                    temp.push({
-                        ...formRules[item.ruleType],
-                    });
-                }
-                if (item.max) {
-                    if (item.min) {
-                        temp.push({
-                            min: item.min,
-                            max: item.max,
-                            message: `长度在 ${item.min} 到 ${item.max} 个字符`,
-                            trigger: 'change',
-                        });
-                    } else {
-                        temp.push({
-                            max: item.max,
-                            message: `最多输入${item.max}个字符`,
-                            trigger: 'change',
-                        });
+                const validator = (rule, value, callback) => {
+                    if ((!value || (value && value.length === 0)) && item.required) {
+                        callback(new Error(item.placehold || `${formType[item.type]}${item.label}`));
+                    } else if (typeof value === 'string') {
+                        if (value.length > item.max) {
+                            callback(new Error(`最多输入${item.max}个字符`));
+                        } else if (value.length < item.min) {
+                            callback(new Error(`最少输入${item.min}个字符`));
+                        }
                     }
-                } else if (item.min) {
-                    temp.push({
-                        min: item.min,
-                        message: `最少输入${item.min}个字符`,
-                        trigger: 'change',
-                    });
-                }
-
+                };
+                let temp = [];
+                temp.push({
+                    validator: validator,
+                    message: item.placehold || `${formType[item.type]}${item.label}`,
+                    trigger: ['blur', 'change'],
+                });
                 if (temp.length) {
                     if (item.type === 'twoDate') {
                         this.rules[`begin${item.name}`] = temp;
@@ -609,9 +614,9 @@ export default {
                     }
                 }
             });
+            this.rules = { ...this.rules };
         },
         bottomFixedWidth() {
-            if (!debounceWork('btnReset', 1000)) return;
             let bottomFixedWidth = document.querySelector('.bottomFixed');
             let spider_form_data = document.querySelector('.spider_form_data');
             if (!bottomFixedWidth || !spider_form_data) return;
@@ -648,7 +653,6 @@ export default {
                 el.parentNode.style.marginBottom = '0';
             }
         },
-
         twoDateStyle(inputStyle = {}, labelWidth) {
             if (inputStyle.width) {
                 return parseInt(inputStyle.width) + parseInt(labelWidth) + 'px';
@@ -742,6 +746,9 @@ export default {
             margin-top: 0px;
         }
     }
+    .el-input-number--medium {
+        width: 100%;
+    }
     .el-input-number.el-input-number--medium.is-disabled {
         .el-input-number__decrease {
             display: none;
@@ -762,6 +769,22 @@ export default {
             flex-direction: column;
         }
     }
+    .twoDate {
+        label.el-form-item__label:before {
+            content: '*';
+            color: #f56c6c;
+            margin-right: 4px;
+        }
+    }
+    .errorHidden {
+        .el-form-item__error {
+            display: none;
+        }
+        .el-input__inner {
+            border: 1px solid #dcdfe6;
+        }
+    }
+
     .center {
         text-align: center;
     }

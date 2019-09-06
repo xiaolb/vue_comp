@@ -67,9 +67,11 @@ export default {
             allDisabled: false, // 表单是否禁止编辑
             formWidth: '1200px', // 表单的宽度
             flexleftOrCenter: 'left', // 表单位置 left/cente
-            bottomFixed: false, //按钮悬浮
+            bottomFixed: true, //按钮悬浮
+            required: true,
         };
     },
+    mounted() {},
     computed: {
         formItems() {
             let common = {
@@ -81,7 +83,7 @@ export default {
                 labelWidth: '140px', // 当前item的宽度，没有的话用form的labelWidth
                 disabled: false, // 是否不可编辑
                 placehold: '', // 提示语
-                required: true, // 是否必填
+                required: this.required, // 是否必填
                 inputStyle: {
                     // item的样式编写
                     // width: '460px',
@@ -147,6 +149,8 @@ export default {
                     name: 'test',
                     label: '22222',
                     type: 'input',
+                    max: 12,
+                    min: 6,
                     span: 6,
                     classList: {
                         ...common.classList,
@@ -533,7 +537,7 @@ export default {
                 labelWidth: '140px', // 当前item的宽度，没有的话用form的labelWidth
                 disabled: false, // 是否不可编辑
                 placehold: '', // 提示语
-                required: true, // 是否必填
+                // required: true, // 是否必填
                 inputStyle: {
                     // item的样式编写
                     width: '460px',

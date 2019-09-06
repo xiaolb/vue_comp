@@ -37,6 +37,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 window.onresize = () => {
     window.tableChangeHeight && window.tableChangeHeight();
     window.getModalScrollHeight && window.getModalScrollHeight();
+    window.bottomFixedWidth && window.bottomFixedWidth();
 };
 
 export default {

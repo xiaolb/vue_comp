@@ -64,7 +64,7 @@ export default {
                 'min-width': '500px',
                 'max-width': '100%',
                 height: '500px',
-                'margin-top': '16px',
+                // 'margin-top': '16px',
             },
         };
     },
@@ -202,6 +202,7 @@ export default {
 <style lang="scss">
 #topsmap {
     position: relative;
+    margin-top: 16px;
     .mapInput {
         position: absolute;
         top: 9px;

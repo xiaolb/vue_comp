@@ -57,7 +57,7 @@ export default {
                     },
                     disabled: false, // 是否禁止
                     type: 'danger', // 按钮类型
-                    validate: false, // 是否表单校验
+                    validate: true, // 是否表单校验
                     loading: true, // 是否要loading
                 },
             ], // 其他的自定义操作
@@ -68,7 +68,7 @@ export default {
             formWidth: '1200px', // 表单的宽度
             flexleftOrCenter: 'left', // 表单位置 left/cente
             bottomFixed: true, //按钮悬浮
-            required: true,
+            required: false,
         };
     },
     mounted() {},
@@ -128,6 +128,7 @@ export default {
                     name: 'checkboxs',
                     label: '复选框',
                     type: 'checkboxs',
+                    required: true,
 
                     span: 24,
 

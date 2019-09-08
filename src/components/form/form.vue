@@ -926,6 +926,12 @@ export default {
     .el-select {
         width: auto;
     }
+    .el-form-item__content {
+        .el-radio-group,
+        .el-switch {
+            align-items: flex-start;
+        }
+    }
 }
 .modelForm {
     width: 100%;

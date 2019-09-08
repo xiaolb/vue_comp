@@ -12,6 +12,7 @@
             :class="{ noData: !tableData.length }"
             :max-height="height"
             @selection-change="handleSelectionChange"
+            @filter-change="filteredChange"
         >
             <el-table-column
                 v-for="colItem of tableTitle"
@@ -28,6 +29,9 @@
                 :filters="colItem.filters" 
                 :filter-method="colItem.filterHandler"
                 :filter-placement="colItem.filterPlacement || 'bottom-end'"
+                :filter-multiple="colItem.filterMultiple"
+                :filtered-value="colItem.filteredValue"
+                :column-key="colItem.prop"
             >
                 <template v-if="colItem.mergeColHeader">
                     <el-table-column
@@ -43,6 +47,9 @@
                         :filters="colTwoItem.filters" 
                         :filter-method="colTwoItem.filterHandler"
                         :filter-placement="colTwoItem.filterPlacement || 'bottom-end'"
+                        :filter-multiple="colTwoItem.filterMultiple"
+                        :filtered-value="colTwoItem.filteredValue"
+                        :column-key="colTwoItem.prop"
                     >
                         <template v-if="colTwoItem.mergeColHeader">
                             <el-table-column
@@ -58,6 +65,9 @@
                                 :filters="colThreeItem.filters" 
                                 :filter-method="colThreeItem.filterHandler"
                                 :filter-placement="colThreeItem.filterPlacement || 'bottom-end'"
+                                :filter-multiple="colThreeItem.filterMultiple"
+                                :filtered-value="colThreeItem.filteredValue"
+                                :column-key="colThreeItem.prop"
                             >
                             </el-table-column>
                         </template>
@@ -65,9 +75,10 @@
                 </template>
             </el-table-column>
         </el-table>
-        <div v-if="searchParams.count" class="pagination">
-            <span class="currentPageCount">共 {{ searchParams.count }} 条&nbsp;&nbsp;当前显示 {{ currentPageCount }} 条&nbsp;</span>
+        <div v-if="searchParams.count || tableButtons.length > 0" class="pagination">
+            <span v-if="searchParams.count" class="currentPageCount">共 {{ searchParams.count }} 条&nbsp;&nbsp;当前显示 {{ currentPageCount }} 条&nbsp;</span>
             <el-pagination
+                v-if="searchParams.count" 
                 background
                 :current-page="searchParams.pageIndex"
                 :page-sizes="[10, 20, 50, 100]"
@@ -183,7 +194,7 @@ export default {
             }
             setTimeout(() => {
                 const data_table = document.querySelector('.data_table');
-                const pageHeight = this.searchParams.count ? 0 : 44;
+                const pageHeight = this.searchParams.count || this.tableButtons.length > 0 ? 0 : 44;
                 if (!data_table) {
                     return;
                 }
@@ -191,7 +202,7 @@ export default {
                 if (this.fromType === 'other') {
                     this.height = window.innerHeight - data_table.offsetTop - 70 + pageHeight;
                 } else if (this.fromType === 'listPage') {
-                    this.height = tableHeight - 56 + pageHeight;
+                    this.height = tableHeight - 70 + pageHeight;
                 } else if (this.fromType === 'form') {
                     this.height = 10000;
                 }
@@ -212,7 +223,16 @@ export default {
                         pageSize: val,
                     });
                     break;
+                case 'filtervalue':
+                    this.$emit('searchList', {
+                        ...this.searchParams,
+                        ...val,
+                    });
+                    break;
             }
+        },
+        filteredChange(a) {
+            this.search(a, 'filtervalue');
         },
         handleSizeChange(val) {
             this.search(val, 'size');

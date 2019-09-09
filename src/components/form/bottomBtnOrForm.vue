@@ -12,7 +12,7 @@
                     :size="searchFooterMar ? 'small' : 'medium'"
                     @click="
                         () => {
-                            validateFun(btn.onclick, btn.validate, btn.loading);
+                            validateFun(btn.onclick, btn.validate);
                         }
                     "
                     >{{ btn.name }}</el-button
@@ -89,18 +89,12 @@ export default {
     mounted() {},
     methods: {
         // button做表单的校验
-        validateFun(fun, validate, loading) {
+        validateFun(fun, validate) {
             if (!debounceWork('form', 500)) {
                 this.$message.warning('操作过于频繁');
                 return;
             }
             if (!validate) {
-                if (loading) {
-                    this.isLoading(true);
-                    setTimeout(() => {
-                        this.isLoading(false);
-                    }, 1000);
-                }
                 fun();
                 return;
             }
@@ -108,10 +102,6 @@ export default {
             this.refsForm.validate((valid, obj) => {
                 if (this.validateUeOrvideoOrPicture(valid, obj)) {
                     console.log('validateFunform表单校验', valid, obj, this.formData);
-                    this.isLoading(true);
-                    setTimeout(() => {
-                        this.isLoading(false);
-                    }, 1000);
                     fun();
                 }
             });
@@ -125,17 +115,13 @@ export default {
             this.refsForm.validate((valid, obj) => {
                 if (this.validateUeOrvideoOrPicture(valid, obj)) {
                     console.log('onSubmitform表单校验', valid, obj, this.formData);
-                    this.isLoading(true);
-                    setTimeout(() => {
-                        this.isLoading(false);
-                    }, 1000);
                     this.$emit('save', type);
                 }
             });
         },
         // 校验ue和地图
         validateUeOrvideoOrPicture(valid, obj) {
-            const { ue, videoOrPicture } = this.$refs;
+            const { ue, videoOrPicture } = this.refsForm;
             if (ue) {
                 ue.map(item => {
                     this.formData[item.$parent.prop] = item.getUEContent();
@@ -170,18 +156,6 @@ export default {
                 );
             } else {
                 window.history.back();
-            }
-        },
-        isLoading(isLoad = false) {
-            if (isLoad) {
-                window.form_loading = this.$loading({
-                    lock: true,
-                    text: 'Loading...',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)',
-                });
-            } else {
-                window.form_loading.close();
             }
         },
     },

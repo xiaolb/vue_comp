@@ -371,6 +371,7 @@
                 <el-col v-if="buttons.length > 0 || cancelBtn || saveBtn" :span="searchSpan">
                      <el-form-item :label-width="searchSpan !== 24 ? '0px' : labelWidth" :class="{ bottomFixed: bottomFixed }" :style="{marginBottom: 0}">
                         <bottomBtnOrForm 
+                            ref="bottomBtnOrForm"
                             v-if="saveBtn || cancelBtn || buttons.length > 0"
                             :formData="formData" 
                             :formType="formType"

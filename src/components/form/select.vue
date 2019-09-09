@@ -12,7 +12,7 @@
         :placeholder="item.disabled || allDisabled ? '' : item.placehold || formType[item.type] + item.label"
         :style="item.inputStyle || {}"
         :filter-method="item.filterSearch || function() {}"
-        
+
         @change="a => (item.selectFun && item.selectFun(a)) || function() {}"
     >
         <el-option

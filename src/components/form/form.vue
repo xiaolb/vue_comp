@@ -20,9 +20,9 @@
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
                     >
-                        <input-item 
-                            :item="item" 
-                            :formData="formData" 
+                        <input-item
+                            :item="item"
+                            :formData="formData"
                             :formType="formType"
                             :allDisabled="allDisabled"
                         />
@@ -57,8 +57,8 @@
                         :label-width="item.labelWidth || labelWidth"
                     >
                         <Autocomplete
-                            :item="item" 
-                            :formData="formData" 
+                            :item="item"
+                            :formData="formData"
                             :formType="formType"
                             :allDisabled="allDisabled"
                         />
@@ -73,8 +73,8 @@
                         :label-width="item.labelWidth || labelWidth"
                     >
                         <Cascader
-                            :item="item" 
-                            :formData="formData" 
+                            :item="item"
+                            :formData="formData"
                             :formType="formType"
                             :allDisabled="allDisabled"
                         />
@@ -89,8 +89,8 @@
                         :label-width="item.labelWidth || labelWidth"
                     >
                         <select-item
-                            :item="item" 
-                            :formData="formData" 
+                            :item="item"
+                            :formData="formData"
                             :formType="formType"
                             :allDisabled="allDisabled"
                         />
@@ -103,14 +103,14 @@
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
-                        :style="{ 
+                        :style="{
                             ...item.inputStyle,
                             width: twoDateStyle(item.inputStyle, item.labelWidth || labelWidth)
                         }"
                     >
                         <two-date
-                            :item="item" 
-                            :formData="formData" 
+                            :item="item"
+                            :formData="formData"
                             :formType="formType"
                             :allDisabled="allDisabled"
                         />
@@ -181,12 +181,12 @@
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
                     >
-                        <UE 
-                            v-if="!item.disabled && !allDisabled" 
-                            id="ue2" 
-                            ref="ue" 
-                            :form-data="formData" 
-                            :default-msg="formData[item.name]" 
+                        <UE
+                            v-if="!item.disabled && !allDisabled"
+                            id="ue2"
+                            ref="ue"
+                            :form-data="formData"
+                            :default-msg="formData[item.name]"
                             :uploadUrl="item.uploadUrl"
                             :uploadAK="item.uploadAK"
                         ></UE>
@@ -225,8 +225,8 @@
                         :label-width="item.labelWidth || labelWidth"
                     >
                         <radio-item
-                            :item="item" 
-                            :formData="formData" 
+                            :item="item"
+                            :formData="formData"
                             :formType="formType"
                             :allDisabled="allDisabled"
                         />
@@ -370,9 +370,9 @@
                 </el-col>
                 <el-col v-if="buttons.length > 0 || cancelBtn || saveBtn" :span="searchSpan">
                      <el-form-item :label-width="searchSpan !== 24 ? '0px' : labelWidth" :class="{ bottomFixed: bottomFixed }" :style="{marginBottom: 0}">
-                        <bottomBtnOrForm 
+                        <bottomBtnOrForm
                             v-if="saveBtn || cancelBtn || buttons.length > 0"
-                            :formData="formData" 
+                            :formData="formData"
                             :formType="formType"
                             :allDisabled="allDisabled"
                             :saveBtn="saveBtn"

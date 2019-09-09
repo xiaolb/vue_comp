@@ -141,6 +141,7 @@ export default {
         height: auto;
     }
     .listPage_table {
+        padding-right: 4px;
         flex-grow: 1;
         overflow: hidden;
     }

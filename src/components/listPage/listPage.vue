@@ -10,6 +10,7 @@
             :table-state="tableState"
             :title="title"
             :form-width="formWidth"
+            :showText="showText"
         ></search-item>
         <table-item
             ref="tableSelect"
@@ -125,6 +126,11 @@ export default {
         tableButtons: {
             type: Array,
             default: () => [],
+        },
+        // disabled显示文本
+        showText: {
+            type: Boolean,
+            default: false,
         },
     },
 };

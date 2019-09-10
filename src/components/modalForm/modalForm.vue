@@ -75,13 +75,6 @@
     }
 }
 
-// .el_dialog_myself {
-//     .bottomFixed {
-//         margin-left: -16px;
-//         padding-left: 16px;
-//     }
-// }
-
 .el-dialog__header {
     display: flex;
     font-size: 12px;
@@ -110,6 +103,7 @@
         // margin-left: 100px;
         z-index: 2;
         position: relative;
+        box-shadow: 2px 0px 5px #ccc;
     }
 }
 .isFlagSearch {
@@ -169,13 +163,18 @@
                 :buttons="modalBtns"
                 :from-modal-solid="nobtn"
                 :annotation="annotation"
+                :showText="showText"
                 :bottom-fixed="bottomFixed"
             ></form-item>
         </div>
         <div class="_dialogFooter">
             <slot name="footer"></slot>
         </div>
-        <div v-if="!modalBtns.length && !nobtn && !allDisabled" slot="footer" class="dialog-footer" :style="{ marginLeft: labelWidth || '100px' }">
+        <div 
+            v-if="!modalBtns.length && !nobtn && !allDisabled" 
+            slot="footer" class="dialog-footer" 
+            :style="{ marginLeft: bottomCenter === 'left' ? labelWidth || '100px' : 0, textAlign: bottomCenter}"
+        >
             <el-button type="primary" @click="saveDialog">{{ saveDialogText }}</el-button>
             <el-button @click="onCancel">取 消</el-button>
         </div>
@@ -260,6 +259,16 @@ export default {
         },
         // 按钮悬浮
         bottomFixed: {
+            type: Boolean,
+            default: false,
+        },
+        // 底部按钮居中 默认居左
+        bottomCenter: {
+            type: String,
+            default: 'left',
+        },
+        // disabled显示文本
+        showText: {
             type: Boolean,
             default: false,
         },

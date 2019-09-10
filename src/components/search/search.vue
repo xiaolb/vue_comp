@@ -86,6 +86,7 @@
                         :form-width="formWidth"
                         :buttons="filterBtn"
                         :search-span="searchSpan"
+                        :showText="showText"
                     ></form-item>
                 </div>
             </div>
@@ -137,6 +138,11 @@ export default {
         formWidth: {
             type: String,
             default: '',
+        },
+        // disabled显示文本
+        showText: {
+            type: Boolean,
+            default: false,
         },
     },
     data() {

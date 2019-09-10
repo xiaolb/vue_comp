@@ -14,6 +14,7 @@
             :uploadUrl="item.uploadUrl"
             :uploadAK="item.uploadAK"
             :disabled="item.disabled"
+            :scanPics="item.scanPics"
         ></upload-item>
     </div>
 </template>
@@ -33,6 +34,10 @@ export default {
                 disabled: false,
                 uploadUrl: 'http://bigdata-api.apitops.com/api/v1/common/upload/files',
                 uploadAK: '31c5df4c-054c-40a9-98fc-99e0fea40ef3',
+                scanPics: [
+                    'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/f137a9562d774b09938ec3360b551d04.jpg',
+                    'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/f137a9562d774b09938ec3360b551d04.jpg',
+                ],
                 isWriteFun: () => {
                     console.log('写入图片');
                 },

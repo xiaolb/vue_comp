@@ -90,12 +90,13 @@ export default {
             },
             tableData: restureObj.tableData.items.slice(0, 20),
             tableTitle: [
-                { prop: 'num', fixed: 'left', type: 'selection', width: '35' },
+                { prop: 'num', fixed: 'left', type: 'selection', width: '40' },
                 { prop: 'id', label: 'ID', width: 80 },
                 {
                     prop: 'name',
                     label: '楼盘名称',
                     width: 120,
+                    filters: [{ text: '别墅', value: 'A10' }, { text: '住宅', value: '1' }],
                     render: row => {
                         return <a onClick={() => {}}>{row.name}</a>;
                     },
@@ -104,14 +105,7 @@ export default {
                 {
                     prop: 'villageName',
                     label: '所属小区',
-                    filters: [{ text: '别墅', value: '别墅' }, { text: '住宅', value: '住宅' }],
-                    // 表头过滤刷选函数
-                    filterHandler: (value, row, column) => {
-                        if (debounceWork('form', 500)) {
-                            console.log(column['property']);
-                        }
-                        return true;
-                    },
+                    filters: [{ text: '别墅', value: 'A0' }, { text: '住宅', value: '住宅' }],
                     width: 120,
                     render: row => {
                         return <a onClick={() => {}}>{row.villageName}</a>;

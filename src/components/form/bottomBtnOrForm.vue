@@ -24,12 +24,12 @@
             v-if="hasFormItemsBtn"
             :form-items="formItemsBtn"
             :form-data="formData"
+            :showText="true"
         ></Form>
     </div>
 </template>
 <script>
 import { flatten, isEmptyObject, debounceWork } from '@/components/utils';
-import { setInterval, clearInterval } from 'timers';
 
 export default {
     name: 'bottomBtnOrForm',

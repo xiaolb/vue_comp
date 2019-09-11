@@ -248,7 +248,7 @@
                             </header>
                             <a v-if="item.btnTitle || item.btnDescribe" class="cut_handle">
                                 {{ item.btnDescribe }}
-                                <span v-if="item.btnTitle" @click="item.btnFuntion || function() {}">{{ item.btnTitle }}</span>
+                                <span v-if="item.btnTitle" @click="() => item.btnFuntion() || function() {}">{{ item.btnTitle }}</span>
                             </a>
                         </div>
                     </el-form-item>

@@ -573,6 +573,14 @@ export default {
                         trigger: 'change',
                     });
                 }
+                if (item.pattern) {
+                    let params = {
+                        pattern: item.pattern,
+                        message: item.message,
+                        trigger: ['blur', 'change'],
+                    };
+                    temp.push(params);
+                }
                 if (item.ruleType) {
                     temp.push({
                         ...formRules[item.ruleType],

@@ -151,7 +151,9 @@ export default {
                     label: '22222',
                     type: 'input',
                     max: 12,
-                    min: 6,
+                    pattern: /^-?[1-9]\d*$/,
+                    message: 'nihao',
+                    // min: 6,
                     span: 6,
                     classList: {
                         ...common.classList,

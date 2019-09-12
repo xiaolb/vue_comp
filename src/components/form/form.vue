@@ -1,6 +1,6 @@
 <template>
     <div
-        :class="{ spider_form_data: true, searchFlag: searchFooterMar,  disabledStyle: allDisabled, modelForm: modelForm }"
+        :class="{ spider_form_data: true, searchFlag: searchFooterMar, showText:showText, disabledStyle: allDisabled, modelForm: modelForm }"
         :style="{ width: !modelForm ? formWidth || 'auto' : '' }"
     >
         <div :class="{ flexLeftOrCenter: flexleftOrCenter === 'center' }">
@@ -21,6 +21,7 @@
                         :label-width="item.labelWidth || labelWidth"
                     >
                         <input-item
+                            :inputType="'input'"
                             :item="item"
                             :formData="formData"
                             :formType="formType"
@@ -100,7 +101,7 @@
                     <el-form-item
                         v-else-if="item.type === 'twoDate' && !item.hidden"
                         :prop="item.name"
-                        :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
+                        :class="{ twoDate: item.required, errorHidden: true, rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
                         :style="{
@@ -149,9 +150,11 @@
                             type="textarea"
                             :placeholder="item.disabled || allDisabled ? '' : item.placehold || formType[item.type] + item.label"
                             :disabled="item.disabled"
+                            :clearable="item.clearable"
                             :maxlength="item.maxLength"
                             :minlength="item.minLength"
                             :style="item.inputStyle || {}"
+                            :resize="item.resize"
                             :autosize="item.autosize || (item.disabled || allDisabled ? { minRows: 1, maxRows: 10 } : { minRows: 2, maxRows: 10 })"
                         ></el-input>
                         <connect-or-extra v-if="item.connect || item.extra" :item="item" />
@@ -371,6 +374,7 @@
                 <el-col v-if="buttons.length > 0 || cancelBtn || saveBtn" :span="searchSpan">
                      <el-form-item :label-width="searchSpan !== 24 ? '0px' : labelWidth" :class="{ bottomFixed: bottomFixed }" :style="{marginBottom: 0}">
                         <bottomBtnOrForm
+                            ref="bottomBtnOrForm"
                             v-if="saveBtn || cancelBtn || buttons.length > 0"
                             :formData="formData"
                             :formType="formType"
@@ -399,8 +403,6 @@ import Upload from '@/components/upload/';
 import TableItem from '@/components/table/';
 import qrcode from '@/components/qrcode/';
 import { formRules } from './rules';
-
-import { debounceWork } from '@/components/utils';
 
 import connectOrExtra from './connectOrExtra.vue';
 import InputItem from './input.vue';
@@ -512,6 +514,11 @@ export default {
             type: Boolean,
             default: false,
         },
+        // disabled显示文本
+        showText: {
+            type: Boolean,
+            default: false,
+        },
     },
     data() {
         return {
@@ -535,15 +542,12 @@ export default {
                 switch: '请选择',
                 tag: '请选择',
             },
-            formInterval: null,
             refsForm: '',
         };
     },
     mounted() {
         this.allDisabled && this.isDisabledStyle();
-        this.formInterval = setInterval(() => {
-            this.bottomFixedWidth();
-        }, 500);
+        window.bottomFixedWidth = this.bottomFixedWidth;
         let timer = setInterval(() => {
             this.refsForm = this.$refs['form'];
             if (this.refsForm) {
@@ -556,9 +560,6 @@ export default {
     },
     created() {
         this.createRules();
-    },
-    destroyed() {
-        this.formInterval && window.clearInterval(this.formInterval);
     },
     methods: {
         createRules() {
@@ -611,7 +612,6 @@ export default {
             });
         },
         bottomFixedWidth() {
-            if (!debounceWork('btnReset', 1000)) return;
             let bottomFixedWidth = document.querySelector('.bottomFixed');
             let spider_form_data = document.querySelector('.spider_form_data');
             if (!bottomFixedWidth || !spider_form_data) return;
@@ -648,7 +648,6 @@ export default {
                 el.parentNode.style.marginBottom = '0';
             }
         },
-
         twoDateStyle(inputStyle = {}, labelWidth) {
             if (inputStyle.width) {
                 return parseInt(inputStyle.width) + parseInt(labelWidth) + 'px';
@@ -682,6 +681,13 @@ export default {
     // input suffix
     .el-input__suffix {
         right: 6px;
+        .el-input__suffix-inner {
+            display: flex;
+            flex-direction: row-reverse;
+            height: 100%;
+            align-items: center;
+            pointer-events: all;
+        }
     }
     .el-date-editor.el-input {
         width: 100%;
@@ -742,14 +748,10 @@ export default {
             margin-top: 0px;
         }
     }
-    .el-input-number.el-input-number--medium.is-disabled {
-        .el-input-number__decrease {
-            display: none;
-        }
-        .el-input-number__increase {
-            display: none;
-        }
+    .el-input-number--medium {
+        width: 100%;
     }
+
     .mapPosition {
         width: 100%;
         .el-form-item__content {
@@ -762,63 +764,40 @@ export default {
             flex-direction: column;
         }
     }
+    .twoDate {
+        label.el-form-item__label:before {
+            content: '*';
+            color: #f56c6c;
+            margin-right: 4px;
+        }
+    }
+    .errorHidden {
+        .el-form-item__error {
+            display: none;
+        }
+        .el-input__inner {
+            border: 1px solid #dcdfe6;
+        }
+    }
+
     .center {
         text-align: center;
     }
     .el-input-group__append button.el-button {
         margin-left: -20px;
     }
-    .el-radio-button:focus:not(.is-focus):not(:active):not(.is-disabled) {
-        -webkit-box-shadow: none;
-        box-shadow: none;
-    }
-    .is-disabled {
-        color: #000;
-        .el-input-group__append {
-            display: none;
-        }
-    }
+
     .el-autocomplete {
         width: 100%;
     }
     .el-autocomplete-suggestion__wrap {
         max-height: 700px;
     }
-    .el-input.is-disabled .el-input__inner {
-        background-color: white;
-        font-size: 14px;
-        border: none;
-        color: black;
-        cursor: inherit;
-        padding: 0;
-        resize: none;
-    }
+
     .el-input.el-input--medium.el-input--suffix {
         width: 100%;
     }
-    .el-input.is-disabled .el-input__suffix {
-        display: none;
-    }
-    .el-date-editor.is-disabled .el-input__prefix {
-        display: none;
-    }
 
-    .el-checkbox + .el-checkbox.is-disabled {
-        margin-left: 16px;
-    }
-    .el-checkbox__input.is-disabled {
-        display: none;
-    }
-    .el-textarea.is-disabled .el-textarea__inner {
-        background-color: white;
-        font-size: 14px;
-        border: none;
-        color: black;
-        cursor: inherit;
-        resize: none; // 去掉textarea标签右下角的斜杠
-        line-height: 26px;
-        padding-left: 0;
-    }
     .el-form-item__content {
         display: flex;
         justify-content: flex-start;
@@ -895,6 +874,16 @@ export default {
     #tops_qrcode {
         margin: 12px 0;
     }
+    .el-table {
+        .el-table__empty-block {
+            flex-direction: row;
+            height: auto !important;
+        }
+        .el-table__empty-block:before {
+            content: '';
+            display: none;
+        }
+    }
 }
 .disabledStyle {
     .el-form {
@@ -953,5 +942,58 @@ button.el-button.el-button--default.el-button--small.restBtn {
 
 .el-message.el-message--error {
     z-index: 9999 !important;
+}
+
+.showText {
+    .el-input-number.el-input-number--medium.is-disabled {
+        .el-input-number__decrease {
+            display: none;
+        }
+        .el-input-number__increase {
+            display: none;
+        }
+    }
+    .el-radio-button:focus:not(.is-focus):not(:active):not(.is-disabled) {
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+    .is-disabled {
+        color: #000;
+        .el-input-group__append {
+            display: none;
+        }
+    }
+    .el-input.is-disabled .el-input__inner {
+        background-color: white;
+        font-size: 14px;
+        border: none;
+        color: black;
+        cursor: inherit;
+        padding: 0;
+        resize: none;
+    }
+    .el-input.is-disabled .el-input__suffix {
+        display: none;
+    }
+    .el-date-editor.is-disabled .el-input__prefix {
+        display: none;
+    }
+
+    .el-checkbox + .el-checkbox.is-disabled {
+        margin-left: 16px;
+    }
+    .el-checkbox__input.is-disabled {
+        display: none;
+    }
+    .el-textarea.is-disabled .el-textarea__inner {
+        background-color: white;
+        font-size: 14px;
+        border: none;
+        color: black;
+        cursor: inherit;
+        resize: none; // 去掉textarea标签右下角的斜杠
+        line-height: 26px;
+        padding-left: 0;
+    }
 }
 </style>

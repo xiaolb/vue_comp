@@ -37,10 +37,11 @@ export default {
 <style lang="scss" scoped>
 #topsQRCode {
     width: 140px;
-    border-radius: 4px;
-    border: 1px solid black;
     overflow: hidden;
     background: #fff;
+    border: 1px solid #e4e7ed;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+    border-radius: 4px;
     .qrcode {
         height: 140px;
         margin: 0;

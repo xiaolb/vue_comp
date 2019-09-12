@@ -1,6 +1,7 @@
 <template>
     <el-input
         v-model="formData[item.name]"
+        :type="inputType"
         :disabled="item.disabled"
         :placeholder="item.disabled || allDisabled ? '' : item.placehold || formType[item.type] + item.label"
         :style="item.inputStyle || {}"
@@ -35,6 +36,10 @@
 export default {
     name: 'InputItem',
     props: {
+        inputType: {
+            type: String,
+            required: true,
+        },
         item: {
             type: Object,
             required: true,

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="beginAndEnd">
         <el-col :span="11">
             <el-form-item :prop="'begin' + item.name">
                 <el-date-picker
@@ -55,3 +55,13 @@ export default {
     },
 };
 </script>
+<style lang="scss">
+.beginAndEnd {
+    .el-form-item__error {
+        display: block !important;
+    }
+    .el-form-item.is-error .el-input__inner {
+        border-color: #f56c6c;
+    }
+}
+</style>

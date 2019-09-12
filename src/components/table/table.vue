@@ -383,5 +383,20 @@ export default {
     .tableButton:nth-child(1) {
         margin-left: 38px;
     }
+    .el-table__empty-block {
+        flex-direction: column;
+        height: 300px !important;
+        .el-table__empty-text {
+            font-size: 18px;
+        }
+    }
+    .el-table__empty-block:before {
+        content: '';
+        display: block;
+        width: 120px;
+        height: 120px;
+        background: url('./ico_infonull@3x.png') no-repeat center center;
+        background-size: contain;
+    }
 }
 </style>

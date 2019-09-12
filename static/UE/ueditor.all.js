@@ -7078,7 +7078,8 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
                 setTimeout(function () {
                     me.body.contentEditable = true;
                 }, 100);
-                setInterval(function () {
+                let _myTimer = setInterval(function () {
+                    if(!me.body) return clearInterval(_myTimer)
                     me.body.style.height = me.iframe.offsetHeight - 20 + 'px'
                 }, 100)
             }
@@ -17482,7 +17483,7 @@ UE.plugins['autoheight'] = function () {
             if(lastScrollY === null){
                 lastScrollY = this.scrollY
             }else if(this.scrollY == 0 && lastScrollY != 0){
-                me.window.scrollTo(0,0);
+                me.window && me.window.scrollTo && me.window.scrollTo(0,0);
                 lastScrollY = null;
             }
         }
@@ -27902,7 +27903,7 @@ UE.ui = baidu.editor.ui = {};
                         var y = editor.window.scrollY,
                             x = editor.window.scrollX;
                         editor.body.focus();
-                        editor.window.scrollTo(x, y);
+                        editor.window.scrollTo && editor.window.scrollTo(x, y);
                     } else {
                         editor.focus();
                     }
@@ -28877,7 +28878,7 @@ UE.ui = baidu.editor.ui = {};
             function setCount(editor,ui) {
                 editor.setOpt({
                     wordCount:true,
-                    maximumWords:10000,
+                    maximumWords:20000,
                     wordCountMsg:editor.options.wordCountMsg || editor.getLang("wordCountMsg"),
                     wordOverFlowMsg:editor.options.wordOverFlowMsg || editor.getLang("wordOverFlowMsg")
                 });
@@ -29197,7 +29198,7 @@ UE.ui = baidu.editor.ui = {};
                     document.documentElement.style.overflow = 'hidden';
                     //修复，滚动条不收起的问题
 
-                    window.scrollTo(0,window.scrollY);
+                    window.scrollTo && window.scrollTo(0,window.scrollY);
                     this._bakCssText = this.getDom().style.cssText;
                     this._bakCssText1 = this.getDom('iframeholder').style.cssText;
                     editor.iframe.parentNode.style.width = '';

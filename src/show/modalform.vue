@@ -13,6 +13,7 @@
             :formData="searchParams"
             :search="true"
             :bottomFixed="false"
+            :modal="false"
         ></modal-form>
         <modal-form
             v-if="preVisible"    
@@ -21,6 +22,7 @@
             :visible="preVisible"
             :nobtn="true"
             @onCancel="onCancel"
+            
         >
             <div slot="header" class="modalHeader">
                 <h2>文章预览</h2>
@@ -106,7 +108,7 @@ export default {
     methods: {
         showModal() {
             this.searchVisible = true;
-            this.preVisible = true;
+            // this.preVisible = true;
         },
         // 取消弹窗
         onCancel() {

@@ -135,6 +135,7 @@
         :title="title"
         :visible.sync="visible"
         :center="false"
+        :modal="modal"
         :width="width"
         :close-on-click-modal="false"
         :close-on-press-escape="false"
@@ -269,6 +270,11 @@ export default {
         },
         // disabled显示文本
         showText: {
+            type: Boolean,
+            default: false,
+        },
+        // 是否需要蒙层
+        modal: {
             type: Boolean,
             default: false,
         },

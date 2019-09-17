@@ -395,7 +395,7 @@ export default {
         display: block;
         width: 120px;
         height: 120px;
-        background: url('./ico_infonull@3x.png') no-repeat center center;
+        background: url('http://top-static.oss-cn-hangzhou.aliyuncs.com/h5/common/images/ico_infonull@3x.png') no-repeat center center;
         background-size: contain;
     }
 }

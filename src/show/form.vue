@@ -118,17 +118,17 @@ export default {
                     span: 24,
                     btnTitle: '新增一个', // 操作字段
                     btnDescribe: '找不到我要的小区 ? , ', //操作字段前缀
-                    // btnFuntion: () => {
-                    //     // 操作函数
-                    //     console.log('操作按钮');
-                    // },
+                    btnFuntion: () => {
+                        // 操作函数
+                        console.log('操作按钮');
+                    },
                 },
                 {
                     ...common,
                     name: 'checkboxs',
                     label: '复选框',
                     type: 'checkboxs',
-                    required: true,
+                    // required: true,
 
                     span: 24,
 
@@ -151,7 +151,9 @@ export default {
                     label: '22222',
                     type: 'input',
                     max: 12,
-                    min: 6,
+                    pattern: /^-?[1-9]\d*$/,
+                    message: 'nihao',
+                    // min: 6,
                     span: 6,
                     classList: {
                         ...common.classList,

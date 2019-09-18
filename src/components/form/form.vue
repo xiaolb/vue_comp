@@ -118,6 +118,46 @@
                     </el-form-item>
                     <slot v-if="item.type === 'twoDate' && item.appendSlot" name="appendtwoDate"></slot>
                     <el-form-item
+                        v-else-if="item.type === 'twoTime' && !item.hidden"
+                        :prop="item.name"
+                        :class="{ twoDate: item.required, errorHidden: true, rowOrColumnInput: item.rowOrColumn, ...item.classList }"
+                        :label="item.label && `${item.label}：`"
+                        :label-width="item.labelWidth || labelWidth"
+                        :style="{
+                            ...item.inputStyle,
+                            width: twoDateStyle(item.inputStyle, item.labelWidth || labelWidth)
+                        }"
+                    >
+                        <two-time
+                            :item="item"
+                            :formData="formData"
+                            :formType="formType"
+                            :allDisabled="allDisabled"
+                        />
+                    </el-form-item>
+                    <slot v-if="item.type === 'twoTime' && item.appendSlot" name="appendtwoDate"></slot>
+                    <el-form-item
+                        v-else-if="item.type === 'time' && !item.hidden"
+                        :prop="item.name"
+                        :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
+                        :label="item.label && `${item.label}：`"
+                        :label-width="item.labelWidth || labelWidth"
+                    >
+                        <el-time-picker
+                            v-model="formData[item.name]"
+                            :type="item.dateType || 'time'"
+                            :format="item.format || 'HH:mm:ss'"
+                            :value-format="item.format || 'HH:mm:ss'"
+                            :placeholder="item.disabled || allDisabled ? '' : item.placehold || formType[item.type] + item.label"
+                            :start-placeholder="item.disabled || allDisabled ? '' : item.placehold || formType[item.type] + item.label"
+                            :end-placeholder="item.disabled || allDisabled ? '' : item.placehold || formType[item.type] + item.label"
+                            :disabled="item.disabled"
+                            :style="item.inputStyle || {}"
+                        ></el-time-picker>
+                        <connect-or-extra v-if="item.connect || item.extra" :item="item" />
+                    </el-form-item>
+                    <slot v-if="item.type === 'time' && item.appendSlot" name="appenddate"></slot>
+                    <el-form-item
                         v-else-if="item.type === 'date' && !item.hidden"
                         :prop="item.name"
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
@@ -410,6 +450,7 @@ import Autocomplete from './autocomplete.vue';
 import Cascader from './cascader.vue';
 import SelectItem from './select.vue';
 import TwoDate from './twoDate.vue';
+import TwoTime from './twoTime.vue';
 import RadioItem from './radio.vue';
 import bottomBtnOrForm from './bottomBtnOrForm.vue';
 import { constants } from 'crypto';
@@ -429,6 +470,7 @@ export default {
         Cascader,
         SelectItem,
         TwoDate,
+        TwoTime,
         RadioItem,
         bottomBtnOrForm,
     },
@@ -541,6 +583,8 @@ export default {
                 cascader: '请选择',
                 switch: '请选择',
                 tag: '请选择',
+                twoTime: '请选择',
+                time: '请选择',
             },
             refsForm: '',
         };
@@ -610,7 +654,7 @@ export default {
                 }
 
                 if (temp.length) {
-                    if (item.type === 'twoDate') {
+                    if (['twoDate', 'twoTime'].includes(item.type)) {
                         this.rules[`begin${item.name}`] = temp;
                         this.rules[`end${item.name}`] = temp;
                     } else {

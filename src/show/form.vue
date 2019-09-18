@@ -373,20 +373,35 @@ export default {
                 {
                     ...common,
                     name: 'twoDate', // 开始时间 begintwoDate， 结束时间 endtwoDate
-                    label: '两个时间',
+                    label: '两个日期',
                     type: 'twoDate',
-
                     dateType: 'month', // 类型 默认datetime
                     format: 'yyyy-MM-dd HH', // 格式 默认'yyyy-MM-dd HH:mm:ss'
                 },
                 {
                     ...common,
                     name: 'date', // 开始时间 begintwoDate， 结束时间 endtwoDate
-                    label: '一个时间',
+                    label: '一个日期',
                     type: 'date',
-
                     dateType: 'date', // 类型 默认datetime
                     format: 'yyyy-MM-dd HH', // 格式 默认'yyyy-MM-dd HH:mm:ss'
+                },
+                {
+                    ...common,
+                    name: 'twoTime', // 开始时间 begintwoDate， 结束时间 endtwoDate
+                    label: '两个时间',
+                    type: 'twoTime',
+                    required: true,
+                    dateType: 'time', // 类型 默认datetime
+                    format: 'HH:mm', // 格式 默认'yyyy-MM-dd HH:mm:ss'
+                },
+                {
+                    ...common,
+                    name: 'time', // 开始时间 begintwoDate， 结束时间 endtwoDate
+                    label: '一个时间',
+                    type: 'time',
+                    dateType: 'time', // 类型 默认time
+                    format: 'HH:mm', // 格式 默认'yyyy-MM-dd HH:mm:ss'
                 },
                 {
                     ...common,

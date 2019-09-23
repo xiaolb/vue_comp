@@ -601,6 +601,7 @@ export default {
     },
     updated() {
         this.allDisabled && this.isDisabledStyle();
+        this.createRules();
     },
     created() {
         this.createRules();

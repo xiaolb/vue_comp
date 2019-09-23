@@ -7,7 +7,7 @@
                     :type="item.dateType || 'time'"
                     :format="item.format || 'HH:mm:ss'"
                     :value-format="item.format || 'HH:mm:ss'"
-                    :placeholder="item.disabled || allDisabled ? '' : item.placehold || formType[item.type] + '开始' + item.label"
+                    :placeholder="item.disabled || allDisabled ? '' : item.firstPlacehold || item.placehold || formType[item.type] + '开始' + item.label"
                     :disabled="item.disabled"
                 ></el-time-picker>
                 <connect-or-extra :item="item" />
@@ -21,7 +21,7 @@
                     :type="item.dateType || 'time'"
                     :format="item.format || 'HH:mm:ss'"
                     :value-format="item.format || 'HH:mm:ss'"
-                    :placeholder="item.disabled || allDisabled ? '' : item.placehold || formType[item.type] + '结束' + item.label"
+                    :placeholder="item.disabled || allDisabled ? '' : item.secondPlacehold || item.placehold || formType[item.type] + '结束' + item.label"
                     :disabled="item.disabled"
                 ></el-time-picker>
             </el-form-item>

@@ -26,7 +26,7 @@
                 :sortable="colItem.sortable"
                 :sort-method="a => colItem.filterSort(a) || function() {}"
                 :formatter="colItem.render || (rows => hintValue(rows[colItem.prop]))"
-                :filters="colItem.filters" 
+                :filters="colItem.filters"
                 :filter-method="colItem.filterHandler"
                 :filter-placement="colItem.filterPlacement || 'bottom-end'"
                 :filter-multiple="colItem.filterMultiple"
@@ -44,7 +44,7 @@
                         :sortable="colTwoItem.sortable"
                         :sort-method="a => colTwoItem.filterSort(a) || function() {}"
                         :formatter="colTwoItem.render || (rows => hintValue(rows[colTwoItem.prop]))"
-                        :filters="colTwoItem.filters" 
+                        :filters="colTwoItem.filters"
                         :filter-method="colTwoItem.filterHandler"
                         :filter-placement="colTwoItem.filterPlacement || 'bottom-end'"
                         :filter-multiple="colTwoItem.filterMultiple"
@@ -62,7 +62,7 @@
                                 :sortable="colThreeItem.sortable"
                                 :sort-method="a => colThreeItem.filterSort(a) || function() {}"
                                 :formatter="colThreeItem.render || (rows => hintValue(rows[colThreeItem.prop]))"
-                                :filters="colThreeItem.filters" 
+                                :filters="colThreeItem.filters"
                                 :filter-method="colThreeItem.filterHandler"
                                 :filter-placement="colThreeItem.filterPlacement || 'bottom-end'"
                                 :filter-multiple="colThreeItem.filterMultiple"
@@ -78,7 +78,7 @@
         <div v-if="searchParams.count || tableButtons.length > 0" class="pagination">
             <span v-if="searchParams.count" class="currentPageCount">共 {{ searchParams.count }} 条&nbsp;&nbsp;当前显示 {{ currentPageCount }} 条&nbsp;</span>
             <el-pagination
-                v-if="searchParams.count" 
+                v-if="searchParams.count"
                 background
                 :current-page="searchParams.pageIndex"
                 :page-sizes="[10, 20, 50, 100]"

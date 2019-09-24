@@ -15,6 +15,7 @@
             :uploadAK="item.uploadAK"
             :disabled="item.disabled"
             :scanPics="item.scanPics"
+            :setable="item.setable"
         ></upload-item>
     </div>
 </template>
@@ -38,6 +39,7 @@ export default {
                     'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/f137a9562d774b09938ec3360b551d04.jpg',
                     'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/f137a9562d774b09938ec3360b551d04.jpg',
                 ],
+                setable: false,
                 isWriteFun: () => {
                     console.log('写入图片');
                 },

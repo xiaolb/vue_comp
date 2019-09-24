@@ -9,21 +9,21 @@
         :clearable="item.clearable"
         @select="a => (item.selectFun && item.selectFun(a)) || function() {}"
     >
-        <el-button 
-            v-if="item.append" 
+        <el-button
+            v-if="item.append"
             slot="append"
-            :icon="item.appendIcon || 'el-icon-search'" 
+            :icon="item.appendIcon || 'el-icon-search'"
             @click="() => (item.appendFun && item.appendFun()) || function(){}"
         ></el-button>
         <i
-            v-if="item.suffix" 
+            v-if="item.suffix"
             slot="suffix"
             :style="item.suffixStyle || {}"
             :class="item.suffixIcon"
             @click="() => (item.suffixFun && item.suffixFun()) || function(){}"
         ></i>
         <span
-            v-if="item.appendHtml" 
+            v-if="item.appendHtml"
             slot="suffix"
             :style="item.appendHtmlStyle || {}"
             v-html="item.appendHtmlText || ''"

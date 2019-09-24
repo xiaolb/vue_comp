@@ -98,9 +98,8 @@
         padding: 16px 16px 0;
     }
     .el-dialog__footer {
-        padding: 16px 16px 20px;
+        padding: 12px 16px;
         text-align: left;
-        // margin-left: 100px;
         z-index: 2;
         position: relative;
         box-shadow: 2px 0px 5px #ccc;
@@ -171,9 +170,9 @@
         <div class="_dialogFooter">
             <slot name="footer"></slot>
         </div>
-        <div 
-            v-if="!modalBtns.length && !nobtn && !allDisabled" 
-            slot="footer" class="dialog-footer" 
+        <div
+            v-if="!modalBtns.length && !nobtn && !allDisabled"
+            slot="footer" class="dialog-footer"
             :style="{ marginLeft: bottomCenter === 'left' ? labelWidth || '100px' : 0, textAlign: bottomCenter}"
         >
             <el-button type="primary" @click="saveDialog">{{ saveDialogText }}</el-button>
@@ -317,7 +316,8 @@ export default {
             this.updateCount += 1;
             const { title, modalBtns, nobtn, allDisabled } = this;
             const removeHeaderHeight = title ? 54 : 0;
-            const removeFotterHeight = !modalBtns.length && !nobtn && !allDisabled ? 76 : 20;
+            // const removeFotterHeight = !modalBtns.length && !nobtn && !allDisabled ? 76 : 20;
+            const removeFotterHeight = !modalBtns.length && !nobtn && !allDisabled ? 64 : 20;
 
             const _dialogHeader = document.querySelectorAll('._dialogHeader');
             const _dialogFooter = document.querySelectorAll('._dialogFooter');

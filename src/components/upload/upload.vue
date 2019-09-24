@@ -1,11 +1,7 @@
 <template>
    <div class="sf_upload">
-        <draggable
-            class="draggable" 
-            v-model="formData[bindName]" 
-            tag="ul" v-bind="dragOptions"
-        >
-            <el-upload
+       <el-upload
+                class="draggable-upload"
                 ref="upload"
                 :action="uploadUrl"
                 :list-type="'picture-card'"
@@ -29,6 +25,12 @@
                 </div>
                 <img v-if="isPicture  && scanPics.length > 0" class="sendbigPic" :src="scanPics[1]" alt="">
             </el-upload>
+        <draggable
+            class="draggable"
+            v-model="formData[bindName]"
+            tag="ul" v-bind="dragOptions"
+        >
+
             <template v-if="formData[bindName] && (max !== 1 || disabled)">
 
                 <li v-for="(item, index) of formData[bindName]" :key="item.url+index">
@@ -40,7 +42,7 @@
                     </div>
                     <i v-if="isPicture" class="el-icon-zoom-in preview" @click="() => handlePictureCardPreview(item)"></i>
                     <span v-if="isPicture" class="icon">
-                        <span v-if="!disabled" @click="() => settingFace(item, index)">设为封面</span>
+                        <span v-if="!disabled && setable" @click="() => settingFace(item, index)">设为封面</span>
                         <span v-if="isWrite" @click="() => isWriteFun(item)">备注</span>
                         <span v-if="!disabled" @click="() => handleRemove(item, formData[bindName].filter(value => value.url !== item.url))">删除</span>
                     </span>
@@ -95,6 +97,10 @@ export default {
         disabled: {
             type: Boolean,
             default: false,
+        },
+        setable: {
+            type: Boolean,
+            default: true,
         },
         // 表单数据
         formData: {
@@ -277,6 +283,7 @@ export default {
 </script>
 <style lang="scss">
 .sf_upload {
+    position: relative;
     .upload {
         margin-right: 10px;
         margin-bottom: 8px;
@@ -476,6 +483,22 @@ export default {
     }
     .deleteShow {
         height: 148px;
+    }
+    .draggable {
+        &::before {
+            content: '';
+            width: 146px;
+            height: 146px;
+            margin: 0 10px 8px 0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+    }
+    .draggable-upload {
+        position: absolute;
+        width: 146px;
+        height: 146px;
+        z-index: 1;
     }
 }
 </style>

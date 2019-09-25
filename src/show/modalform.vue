@@ -2,7 +2,7 @@
     <div id="modalFormTest">
         <el-button type="success" class="showBtn" @click="showModal">出现弹窗</el-button>
         <modal-form
-            v-if="searchVisible" 
+            v-if="searchVisible"
             :title="'高级筛选'"
             :width="'600px'"
             ref="highSearch"
@@ -16,13 +16,13 @@
             :modal="false"
         ></modal-form>
         <modal-form
-            v-if="preVisible"    
+            v-if="preVisible"
             :width="'600px'"
             :search="true"
             :visible="preVisible"
             :nobtn="true"
             @onCancel="onCancel"
-            
+
         >
             <div slot="header" class="modalHeader">
                 <h2>文章预览</h2>

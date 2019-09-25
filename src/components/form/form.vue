@@ -385,6 +385,7 @@
                             :is-write-fun="item.isWriteFun"
                             :uploadUrl="item.uploadUrl"
                             :uploadAK="item.uploadAK"
+                            :setable="item.setable"
                         ></Upload>
                         <connect-or-extra v-if="item.connect || item.extra" :item="item" />
                     </el-form-item>

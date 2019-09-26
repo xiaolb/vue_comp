@@ -51,6 +51,14 @@ export default {
                 width: '800px',
             }),
         },
+        // 无经纬度时，默认位置
+        initData: {
+            type: Object,
+            default: () => ({
+                longitude: 0,
+                latitude: 0,
+            }),
+        },
     },
     data() {
         const { bindData } = this;
@@ -152,6 +160,15 @@ export default {
             });
         },
         initMap(lng = 0, lat = 0) {
+            let longitude = 0,
+                latitude = 0;
+            if (!(lng && lat)) {
+                longitude = this.initData.longitude;
+                latitude = this.initData.latitude;
+            } else {
+                longitude = lng;
+                latitude = lat;
+            }
             const map = new BMap.Map(this.ids.map);
             const mapTypeLeft = new BMap.MapTypeControl({
                 anchor: BMAP_ANCHOR_TOP_RIGHT,
@@ -160,7 +177,7 @@ export default {
                 anchor: BMAP_ANCHOR_TOP_LEFT,
             }); // 左上角，添加比例尺
             const topLeftNavigation = new BMap.NavigationControl(); // 左上角，添加默认缩放平移控件
-            const centPoint = new BMap.Point(lng, lat);
+            const centPoint = new BMap.Point(longitude, latitude);
             const marker = new BMap.Marker(centPoint);
             map.addControl(topLeftControl);
             map.addControl(topLeftNavigation);

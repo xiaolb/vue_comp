@@ -7,6 +7,7 @@
             :bind-data="item.name"
             :bind-name="item.bindName"
             :form-data="formData"
+            :init-data="initData"
             :input-style="item.inputStyle"
         ></Map>
     </div>
@@ -26,6 +27,10 @@ export default {
                 },
             },
             formData: {},
+            initData: {
+                longitude: 120.28,
+                latitude: 30.38,
+            },
         };
     },
     created() {

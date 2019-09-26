@@ -1,9 +1,14 @@
 <template>
    <div class="sf_upload">
+        <div v-if="Array.isArray(hint)" class="hint">
+            <p v-for="(item, index) of hint" :key="index">{{item}}</p>
+        </div>
+        <span v-else>{{hint}}</span>
        <el-upload
                 class="draggable-upload"
                 ref="upload"
                 :action="uploadUrl"
+                :multiple="multiple"
                 :list-type="'picture-card'"
                 :on-preview="handlePictureCardPreview"
                 :on-remove="handleRemove"
@@ -54,10 +59,7 @@
                 </li>
             </template>
         </draggable>
-        <div v-if="Array.isArray(hint)" class="hint">
-            <p v-for="(item, index) of hint" :key="index">{{item}}</p>
-        </div>
-        <span v-else>{{hint}}</span>
+
         <el-dialog :visible.sync="dialogVisible">
             <img width="100%" :src="dialogImageUrl" alt="">
         </el-dialog>
@@ -73,6 +75,10 @@ export default {
         draggable,
     },
     props: {
+        multiple: {
+            type: Boolean,
+            default: false,
+        },
         //最大上传数
         max: {
             type: Number,
@@ -450,7 +456,12 @@ export default {
         p {
             margin: 0;
             height: 32px;
+            font-size: 14px;
             line-height: 32px;
+            color: #909399;
+        }
+        p:last-child {
+            padding-bottom: 20px;
         }
     }
     .uploadVideo {

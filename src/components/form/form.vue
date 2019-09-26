@@ -1,7 +1,7 @@
 <template>
     <div
         :class="{ spider_form_data: true, searchFlag: searchFooterMar, showText:showText, disabledStyle: allDisabled, modelForm: modelForm }"
-        :style="{ width: !modelForm ? formWidth || 'auto' : '' }"
+        :style="{ width: !modelForm ? formWidth || 'auto' : '',...formStyle }"
     >
         <div :class="{ flexLeftOrCenter: flexleftOrCenter === 'center' }">
             <el-form
@@ -541,6 +541,10 @@ export default {
         formWidth: {
             type: String,
             default: '',
+        },
+        formStyle: {
+            type: Object,
+            default: () => {},
         },
         // 是否从modal过来
         modelForm: {

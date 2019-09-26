@@ -195,10 +195,7 @@ export default {
                         noRightBorder: true,
                     },
                     appendHtml: true,
-                    appendHtmlText: '<i>测试</i>',
-                    appendHtmlStyle: {
-                        color: 'pink',
-                    },
+                    appendHtmlText: '测试',
                     appendHtmlFun: () => {
                         console.log('appendHtmlFun');
                     },

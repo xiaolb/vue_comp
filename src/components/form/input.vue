@@ -26,7 +26,7 @@
         <span
             v-if="item.appendHtml"
             slot="suffix"
-            :style="item.appendHtmlStyle || {}"
+            :style="item.appendHtmlStyle || {color: '#303133'}"
             v-html="item.appendHtmlText || ''"
             @click="() => (item.appendHtmlFun && item.appendHtmlFun()) || function(){}"
         ></span>

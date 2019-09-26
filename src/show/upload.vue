@@ -16,6 +16,7 @@
             :disabled="item.disabled"
             :scanPics="item.scanPics"
             :setable="item.setable"
+            :multiple="item.multiple"
         ></upload-item>
     </div>
 </template>
@@ -25,6 +26,7 @@ export default {
     data() {
         return {
             item: {
+                multiple: true,
                 maxi: 11,
                 hint: '默认图片',
                 hint: ['默认图片1', '默认图片2'],

@@ -330,7 +330,7 @@ export default {
             if (this.title) {
                 const el_dialog__header = document.querySelector('.el-dialog__header');
                 if (el_dialog__header) {
-                    el_dialog__header.style.borderBottom = '1px solid #ccc';
+                    el_dialog__header.style.borderBottom = '1px solid #E6EBF5';
                 }
             }
         },

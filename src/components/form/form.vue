@@ -58,7 +58,7 @@
                         :label-width="item.labelWidth || labelWidth"
                     >
                         <Autocomplete
-                            :item="item"
+                            :formItem="item"
                             :formData="formData"
                             :formType="formType"
                             :allDisabled="allDisabled"
@@ -385,7 +385,10 @@
                             :is-write-fun="item.isWriteFun"
                             :uploadUrl="item.uploadUrl"
                             :uploadAK="item.uploadAK"
+                            :multiple="item.multiple"
+                            :uploadFun="item.uploadFun"
                             :setable="item.setable"
+                            :uploadClass="item.uploadClass"
                         ></Upload>
                         <connect-or-extra v-if="item.connect || item.extra" :item="item" />
                     </el-form-item>
@@ -402,6 +405,7 @@
                             ref="tableSelect"
                             :table-data="item.tableData"
                             :table-title="item.tableTitle"
+                            :border-table="item.borderTable"
                             :search-params="{}"
                             :show-header="item.showHeader"
                             :stripe="item.stripe"
@@ -1052,6 +1056,17 @@ button.el-button.el-button--default.el-button--small.restBtn {
         resize: none; // 去掉textarea标签右下角的斜杠
         line-height: 26px;
         padding-left: 0;
+    }
+    .el-checkbox__input.is-checked + .el-checkbox__label {
+        color: #606266;
+    }
+    .el-form-item.is-success .el-input__inner {
+        border-color: #dcdfe6;
+    }
+    .el-input.is-disabled .el-input__inner {
+        background-color: #f2f6fc;
+        border-color: #dcdfe6;
+        color: #909399;
     }
 }
 </style>

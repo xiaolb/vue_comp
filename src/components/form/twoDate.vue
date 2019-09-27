@@ -57,6 +57,7 @@ export default {
 </script>
 <style lang="scss">
 .beginAndEnd {
+    flex: 1;
     .el-form-item__error {
         display: block !important;
     }

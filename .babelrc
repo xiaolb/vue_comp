@@ -1,14 +1,27 @@
 {
-    "presets": [
-        [
-            "env",
-            {
-                "modules": false
-            }
-        ],
-        "stage-3"
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false
+      }
     ],
-    "plugins": [
-        "transform-vue-jsx"
-    ]
+    "stage-3",
+    ["es2015", {
+      "modules": false
+    }],
+  ],
+  "plugins": [
+    "transform-vue-jsx",
+    "transform-runtime",
+    // [
+    //   "transform-runtime",
+    //   {
+    //     "helpers": false,
+    //     "polyfill": false,
+    //     "regenerator": true,
+    //     "moduleName": "babel-runtime"
+    //   }
+    // ]
+  ]
 }

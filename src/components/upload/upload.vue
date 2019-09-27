@@ -1,9 +1,9 @@
 <template>
-   <div class="sf_upload">
+   <div v-if="multiple" class="sf_upload">
         <div v-if="Array.isArray(hint)" class="hint">
             <p v-for="(item, index) of hint" :key="index">{{item}}</p>
         </div>
-        <span v-else>{{hint}}</span>
+        <p class="hint-single" v-else>{{hint}}</p>
        <el-upload
                 class="draggable-upload"
                 ref="upload"
@@ -18,8 +18,75 @@
                 :file-list="formData[bindName] || []"
                 :with-credentials="true"
                 :on-success="handleAvatarSuccess"
+                :on-progress="handleFileProgress"
                 :show-file-list="false"
-                :class="{ uploadHidden: disabled, upload: true}"
+                :http-request="uploadRequest"
+                :class="{ uploadHidden: disabled, upload: true,...uploadClass}"
+            >
+                <img v-if="max === 1 && formData[bindName] && formData[bindName][0] && formData[bindName][0].url" :src="formData[bindName][0].url" class="avatar">
+                <span v-else class="selfIcon">
+                    <i class="el-icon-plus avatar-uploader-icon"></i>
+                </span>
+                <div v-if="isPicture && scanPics.length > 0" class="scanPic">
+                    <img class="sendPic" :src="scanPics[0]" alt="">
+                </div>
+                <img v-if="isPicture  && scanPics.length > 0" class="sendbigPic" :src="scanPics[1]" alt="">
+            </el-upload>
+        <draggable
+            class="draggable"
+            v-model="formData[bindName]"
+            tag="ul" v-bind="dragOptions"
+        >
+
+            <template v-if="formData[bindName] && (max !== 1 || disabled)">
+
+                <li v-for="(item, index) of formData[bindName]" :key="item.url+index">
+                    <div v-if="!disabled" class="sortAndCkeck">
+                        <el-checkbox v-model="item.checked"></el-checkbox>
+                    </div>
+                    <div v-if="!disabled && index === 0 && isFacePic && isPicture" class="facePic">
+                        封面
+                    </div>
+                    <i v-if="isPicture" class="el-icon-zoom-in preview" @click="() => handlePictureCardPreview(item)"></i>
+                    <span v-if="isPicture" class="icon">
+                        <span v-if="!disabled && setable" @click="() => settingFace(item, index)">设为封面</span>
+                        <span v-if="isWrite" @click="() => isWriteFun(item)">备注</span>
+                        <span v-if="!disabled" @click="() => handleRemove(item, formData[bindName].filter(value => value.url !== item.url))">删除</span>
+                    </span>
+                    <img v-if="isPicture" :src="item.url" alt="">
+                    <div v-if="isVideo" class="uploadVideo">
+                        <video :src="item.url" :class="{video: true, deleteShow: disabled}" controls="controls">您的浏览器不支持视频播放</video>
+                        <span v-if="!disabled" @click="() => handleRemove(item, formData[bindName].filter(value => value.url !== item.url))">删除</span>
+                    </div>
+                </li>
+            </template>
+        </draggable>
+
+        <el-dialog :visible.sync="dialogVisible">
+            <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
+   </div>
+   <div v-else class="sf_upload">
+        <div v-if="Array.isArray(hint)" class="hint">
+            <p v-for="(item, index) of hint" :key="index">{{item}}</p>
+        </div>
+        <p v-else  class="hint-single">{{hint}}</p>
+       <el-upload
+                class="draggable-upload"
+                ref="upload"
+                :action="uploadUrl"
+                :list-type="'picture-card'"
+                :on-preview="handlePictureCardPreview"
+                :on-remove="handleRemove"
+                :before-upload="beforeAvatarUpload"
+                :disabled="disabled"
+                :headers="headers"
+                :file-list="formData[bindName] || []"
+                :with-credentials="true"
+                :on-success="handleAvatarSuccess"
+                :on-progress="handleFileProgress"
+                :show-file-list="false"
+                :class="{ uploadHidden: disabled, upload: true, ...uploadClass}"
             >
                 <img v-if="max === 1 && formData[bindName] && formData[bindName][0] && formData[bindName][0].url" :src="formData[bindName][0].url" class="avatar">
                 <span v-else class="selfIcon">
@@ -150,6 +217,14 @@ export default {
             type: Array,
             default: () => [],
         },
+        uploadFun: {
+            type: Function,
+            default: () => {},
+        },
+        uploadClass: {
+            type: Object,
+            defalut: () => {},
+        },
     },
     data() {
         return {
@@ -175,12 +250,21 @@ export default {
         },
     },
     methods: {
+        uploadRequest(param) {
+            // try {
+            // this.uploadFun(param).then(res => {
+            //     debugger;
+            //     this.handleAvatarSuccess(res);
+            // });
+            // } catch (error) {}
+        },
         // 设置封面
         settingFace(item, index) {
             const arrsFace = this.formData[this.bindName];
             arrsFace.splice(index, 1);
             arrsFace.unshift(item);
             this.$set(this.formData, this.bindName, arrsFace);
+            this.$message.success('设为封面成功，已移至首图');
         },
         handleRemove(file, fileList) {
             let newFileList = [...fileList];
@@ -201,7 +285,12 @@ export default {
                 }
             }
         },
-        handleAvatarSuccess(res) {
+        handleFileProgress(e, res) {
+            // debugger;
+        },
+        handleAvatarSuccess(res, file, fileList) {
+            const reData = this.formData[this.bindName];
+            debugger;
             let data = [];
             if (this.formData[this.bindName] instanceof Array) {
                 data = this.formData[this.bindName];
@@ -463,6 +552,14 @@ export default {
         p:last-child {
             padding-bottom: 20px;
         }
+    }
+    .hint-single {
+        font-size: 14px;
+        margin: 0;
+        height: 32px;
+        line-height: 32px;
+        color: #909399;
+        padding-bottom: 20px;
     }
     .uploadVideo {
         position: relative;

@@ -48,6 +48,7 @@
                 <el-button @click="()=>{}">取 消</el-button>
             </div> -->
         </modal-form>
+        <!-- <modal-form :visible="true" title="djdjdj"></modal-form> -->
     </div>
 </template>
 <script>
@@ -107,8 +108,8 @@ export default {
     },
     methods: {
         showModal() {
-            this.searchVisible = true;
-            // this.preVisible = true;
+            // this.searchVisible = true;
+            this.preVisible = true;
         },
         // 取消弹窗
         onCancel() {

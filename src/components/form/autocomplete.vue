@@ -1,41 +1,46 @@
 <template>
     <el-autocomplete
-        v-model="formData[item.name]"
-        :disabled="item.disabled"
-        :fetch-suggestions="item.querySearchAsync"
-        :placeholder="item.disabled || allDisabled ? '' : item.placehold || formType[item.type] + item.label"
-        :style="item.inputStyle || {}"
+        v-model="formData[formItem.name]"
+        :disabled="formItem.disabled"
+        :fetch-suggestions="formItem.querySearchAsync"
+        :placeholder="formItem.disabled || allDisabled ? '' : formItem.placehold || formType[formItem.type] + formItem.label"
+        :style="formItem.inputStyle || {}"
         :debounce="100"
-        :clearable="item.clearable"
-        @select="a => (item.selectFun && item.selectFun(a)) || function() {}"
+        :clearable="formItem.clearable"
+        @select="a => (formItem.selectFun && formItem.selectFun(a)) || function() {}"
     >
         <el-button
-            v-if="item.append"
+            v-if="formItem.append"
             slot="append"
-            :icon="item.appendIcon || 'el-icon-search'"
-            @click="() => (item.appendFun && item.appendFun()) || function(){}"
+            :icon="formItem.appendIcon || 'el-icon-search'"
+            @click="() => (formItem.appendFun && formItem.appendFun()) || function(){}"
         ></el-button>
         <i
-            v-if="item.suffix"
+            v-if="formItem.suffix"
             slot="suffix"
-            :style="item.suffixStyle || {}"
-            :class="item.suffixIcon"
-            @click="() => (item.suffixFun && item.suffixFun()) || function(){}"
+            :style="formItem.suffixStyle || {}"
+            :class="formItem.suffixIcon"
+            @click="() => (formItem.suffixFun && formItem.suffixFun()) || function(){}"
         ></i>
         <span
-            v-if="item.appendHtml"
+            v-if="formItem.appendHtml"
             slot="suffix"
-            :style="item.appendHtmlStyle || {}"
-            v-html="item.appendHtmlText || ''"
-            @click="() => (item.appendHtmlFun && item.appendHtmlFun()) || function(){}"
+            :style="formItem.appendHtmlStyle || {}"
+            v-html="formItem.appendHtmlText || ''"
+            @click="() => (formItem.appendHtmlFun && formItem.appendHtmlFun()) || function(){}"
         ></span>
+        <!-- 选择项增加说明 -->
+        <template v-if="formItem.itemAppendName" slot-scope="{ item }">
+            <div style="float: left;">{{ item['value'] }}</div>
+            <span style="float: right;">{{ item[formItem.itemAppendName] }}</span>
+        </template>
     </el-autocomplete>
 </template>
 <script>
 export default {
     name: 'Autocomplete',
     props: {
-        item: {
+        formItem: {
             type: Object,
             required: true,
         },

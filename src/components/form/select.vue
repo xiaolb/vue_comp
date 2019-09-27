@@ -21,7 +21,12 @@
             :label="selectItem.label || selectItem.itemLabel || selectItem.paramName || selectItem.name"
             :value="selectItem.value || selectItem.itemValue || selectItem.paramValue || selectItem.id"
             :disabled="selectItem.disabled"
-        ></el-option>
+        >
+           <div v-if="item.optionAppendName">
+                <span :style="{float: 'left',...item.optionLeftStyle}">{{selectItem.label || selectItem.itemLabel || selectItem.paramName || selectItem.name}}</span>
+                <span v-if="item.optionAppendName" :style="{float: 'right',...item.optionRightStyle}">{{selectItem[item.optionAppendName]}}</span>
+            </div>
+        </el-option>
     </el-select>
     <el-select
         v-else
@@ -43,7 +48,12 @@
             :label="selectItem.label || selectItem.itemLabel || selectItem.paramName || selectItem.name"
             :value="selectItem.value || selectItem.itemValue || selectItem.paramValue || selectItem.id"
             :disabled="selectItem.disabled"
-        ></el-option>
+        >
+            <div v-if="item.optionAppendName">
+                <span :style="{float: 'left',...item.optionLeftStyle}">{{selectItem.label || selectItem.itemLabel || selectItem.paramName || selectItem.name}}</span>
+                <span v-if="item.optionAppendName" :style="{float: 'right',...item.optionRightStyle}">{{selectItem[item.optionAppendName]}}</span>
+            </div>
+        </el-option>
     </el-select>
 </template>
 <script>

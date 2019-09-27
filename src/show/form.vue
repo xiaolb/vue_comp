@@ -316,7 +316,15 @@ export default {
                     querySearchAsync: (filterVaule, cb) => {
                         // 搜索操作
                         console.log('模糊搜索操作', filterVaule, cb);
+                        cb([
+                            { id: 1, value: '23', unit: 3 },
+                            { id: 2, value: '24', unit: 3 },
+                            { id: 3, value: '266', unit: 3 },
+                            { id: 4, value: '72', unit: 3 },
+                            { id: 5, value: '28', unit: 3 },
+                        ]);
                     },
+                    itemAppendName: 'unit',
                     selectFun: value => {
                         // 当前选中的值
                         console.log(value);
@@ -348,24 +356,24 @@ export default {
                 {
                     ...common,
                     name: 'select',
-                    label: '选择',
+                    label: '选择AAAAA',
                     type: 'select',
-
                     multiple: true, // 是否可多选
                     multipleLimit: 2, // 多选限制
                     allowCreate: true, // 是否允许创建
                     filterable: true, // 是否可搜索
                     clearable: true, // 是否可清除
                     data: [
-                        { value: 'value', label: 'label' },
-                        { itemValue: 'itemValue', itemLabel: 'itemLabel' },
-                        { paramValue: 'paramValue', paramName: 'paramName' },
-                        { id: 'id', name: 'name' },
+                        { value: 'value', label: 'label', unit: 'aaa' },
+                        { itemValue: 'itemValue', itemLabel: 'itemLabel', unit: 'yyy' },
+                        { paramValue: 'paramValue', paramName: 'paramName', unit: 'eee' },
+                        { id: 'id', name: 'name', unit: 'bbb' },
                     ], // 可选项数据源，键名可通过 Props 属性配置
                     // filterSearch: () => {}, // 远程搜索
                     selectFun: value => {
                         console.log(value);
                     }, // 选择函数
+                    optionAppendName: 'unit',
                 },
                 {
                     ...common,
@@ -460,7 +468,7 @@ export default {
                     name: 'videoOrPicture',
                     label: '视频图片上传',
                     type: 'videoOrPicture',
-
+                    // multiple: true,
                     // maxi: 3, // 最大上传数
                     hint: '默认图片', // 图片提示 (数组的时候多个，单个字符串)
                     // hint: ['默认图片1', '默认图片2'],
@@ -474,6 +482,16 @@ export default {
                         // 是否可写操作
                         console.log('写入图片');
                     },
+                    uploadClass: {
+                        'current-upload': true,
+                    },
+                    // uploadFun: a => {
+                    //     console.log('正在上传');
+                    //     const p1 = new Promise(function(resolve, reject) {
+                    //         resolve({ a: 1 });
+                    //     });
+                    //     return p1;
+                    // },
                 },
                 {
                     ...common,
@@ -631,7 +649,7 @@ export default {
 <style lang="scss">
 #formitemtest {
     .noLeftBorder {
-        // .el-input__inner {
+        // .el-input__inner {P
         //     border-color: pink;
         // }
     }
@@ -644,5 +662,9 @@ export default {
         //     border-color: pink;
         // }
     }
+}
+.current-upload {
+    width: 100px;
+    height: 100px;
 }
 </style>

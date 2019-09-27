@@ -77,11 +77,21 @@
 
 .el-dialog__header {
     display: flex;
-    font-size: 12px;
-    font-weight: normal;
-    font-stretch: normal;
-    letter-spacing: 0px;
-    color: rgba(0, 0, 0, 0.8);
+    // font-size: 12px;
+    // font-weight: normal;
+    // font-stretch: normal;
+    // letter-spacing: 0px;
+    // color: rgba(0, 0, 0, 0.8);
+    .el-dialog__title {
+        font-size: 18px;
+        color: #303133;
+        font-weight: 600;
+    }
+    .el-dialog__headerbtn {
+        top: 12px;
+        font-size: 26px;
+        opacity: 0.5;
+    }
 }
 .noDialogHeader {
     .el-dialog__header {

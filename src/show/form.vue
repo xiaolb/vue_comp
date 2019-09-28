@@ -372,11 +372,10 @@ export default {
                     ], // 可选项数据源，键名可通过 Props 属性配置
                     // filterSearch: () => {}, // 远程搜索
                     selectFun: value => {
-                        console.log(value);
                         if (value === 'value') {
-                            this.needRequired = true;
+                            this.$set(this, 'needRequired', true);
                         } else {
-                            this.needRequired = false;
+                            this.$set(this, 'needRequired', false);
                         }
                     }, // 选择函数
                     optionAppendName: 'unit',
@@ -394,6 +393,7 @@ export default {
                     ...common,
                     name: 'date', // 开始时间 begintwoDate， 结束时间 endtwoDate
                     label: '一个日期',
+                    required: this.needRequired,
                     type: 'date',
                     dateType: 'date', // 类型 默认datetime
                     format: 'yyyy-MM-dd HH', // 格式 默认'yyyy-MM-dd HH:mm:ss'
@@ -402,8 +402,8 @@ export default {
                     ...common,
                     name: 'twoTime', // 开始时间 begintwoDate， 结束时间 endtwoDate
                     label: '两个时间',
+                    required: this.needRequired,
                     type: 'twoTime',
-                    required: true,
                     dateType: 'time', // 类型 默认datetime
                     format: 'HH:mm', // 格式 默认'yyyy-MM-dd HH:mm:ss'
                 },

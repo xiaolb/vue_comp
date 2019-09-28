@@ -17,7 +17,6 @@
                         v-if="item.type === 'input' && !item.hidden"
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :prop="item.name"
-                        :required="item.required"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
                     >
@@ -35,7 +34,6 @@
                         v-if="item.type === 'number' && !item.hidden"
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :prop="item.name"
-                        :required="item.required"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
                     >
@@ -56,7 +54,6 @@
                         v-if="item.type === 'autocomplete' && !item.hidden"
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :prop="item.name"
-                        :required="item.required"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
                     >
@@ -73,7 +70,6 @@
                         v-if="item.type === 'cascader' && !item.hidden"
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :prop="item.name"
-                        :required="item.required"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
                     >
@@ -89,7 +85,6 @@
                     <el-form-item
                         v-else-if="item.type === 'select' && !item.hidden"
                         :prop="item.name"
-                        :required="item.required"
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
@@ -108,7 +103,6 @@
                         :prop="item.name"
                         :class="{ twoDate: item.required, errorHidden: true, rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :label="item.label && `${item.label}：`"
-                        :required="item.required"
                         :label-width="item.labelWidth || labelWidth"
                         :style="{
                             ...item.inputStyle,
@@ -126,7 +120,6 @@
                     <el-form-item
                         v-else-if="item.type === 'twoTime' && !item.hidden"
                         :prop="item.name"
-                        :required="item.required"
                         :class="{ twoDate: item.required, errorHidden: true, rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
@@ -146,7 +139,6 @@
                     <el-form-item
                         v-else-if="item.type === 'time' && !item.hidden"
                         :prop="item.name"
-                        :required="item.required"
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
@@ -168,7 +160,6 @@
                     <el-form-item
                         v-else-if="item.type === 'date' && !item.hidden"
                         :prop="item.name"
-                        :required="item.required"
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
@@ -191,7 +182,6 @@
                         v-else-if="item.type === 'textarea' && !item.hidden"
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :prop="item.name"
-                        :required="item.required"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
                     >
@@ -214,7 +204,6 @@
                         v-else-if="item.type === 'switch' && !item.hidden"
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :prop="item.name"
-                        :required="item.required"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
                     >
@@ -232,7 +221,6 @@
                         v-else-if="item.type === 'ue' && !item.hidden"
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :prop="item.name"
-                        :required="item.required"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
                     >
@@ -252,7 +240,6 @@
                     <el-form-item
                         v-else-if="item.type === 'checkboxs' && !item.hidden"
                         :prop="item.name"
-                        :required="item.required"
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
@@ -276,7 +263,6 @@
                     <el-form-item
                         v-else-if="item.type === 'radio' && !item.hidden"
                         :prop="item.name"
-                        :required="item.required"
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
@@ -293,7 +279,6 @@
                     <el-form-item
                         v-else-if="item.type === 'cut' && !item.hidden"
                         :style="{ marginBottom: 0 }"
-                        :required="item.required"
                         :label-width="item.labelWidth || labelWidth"
                     >
                         <div class="spider_form_data_cut">
@@ -311,7 +296,6 @@
                     <el-form-item
                         v-else-if="item.type === 'handleClick' && !item.hidden"
                         :style="{ marginBottom: 0 }"
-                        :required="item.required"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
                     >
@@ -330,7 +314,6 @@
                     <el-form-item
                         v-else-if="item.type === 'qrcode' && !item.hidden"
                         :label="item.label && `${item.label}：`"
-                        :required="item.required"
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :label-width="item.labelWidth || labelWidth"
                     >
@@ -342,7 +325,6 @@
                         v-else-if="item.type === 'map' && !item.hidden"
                         :class="{ mapPosition: true, rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :prop="item.name"
-                        :required="item.required"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
                     >
@@ -361,7 +343,6 @@
                     <el-form-item
                         v-else-if="item.type === 'tag' && !item.hidden"
                         :prop="item.name"
-                        :required="item.required"
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
@@ -385,7 +366,6 @@
                     <el-form-item
                         v-else-if="item.type === 'videoOrPicture' && !item.hidden"
                         :prop="item.name"
-                        :required="item.required"
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
@@ -417,7 +397,6 @@
                         v-else-if="item.type === 'table' && !item.hidden"
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :prop="item.name"
-                        :required="item.required"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
                     >
@@ -469,7 +448,6 @@ import Upload from '@/components/upload/';
 import TableItem from '@/components/table/';
 import qrcode from '@/components/qrcode/';
 import { formRules } from './rules';
-
 import connectOrExtra from './connectOrExtra.vue';
 import InputItem from './input.vue';
 import Autocomplete from './autocomplete.vue';

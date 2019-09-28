@@ -43,6 +43,7 @@ export default {
     name: 'formitemtest',
     data() {
         return {
+            needRequired: false,
             saveBtnText: '确定', // 操作保存按钮文本样式
             cancelBtnText: '返回', // 操作取消按钮文本样式
             labelWidth: '140px', // 表单域标签的宽度
@@ -358,11 +359,11 @@ export default {
                     name: 'select',
                     label: '选择AAAAA',
                     type: 'select',
-                    multiple: true, // 是否可多选
-                    multipleLimit: 2, // 多选限制
-                    allowCreate: true, // 是否允许创建
-                    filterable: true, // 是否可搜索
-                    clearable: true, // 是否可清除
+                    // multiple: true, // 是否可多选
+                    // multipleLimit: 2, // 多选限制
+                    // allowCreate: true, // 是否允许创建
+                    // filterable: true, // 是否可搜索
+                    // clearable: true, // 是否可清除
                     data: [
                         { value: 'value', label: 'label', unit: 'aaa' },
                         { itemValue: 'itemValue', itemLabel: 'itemLabel', unit: 'yyy' },
@@ -372,6 +373,11 @@ export default {
                     // filterSearch: () => {}, // 远程搜索
                     selectFun: value => {
                         console.log(value);
+                        if (value === 'value') {
+                            this.needRequired = true;
+                        } else {
+                            this.needRequired = false;
+                        }
                     }, // 选择函数
                     optionAppendName: 'unit',
                 },
@@ -380,6 +386,7 @@ export default {
                     name: 'twoDate', // 开始时间 begintwoDate， 结束时间 endtwoDate
                     label: '两个日期',
                     type: 'twoDate',
+                    required: this.needRequired,
                     dateType: 'month', // 类型 默认datetime
                     format: 'yyyy-MM-dd HH', // 格式 默认'yyyy-MM-dd HH:mm:ss'
                 },

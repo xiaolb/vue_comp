@@ -31,7 +31,16 @@ export default {
             },
             tableData: restureObj.tableData.items.slice(0, 20),
             tableTitle: [
-                { prop: 'num', fixed: 'left', type: 'selection', width: '35' },
+                {
+                    prop: 'num',
+                    fixed: 'left',
+                    type: 'selection',
+                    width: '50',
+                    renderHeader: () => {
+                        return <div>1</div>;
+                    },
+                    labelClassName: 'selection-name',
+                },
                 { prop: 'id', label: 'ID', width: 80 },
                 {
                     prop: 'name',
@@ -197,5 +206,10 @@ export default {
             margin-left: 0;
         }
     }
+}
+</style>
+<style lang="scss">
+.selection-name {
+    display: none;
 }
 </style>

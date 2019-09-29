@@ -64,7 +64,7 @@ export default {
             ], // 其他的自定义操作
             saveBtn: true, // 是否显示保存按钮
             cancelBtn: true, // 是否展示取消按钮
-            formData: { checkboxs: [], handleClick: 'handleClick', autocomplete: '123' }, // 表单数据
+            formData: { checkboxs: [], handleClick: 'handleClick', autocomplete: '123', date: '' }, // 表单数据
             allDisabled: false, // 表单是否禁止编辑
             formWidth: '1200px', // 表单的宽度
             flexleftOrCenter: 'left', // 表单位置 left/cente

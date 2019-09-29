@@ -3,7 +3,7 @@
         <div v-if="Array.isArray(hint)" class="hint">
             <p v-for="(item, index) of hint" :key="index">{{item}}</p>
         </div>
-        <p class="hint-single" v-else>{{hint}}</p>
+        <p class="hint-single" v-else-if="hint">{{hint}}</p>
        <el-upload
                 class="draggable-upload"
                 ref="upload"
@@ -70,7 +70,7 @@
         <div v-if="Array.isArray(hint)" class="hint">
             <p v-for="(item, index) of hint" :key="index">{{item}}</p>
         </div>
-        <p v-else  class="hint-single">{{hint}}</p>
+        <p class="hint-single" v-else-if="hint">{{hint}}</p>
        <el-upload
                 class="draggable-upload"
                 ref="upload"

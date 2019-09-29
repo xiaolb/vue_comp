@@ -90,7 +90,6 @@
     .el-dialog__headerbtn {
         top: 12px;
         font-size: 26px;
-        opacity: 0.5;
     }
 }
 .noDialogHeader {
@@ -119,6 +118,9 @@
     .el-dialog__body {
         padding: 0px;
     }
+}
+.noModal.el-dialog__wrapper {
+    left: auto;
 }
 .bodyScrollHeight::-webkit-scrollbar {
     /*滚动条整体样式*/
@@ -154,6 +156,7 @@
             isFlagSearch: search,
             el_dialog_myself: true,
             noDialogHeader: !title,
+            noModal: !modal,
             btnFixed: formDialogItems.length > 0 && modalType === 'form', // 矫正悬浮的按钮的位置
         }"
     >

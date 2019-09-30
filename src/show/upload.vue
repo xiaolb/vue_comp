@@ -17,6 +17,7 @@
             :scanPics="item.scanPics"
             :setable="item.setable"
             :multiple="item.multiple"
+            :upload-fun="item.uploadFun"
         ></upload-item>
     </div>
 </template>
@@ -44,6 +45,19 @@ export default {
                 setable: false,
                 isWriteFun: () => {
                     console.log('写入图片');
+                },
+                uploadFun: params => {
+                    const fileobj = params.file;
+                    const form = new FormData();
+                    form.append('file', fileobj);
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('post', 'http://bigdata-api.apitops.com/api/v1/common/upload/files', true);
+                    xhr.setRequestHeader('Authorization', params.headers.Authorization);
+                    xhr.onload = () => {
+                        const data = JSON.parse(xhr.response).Data[0];
+                        this.formData.picture.push(data);
+                    };
+                    xhr.send(form);
                 },
             },
             formData: {

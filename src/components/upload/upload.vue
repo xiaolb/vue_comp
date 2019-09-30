@@ -1,14 +1,17 @@
 <template>
-   <div v-if="multiple" class="sf_upload">
+    <div class="sf_upload">
+        <!-- 提示语句 -->
         <div v-if="Array.isArray(hint)" class="hint">
             <p v-for="(item, index) of hint" :key="index">{{item}}</p>
         </div>
         <p class="hint-single" v-else-if="hint">{{hint}}</p>
-       <el-upload
+        <!-- 上传控件 -->
+        <el-upload
+                v-if="multiple"
                 class="draggable-upload"
                 ref="upload"
-                :action="uploadUrl"
                 :multiple="multiple"
+                :action="uploadUrl"
                 :list-type="'picture-card'"
                 :on-preview="handlePictureCardPreview"
                 :on-remove="handleRemove"
@@ -19,9 +22,9 @@
                 :with-credentials="true"
                 :on-success="handleAvatarSuccess"
                 :on-progress="handleFileProgress"
+                :http-request="uploadFun"
                 :show-file-list="false"
-                :http-request="uploadRequest"
-                :class="{ uploadHidden: disabled, upload: true,...uploadClass}"
+                :class="{ uploadHidden: disabled, upload: true, ...uploadClass}"
             >
                 <img v-if="max === 1 && formData[bindName] && formData[bindName][0] && formData[bindName][0].url" :src="formData[bindName][0].url" class="avatar">
                 <span v-else class="selfIcon">
@@ -31,47 +34,9 @@
                     <img class="sendPic" :src="scanPics[0]" alt="">
                 </div>
                 <img v-if="isPicture  && scanPics.length > 0" class="sendbigPic" :src="scanPics[1]" alt="">
-            </el-upload>
-        <draggable
-            class="draggable"
-            v-model="formData[bindName]"
-            tag="ul" v-bind="dragOptions"
-        >
-
-            <template v-if="formData[bindName] && (max !== 1 || disabled)">
-
-                <li v-for="(item, index) of formData[bindName]" :key="item.url+index">
-                    <div v-if="!disabled" class="sortAndCkeck">
-                        <el-checkbox v-model="item.checked"></el-checkbox>
-                    </div>
-                    <div v-if="!disabled && index === 0 && isFacePic && isPicture" class="facePic">
-                        封面
-                    </div>
-                    <i v-if="isPicture" class="el-icon-zoom-in preview" @click="() => handlePictureCardPreview(item)"></i>
-                    <span v-if="isPicture" class="icon">
-                        <span v-if="!disabled && setable" @click="() => settingFace(item, index)">设为封面</span>
-                        <span v-if="isWrite" @click="() => isWriteFun(item)">备注</span>
-                        <span v-if="!disabled" @click="() => handleRemove(item, formData[bindName].filter(value => value.url !== item.url))">删除</span>
-                    </span>
-                    <img v-if="isPicture" :src="item.url" alt="">
-                    <div v-if="isVideo" class="uploadVideo">
-                        <video :src="item.url" :class="{video: true, deleteShow: disabled}" controls="controls">您的浏览器不支持视频播放</video>
-                        <span v-if="!disabled" @click="() => handleRemove(item, formData[bindName].filter(value => value.url !== item.url))">删除</span>
-                    </div>
-                </li>
-            </template>
-        </draggable>
-
-        <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="dialogImageUrl" alt="">
-        </el-dialog>
-   </div>
-   <div v-else class="sf_upload">
-        <div v-if="Array.isArray(hint)" class="hint">
-            <p v-for="(item, index) of hint" :key="index">{{item}}</p>
-        </div>
-        <p class="hint-single" v-else-if="hint">{{hint}}</p>
-       <el-upload
+        </el-upload>
+        <el-upload
+                v-else
                 class="draggable-upload"
                 ref="upload"
                 :action="uploadUrl"
@@ -96,15 +61,10 @@
                     <img class="sendPic" :src="scanPics[0]" alt="">
                 </div>
                 <img v-if="isPicture  && scanPics.length > 0" class="sendbigPic" :src="scanPics[1]" alt="">
-            </el-upload>
-        <draggable
-            class="draggable"
-            v-model="formData[bindName]"
-            tag="ul" v-bind="dragOptions"
-        >
-
+        </el-upload>
+        <!-- 图片列表 -->
+        <draggable class="draggable" v-model="formData[bindName]" tag="ul" v-bind="dragOptions" >
             <template v-if="formData[bindName] && (max !== 1 || disabled)">
-
                 <li v-for="(item, index) of formData[bindName]" :key="item.url+index">
                     <div v-if="!disabled" class="sortAndCkeck">
                         <el-checkbox v-model="item.checked"></el-checkbox>
@@ -126,11 +86,11 @@
                 </li>
             </template>
         </draggable>
-
+        <!-- 预览弹窗 -->
         <el-dialog :visible.sync="dialogVisible">
             <img width="100%" :src="dialogImageUrl" alt="">
         </el-dialog>
-   </div>
+    </div>
 </template>
 
 <script>
@@ -250,14 +210,14 @@ export default {
         },
     },
     methods: {
-        uploadRequest(param) {
-            // try {
-            // this.uploadFun(param).then(res => {
-            //     debugger;
-            //     this.handleAvatarSuccess(res);
-            // });
-            // } catch (error) {}
-        },
+        // uploadRequest(param) {
+        // try {
+        // this.uploadFun(param).then(res => {
+        //     debugger;
+        //     this.handleAvatarSuccess(res);
+        // });
+        // } catch (error) {}
+        // },
         // 设置封面
         settingFace(item, index) {
             const arrsFace = this.formData[this.bindName];
@@ -286,11 +246,10 @@ export default {
             }
         },
         handleFileProgress(e, res) {
-            // debugger;
+            this.$refs.upload.submit();
         },
         handleAvatarSuccess(res, file, fileList) {
             const reData = this.formData[this.bindName];
-            debugger;
             let data = [];
             if (this.formData[this.bindName] instanceof Array) {
                 data = this.formData[this.bindName];

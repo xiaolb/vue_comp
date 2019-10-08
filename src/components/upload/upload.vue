@@ -131,6 +131,7 @@ export default {
             type: Boolean,
             default: false,
         },
+        // 是否设为封面
         setable: {
             type: Boolean,
             default: true,

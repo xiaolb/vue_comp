@@ -410,5 +410,8 @@ export default {
         background: url('http://top-static.oss-cn-hangzhou.aliyuncs.com/h5/common/images/ico_infonull@3x.png') no-repeat center center;
         background-size: contain;
     }
+    th.el-table-column--selection .cell {
+        display: none;
+    }
 }
 </style>

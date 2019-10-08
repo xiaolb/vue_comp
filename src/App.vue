@@ -35,6 +35,12 @@ export default {
             faMenus,
         };
     },
+    mounted() {
+        // windows 的电脑下需要添加class
+        if (/windows|win32/i.test(navigator.userAgent)) {
+            document.querySelector('.nav_content').classList.add('win');
+        }
+    },
 };
 </script>
 

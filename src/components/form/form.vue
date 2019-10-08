@@ -1056,16 +1056,17 @@ button.el-button.el-button--default.el-button--small.restBtn {
         line-height: 26px;
         padding-left: 0;
     }
-    .el-checkbox__input.is-checked + .el-checkbox__label {
-        color: #606266;
-    }
+
     .el-form-item.is-success .el-input__inner {
         border-color: #dcdfe6;
     }
-    .el-input.is-disabled .el-input__inner {
-        background-color: #f2f6fc;
-        border-color: #dcdfe6;
-        color: #909399;
-    }
+}
+.el-input.is-disabled .el-input__inner {
+    background-color: #f2f6fc;
+    border-color: #dcdfe6;
+    color: #909399;
+}
+.el-checkbox__input.is-checked + .el-checkbox__label {
+    color: #606266;
 }
 </style>

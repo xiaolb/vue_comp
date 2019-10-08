@@ -227,7 +227,7 @@ export default {
             this.$message.success('设为封面成功，已移至首图');
         },
         handleRemove(file, fileList) {
-            this.$confirm(`是否要删除该项？`, '提示', {
+            this.$confirm(`是否删除该图片/视频？`, '提示', {
                 confirmButtonText: '删除',
                 cancelButtonText: '取消',
                 type: 'error',
@@ -250,7 +250,7 @@ export default {
                             this.$parent.$parent.$parent.validateField([this.bindName]);
                         }
                     }
-                    this.$message.success('删除成功！');
+                    this.$message.success('移除成功！');
                 })
                 .catch(() => {});
         },

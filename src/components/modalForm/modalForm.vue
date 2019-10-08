@@ -44,34 +44,32 @@
         width: 100%;
         background: #ffffff;
     }
-    @keyframes dialog-fade-in {
-        0% {
-            transform: translate3d(100%, 0, 0);
-            opacity: 0;
-        }
-        50% {
-            transform: translate3d(0, 0, 0);
-            opacity: 0.5;
-        }
-        100% {
-            transform: translate3d(0, 0, 0);
-            opacity: 1;
-        }
+}
+.sidebar_in {
+    animation: sidebar_in 0.3s;
+}
+@keyframes sidebar_in {
+    0% {
+        transform: translate3d(100%, 0, 0);
+        opacity: 0;
     }
+    100% {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+    }
+}
+.sidebar_out {
+    animation: sidebar_out 0.5s;
+}
 
-    @keyframes dialog-fade-out {
-        0% {
-            transform: translate3d(0, 0, 0);
-            opacity: 1;
-        }
-        50% {
-            transform: translate3d(0, 0, 0);
-            opacity: 0.5;
-        }
-        100% {
-            transform: translate3d(100%, 0, 0);
-            opacity: 0;
-        }
+@keyframes sidebar_out {
+    0% {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate3d(100%, 0, 0);
+        opacity: 0;
     }
 }
 
@@ -154,6 +152,8 @@
         :class="{
             isDialog: true,
             isFlagSearch: search,
+            sidebar_in: search && visible, 
+            sidebar_out: search && !visible,
             el_dialog_myself: true,
             noDialogHeader: !title,
             noModal: !modal,

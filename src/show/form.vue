@@ -162,6 +162,7 @@ export default {
                     },
                     connect: '',
                     extra: '',
+                    disabled: true,
                 },
                 {
                     // ...common,

@@ -228,23 +228,32 @@ export default {
             this.$message.success('设为封面成功，已移至首图');
         },
         handleRemove(file, fileList) {
-            let newFileList = [...fileList];
-            newFileList = newFileList.map(item => {
-                let response = item.response;
-                if (response) {
-                    return response.Data[0];
-                } else {
-                    return item;
-                }
-            });
-            if (newFileList.length) {
-                this.formData[this.bindName] = newFileList;
-            } else {
-                this.formData[this.bindName] = null;
-                if (this.$parent && this.$parent.$parent && this.$parent.$parent.$parent && this.$parent.$parent.$parent.validateField) {
-                    this.$parent.$parent.$parent.validateField([this.bindName]);
-                }
-            }
+            this.$confirm(`是否删除该图片/视频？`, '提示', {
+                confirmButtonText: '删除',
+                cancelButtonText: '取消',
+                type: 'error',
+            })
+                .then(() => {
+                    let newFileList = [...fileList];
+                    newFileList = newFileList.map(item => {
+                        let response = item.response;
+                        if (response) {
+                            return response.Data[0];
+                        } else {
+                            return item;
+                        }
+                    });
+                    if (newFileList.length) {
+                        this.formData[this.bindName] = newFileList;
+                    } else {
+                        this.formData[this.bindName] = null;
+                        if (this.$parent && this.$parent.$parent && this.$parent.$parent.$parent && this.$parent.$parent.$parent.validateField) {
+                            this.$parent.$parent.$parent.validateField([this.bindName]);
+                        }
+                    }
+                    this.$message.success('移除成功！');
+                })
+                .catch(() => {});
         },
         handleFileProgress(e, res) {
             this.$refs.upload.submit();

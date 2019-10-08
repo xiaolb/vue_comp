@@ -122,20 +122,19 @@
 }
 .bodyScrollHeight::-webkit-scrollbar {
     /*滚动条整体样式*/
-    width: 0px; /*高宽分别对应横竖滚动条的尺寸*/
-    height: 4px;
+    width: 8px; /*高宽分别对应横竖滚动条的尺寸*/
+    height: 8px;
+    background-color: #ffffff;
 }
 .bodyScrollHeight::-webkit-scrollbar-thumb {
     /*滚动条里面小方块*/
     border-radius: 5px;
-    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    background: rgba(0, 0, 0, 0.2);
+    background: #d5dbe7;
 }
 .bodyScrollHeight::-webkit-scrollbar-track {
     /*滚动条里面轨道*/
-    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    border-radius: 0;
-    background: rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    background: rgba(0, 0, 0, 0.01);
 }
 </style>
 

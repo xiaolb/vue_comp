@@ -406,12 +406,14 @@ export default {
             width: 148px;
             height: 148px;
             border-radius: 4px;
-            opacity: 0;
-            transition: opacity 0.3s;
+            display: none;
+            // opacity: 0;
+            // transition: opacity 0.3s;
         }
     }
     .scanPic:hover + .sendbigPic {
-        opacity: 1;
+        display: block;
+        // opacity: 1;
     }
     .el-upload-list.el-upload-list--picture-card.is-disabled + .el-upload.el-upload--picture-card {
         display: none;
@@ -475,11 +477,12 @@ export default {
                 background: rgba(0, 0, 0, 0);
                 transition: opacity 0.3s;
                 transform: translate(-50%, -50%);
-                width: 20px;
-                height: 20px;
+                width: 100%;
+                height: 80px;
                 font-size: 20px;
                 color: white;
                 opacity: 0;
+                cursor: pointer;
             }
             img {
                 width: 100%;

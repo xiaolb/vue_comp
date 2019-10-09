@@ -214,7 +214,7 @@ export default {
                 if (this.fromType === 'other') {
                     this.height = window.innerHeight - data_table.offsetTop - 70 + pageHeight;
                 } else if (this.fromType === 'listPage') {
-                    this.height = tableHeight - 70 + pageHeight;
+                    this.height = tableHeight - 60 + pageHeight;
                 } else if (this.fromType === 'form') {
                     this.height = 10000;
                 }

@@ -132,7 +132,14 @@ export default {
                     _myselfThis.findId(ids.searchResult).innerHTML = 'onconfirm<br />index = ' + e.item.index + '<br />myValue = ' + myValue;
                     // _myselfThis.findId(ids.suggestId).value =myValue;
                     _myselfThis.setPlace(map, myValue);
+                    _myselfThis.hideSearch();
                 });
+            }
+        },
+        hideSearch() {
+            let searchResult = document.querySelectorAll('.tangram-suggestion-main');
+            for (let i = 0; i < searchResult.length; i += 1) {
+                searchResult[i].classList.add('hideSearch');
             }
         },
         setPlace(map, value) {
@@ -230,5 +237,8 @@ export default {
 /* 百度地图提示被覆盖的问题 */
 .tangram-suggestion-main {
     z-index: 999999;
+}
+.hideSearch {
+    display: none !important;
 }
 </style>

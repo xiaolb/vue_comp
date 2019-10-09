@@ -87,7 +87,7 @@
             </template>
         </draggable>
         <!-- 预览弹窗 -->
-        <el-dialog :visible.sync="dialogVisible">
+        <el-dialog :visible.sync="dialogVisible" class="uploadElDialog">
             <img width="100%" :src="dialogImageUrl" alt="">
         </el-dialog>
     </div>
@@ -579,6 +579,16 @@ export default {
         width: 146px;
         height: 146px;
         z-index: 1;
+    }
+}
+.uploadElDialog .el-dialog__body {
+    display: flex;
+    justify-content: center;
+    img {
+        display: block;
+        width: auto !important;
+        max-width: 100% !important;
+        max-height: 510px;
     }
 }
 </style>

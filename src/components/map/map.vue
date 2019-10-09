@@ -71,8 +71,7 @@ export default {
             style: {
                 'min-width': '500px',
                 'max-width': '100%',
-                height: '500px',
-                // 'margin-top': '16px',
+                height: '484px',
             },
         };
     },

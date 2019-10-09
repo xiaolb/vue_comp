@@ -726,6 +726,12 @@ export default {
 }
 .spider_form_data {
     position: relative;
+    .el-form-item.is-success .el-input__inner,
+    .el-form-item.is-success .el-input__inner:focus,
+    .el-form-item.is-success .el-textarea__inner,
+    .el-form-item.is-success .el-textarea__inner:focus {
+        border-color: #dcdfe6;
+    }
     // input没有左右border
     .noLeftBorder {
         .el-input__inner {

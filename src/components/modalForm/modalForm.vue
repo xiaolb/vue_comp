@@ -46,7 +46,7 @@
     }
 }
 .sidebar_in {
-    animation: sidebar_in 0.3s;
+    animation: sidebar_in 0s;
 }
 @keyframes sidebar_in {
     0% {
@@ -59,7 +59,7 @@
     }
 }
 .sidebar_out {
-    animation: sidebar_out 0.5s;
+    animation: sidebar_out 0s;
 }
 
 @keyframes sidebar_out {

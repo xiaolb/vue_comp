@@ -141,7 +141,7 @@ export default {
     padding: 0px 16px;
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 30px);
+    height: calc(100vh - 40px);
     max-height: 100vh;
     .listPage_search {
         height: auto;

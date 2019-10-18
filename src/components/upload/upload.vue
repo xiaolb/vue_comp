@@ -7,65 +7,73 @@
         <p class="hint-single" v-else-if="hint">{{hint}}</p>
         <!-- 上传控件 -->
         <el-upload
-                v-if="multiple"
-                class="draggable-upload"
-                ref="upload"
-                :multiple="multiple"
-                :action="uploadUrl"
-                :list-type="'picture-card'"
-                :on-preview="handlePictureCardPreview"
-                :on-remove="handleRemove"
-                :before-upload="beforeAvatarUpload"
-                :disabled="disabled"
-                :headers="headers"
-                :file-list="formData[bindName] || []"
-                :with-credentials="true"
-                :on-success="handleAvatarSuccess"
-                :on-progress="handleFileProgress"
-                :http-request="uploadFun"
-                :show-file-list="false"
-                :class="{ uploadHidden: disabled, upload: true, ...uploadClass}"
-            >
-                <img v-if="max === 1 && formData[bindName] && formData[bindName][0] && formData[bindName][0].url" :src="formData[bindName][0].url" class="avatar">
-                <span v-else class="selfIcon">
-                    <i class="el-icon-plus avatar-uploader-icon"></i>
-                </span>
-                <div v-if="isPicture && scanPics.length > 0" class="scanPic">
-                    <img class="sendPic" :src="scanPics[0]" alt="">
-                </div>
-                <img v-if="isPicture  && scanPics.length > 0" class="sendbigPic" :src="scanPics[1]" alt="">
+            v-if="multiple"
+            class="draggable-upload"
+            ref="upload"
+            :style="styleUpload"
+            :limit="max"
+            :multiple="multiple"
+            :action="uploadUrl"
+            :list-type="'picture-card'"
+            :on-preview="handlePictureCardPreview"
+            :on-remove="handleRemove"
+            :before-upload="beforeAvatarUpload"
+            :disabled="disabled"
+            :headers="headers"
+            :file-list="formData[bindName] || []"
+            :with-credentials="true"
+            :on-success="handleAvatarSuccess"
+            :on-progress="handleFileProgress"
+            :http-request="uploadFun"
+            :show-file-list="false"
+            :class="{ uploadHidden: disabled, upload: true, ...uploadClass}"
+        >
+            <img v-if="max === 1 && formData[bindName] && formData[bindName][0] && formData[bindName][0].url" :src="formData[bindName][0].url" class="avatar">
+            <span v-else class="selfIcon">
+                <i class="el-icon-plus avatar-uploader-icon"></i>
+            </span>
+            <div v-if="isPicture && scanPics.length > 0" class="scanPic">
+                <img class="sendPic" :src="scanPics[0]" alt="">
+            </div>
+            <img v-if="isPicture  && scanPics.length > 0" class="sendbigPic" :src="scanPics[1]" alt="">
         </el-upload>
         <el-upload
-                v-else
-                class="draggable-upload"
-                ref="upload"
-                :action="uploadUrl"
-                :list-type="'picture-card'"
-                :on-preview="handlePictureCardPreview"
-                :on-remove="handleRemove"
-                :before-upload="beforeAvatarUpload"
-                :disabled="disabled"
-                :headers="headers"
-                :file-list="formData[bindName] || []"
-                :with-credentials="true"
-                :on-success="handleAvatarSuccess"
-                :on-progress="handleFileProgress"
-                :show-file-list="false"
-                :class="{ uploadHidden: disabled, upload: true, ...uploadClass}"
-            >
-                <img v-if="max === 1 && formData[bindName] && formData[bindName][0] && formData[bindName][0].url" :src="formData[bindName][0].url" class="avatar">
-                <span v-else class="selfIcon">
-                    <i class="el-icon-plus avatar-uploader-icon"></i>
-                </span>
-                <div v-if="isPicture && scanPics.length > 0" class="scanPic">
-                    <img class="sendPic" :src="scanPics[0]" alt="">
-                </div>
-                <img v-if="isPicture  && scanPics.length > 0" class="sendbigPic" :src="scanPics[1]" alt="">
+            v-else
+            :style="styleUpload"
+            class="draggable-upload"
+            ref="upload"
+            :action="uploadUrl"
+            :list-type="'picture-card'"
+            :on-preview="handlePictureCardPreview"
+            :on-remove="handleRemove"
+            :before-upload="beforeAvatarUpload"
+            :disabled="disabled"
+            :headers="headers"
+            :file-list="formData[bindName] || []"
+            :with-credentials="true"
+            :on-success="handleAvatarSuccess"
+            :on-progress="handleFileProgress"
+            :show-file-list="false"
+            :class="{ uploadHidden: disabled, upload: true, ...uploadClass}"
+        >
+            <img 
+                v-if="max === 1 && formData[bindName] && formData[bindName][0] && formData[bindName][0].url" 
+                :style="picStyle" 
+                :src="formData[bindName][0].url" 
+                class="avatar"
+            />
+            <span v-else class="selfIcon" :style="picStyle">
+                <i class="el-icon-plus avatar-uploader-icon"></i>
+            </span>
+            <div v-if="isPicture && scanPics.length > 0" class="scanPic">
+                <img class="sendPic" :src="scanPics[0]" alt="">
+            </div>
+            <img v-if="isPicture  && scanPics.length > 0" class="sendbigPic" :style="{...picStyle,left: parseInt(picStyle.width)+2+'px'}"  :src="scanPics[1]" alt="">
         </el-upload>
         <!-- 图片列表 -->
-        <draggable class="draggable" v-model="formData[bindName]" tag="ul" v-bind="dragOptions" >
+        <draggable :class="{draggable: true, [uploadLocal]: true}" v-model="formData[bindName]" tag="ul" v-bind="dragOptions" >
             <template v-if="formData[bindName] && (max !== 1 || disabled)">
-                <li v-for="(item, index) of formData[bindName]" :key="item.url+index">
+                <li v-for="(item, index) of formData[bindName]" :key="item.url+index" :style="picStyle">
                     <div v-if="!disabled" class="sortAndCkeck">
                         <el-checkbox v-model="item.checked"></el-checkbox>
                     </div>
@@ -79,8 +87,8 @@
                         <span v-if="!disabled" @click="() => handleRemove(item, formData[bindName].filter(value => value.url !== item.url))">删除</span>
                     </span>
                     <img v-if="isPicture" :src="item.url" alt="">
-                    <div v-if="isVideo" class="uploadVideo">
-                        <video :src="item.url" :class="{video: true, deleteShow: disabled}" controls="controls">您的浏览器不支持视频播放</video>
+                    <div v-if="isVideo" class="uploadVideo" :style="picStyle">
+                        <video :src="item.url" :style="picStyle" :class="{video: true, deleteShow: disabled}" controls="controls">您的浏览器不支持视频播放</video>
                         <span v-if="!disabled" @click="() => handleRemove(item, formData[bindName].filter(value => value.url !== item.url))">删除</span>
                     </div>
                 </li>
@@ -102,6 +110,7 @@ export default {
         draggable,
     },
     props: {
+        // 多张上传
         multiple: {
             type: Boolean,
             default: false,
@@ -182,9 +191,23 @@ export default {
             type: Function,
             default: () => {},
         },
+        // 上传样式
         uploadClass: {
             type: Object,
             defalut: () => {},
+        },
+        // 上传的位置
+        uploadLocal: {
+            type: String,
+            default: 'before',
+        },
+        // 图片的大小
+        picStyle: {
+            type: Object,
+            default: () => ({
+                width: '148px',
+                height: '148px',
+            }),
         },
     },
     data() {
@@ -200,6 +223,8 @@ export default {
                 Authorization: this.uploadAK,
             },
             isUploadList: [],
+            styleUpload: {},
+            backetData: [],
         };
     },
     computed: {
@@ -210,20 +235,62 @@ export default {
             return this.flagType === 'video';
         },
     },
+    watch: {
+        formData: {
+            handler(data) {
+                if (JSON.stringify(this.backetData) !== JSON.stringify(data[this.bindName])) {
+                    this.backetData = Object.assign({}, data[this.bindName]);
+                    setTimeout(this.setUploadLocal, 0);
+                }
+            },
+            deep: true,
+        },
+    },
+    created() {
+        this.addStyle();
+    },
     methods: {
-        // uploadRequest(param) {
-        // try {
-        // this.uploadFun(param).then(res => {
-        //     debugger;
-        //     this.handleAvatarSuccess(res);
-        // });
-        // } catch (error) {}
-        // },
+        // 设置
+        setUploadLocal() {
+            if (this.uploadLocal === 'before') {
+                return;
+            }
+            const el = document.querySelector('.draggable');
+            const li = document.createElement('li');
+            li.classList.add('_lastLi');
+            li.style.width = this.picStyle.width;
+            li.style.height = this.picStyle.height;
+            el.appendChild(li);
+
+            const lastLi = document.querySelector('._lastLi');
+            const offsetTop = lastLi.offsetTop;
+            const offsetLeft = lastLi.offsetLeft;
+            this.styleUpload = {
+                left: offsetLeft + 'px',
+                top: offsetTop + 'px',
+            };
+            el.removeChild(lastLi);
+        },
+        addStyle() {
+            const style = document.createElement('style');
+            const { uploadLocal, picStyle } = this;
+
+            style.type = 'text/css';
+            try {
+                style.appendChild(document.createTextNode(`.${uploadLocal}::${uploadLocal}{width: ${picStyle.width};height:${picStyle.height}}`));
+            } catch (ex) {
+                style.styleSheet.cssText = `.${uploadLocal}::${uploadLocal}{width: ${picStyle.width};height:${picStyle.height}}`; //针对IE
+            }
+            const head = document.getElementsByTagName('head')[0];
+
+            head.appendChild(style);
+        },
         // 设置封面
         settingFace(item, index) {
             const arrsFace = this.formData[this.bindName];
             arrsFace.splice(index, 1);
             arrsFace.unshift(item);
+            debugger;
             this.$set(this.formData, this.bindName, arrsFace);
             this.$message.success('设为封面成功，已移至首图');
         },
@@ -360,14 +427,14 @@ export default {
     }
     .scanPic {
         position: absolute;
-        right: -44px;
-        top: -44px;
+        right: -5px;
+        top: -28px;
         font-size: 14px;
         color: #fff;
         text-align: center;
         transform: rotate(-45deg);
         border-top: 45px solid transparent;
-        border-right: 45px solid transparent;
+        // border-right: 45px solid transparent;
         border-bottom: 45px solid transparent;
         border-left: 45px solid #efeff4;
         .sendPic {
@@ -386,12 +453,10 @@ export default {
         border: 1px dashed #c0ccda;
         border-radius: 6px;
         box-sizing: border-box;
-        width: 148px;
-        height: 148px;
         cursor: pointer;
-        line-height: 146px;
-        vertical-align: top;
-        display: inline-block;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     .el-upload {
         position: relative;
@@ -403,8 +468,6 @@ export default {
             padding: 10px;
             border: 1px solid #c0ccda;
             background: #fff;
-            width: 148px;
-            height: 148px;
             border-radius: 4px;
             display: none;
             // opacity: 0;
@@ -433,11 +496,10 @@ export default {
         li {
             position: relative;
             list-style-type: none;
-            width: 146px;
-            height: 146px;
             margin: 0 10px 8px 0;
             border-radius: 4px;
             border: 1px dashed #eeeeee;
+            box-sizing: border-box;
             overflow: hidden;
             .sortAndCkeck {
                 background: none;
@@ -535,8 +597,7 @@ export default {
     }
     .uploadVideo {
         position: relative;
-        width: 146px;
-        height: 146px;
+        box-sizing: border-box;
         span {
             position: absolute;
             bottom: 0;
@@ -557,27 +618,18 @@ export default {
     .uploadVideo:hover span {
         opacity: 1;
     }
-    .video {
-        width: 100%;
-        height: 148px;
-    }
-    .deleteShow {
-        height: 148px;
-    }
-    .draggable {
+    .before {
         &::before {
             content: '';
-            width: 146px;
-            height: 146px;
             margin: 0 10px 8px 0;
             border-radius: 4px;
+            box-sizing: border-box;
             overflow: hidden;
         }
     }
     .draggable-upload {
         position: absolute;
-        width: 146px;
-        height: 146px;
+        box-sizing: border-box;
         z-index: 1;
     }
 }
@@ -590,5 +642,8 @@ export default {
         max-width: 100% !important;
         max-height: 510px;
     }
+}
+.uploadElDialog .el-dialog__header {
+    border-bottom: none;
 }
 </style>

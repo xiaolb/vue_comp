@@ -212,10 +212,13 @@ export default {
                 }
                 const tableHeight = data_table.offsetHeight;
                 if (this.fromType === 'other') {
-                    this.height = window.innerHeight - data_table.offsetTop - 70 + pageHeight;
+                    this.height = window.innerHeight - data_table.offsetTop - 92 + pageHeight;
                 } else if (this.fromType === 'listPage') {
-                    this.height = tableHeight - 60 + pageHeight;
+                    this.height = tableHeight - 44 + pageHeight;
                 } else if (this.fromType === 'form') {
+                    this.height = 10000;
+                }
+                if (tableHeight === 0) {
                     this.height = 10000;
                 }
             }, 500);
@@ -285,7 +288,7 @@ export default {
     .pagination {
         display: flex;
         justify-content: flex-end;
-        padding: 12px 0 16px;
+        padding: 12px 0 0px;
         .el-pagination {
             padding: 0;
             width: auto;

@@ -27,14 +27,14 @@ export default {
     data() {
         return {
             item: {
-                multiple: true,
-                maxi: 11,
+                multiple: false,
+                maxi: 12,
                 hint: '默认图片',
                 hint: ['默认图片1', '默认图片2'],
                 name: 'picture',
                 size: 10,
                 isFacePic: true,
-                isWrite: true,
+                // isWrite: true,
                 disabled: false,
                 uploadUrl: 'http://bigdata-api.apitops.com/api/v1/common/upload/files',
                 uploadAK: '31c5df4c-054c-40a9-98fc-99e0fea40ef3',
@@ -42,7 +42,7 @@ export default {
                     'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/f137a9562d774b09938ec3360b551d04.jpg',
                     'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/f137a9562d774b09938ec3360b551d04.jpg',
                 ],
-                setable: false,
+                setable: true,
                 isWriteFun: () => {
                     console.log('写入图片');
                 },
@@ -62,24 +62,24 @@ export default {
             },
             formData: {
                 picture: [
-                    {
-                        url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/f137a9562d774b09938ec3360b551d04.jpg',
-                    },
-                    {
-                        url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/c1355b4172784268bf8c925e3de2a052.jpg',
-                    },
-                    {
-                        url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/c1355b4172784268bf8c925e3de2a052.jpg',
-                    },
-                    {
-                        url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/c1355b4172784268bf8c925e3de2a052.jpg',
-                    },
-                    {
-                        url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/c1355b4172784268bf8c925e3de2a052.jpg',
-                    },
-                    {
-                        url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/c1355b4172784268bf8c925e3de2a052.jpg',
-                    },
+                    // {
+                    //     url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/f137a9562d774b09938ec3360b551d04.jpg',
+                    // },
+                    // {
+                    //     url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/c1355b4172784268bf8c925e3de2a052.jpg',
+                    // },
+                    // {
+                    //     url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/c1355b4172784268bf8c925e3de2a052.jpg',
+                    // },
+                    // {
+                    //     url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/c1355b4172784268bf8c925e3de2a052.jpg',
+                    // },
+                    // {
+                    //     url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/c1355b4172784268bf8c925e3de2a052.jpg',
+                    // },
+                    // {
+                    //     url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/c1355b4172784268bf8c925e3de2a052.jpg',
+                    // },
                 ],
                 video: [
                     {
@@ -88,6 +88,14 @@ export default {
                 ],
             },
         };
+    },
+    watch: {
+        formData: {
+            handler(data) {
+                console.log(data, 1111111111);
+            },
+            deep: true,
+        },
     },
 };
 </script>

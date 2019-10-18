@@ -307,7 +307,7 @@ export default {
         };
     },
     updated() {
-        this.visible && this.updateCount < 4 && this.getscrollHeight();
+        this.visible && this.updateCount < 6 && this.getscrollHeight();
     },
     mounted() {
         this.getscrollHeight();
@@ -338,20 +338,20 @@ export default {
             this.updateCount += 1;
             const { title, modalBtns, nobtn, allDisabled } = this;
             const removeHeaderHeight = title ? 54 : 0;
-            // const removeFotterHeight = !modalBtns.length && !nobtn && !allDisabled ? 76 : 20;
-            const removeFotterHeight = !modalBtns.length && !nobtn && !allDisabled ? 64 : 20;
+            const removeFotterHeight = !modalBtns.length && !nobtn && !allDisabled ? 76 : 20;
 
             const _dialogHeader = document.querySelectorAll('._dialogHeader');
             const _dialogFooter = document.querySelectorAll('._dialogFooter');
             const removeSoltHeaderHeight = (_dialogHeader[0] && _dialogHeader[0].offsetHeight) || 0;
             const removeSoltFooterHeight = (_dialogFooter[0] && _dialogFooter[0].offsetHeight) || 0;
             const scrollHeight = removeHeaderHeight + removeFotterHeight + removeSoltHeaderHeight + removeSoltFooterHeight;
+            console.log(scrollHeight);
             if (this.search) {
                 this.bodyScrollHeight = { maxHeight: window.innerHeight - scrollHeight + 'px' };
             } else {
                 const _elDialog = document.querySelectorAll('.el-dialog');
                 const _elDialogHeight = (_elDialog[0] && _elDialog[0].offsetHeight) || 600;
-                this.bodyScrollHeight = { maxHeight: _elDialogHeight - scrollHeight + scrollHeight + 'px' };
+                this.bodyScrollHeight = { maxHeight: _elDialogHeight - scrollHeight + 'px' };
             }
 
             // header下的线

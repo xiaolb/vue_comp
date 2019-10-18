@@ -45,6 +45,10 @@
         background: #ffffff;
     }
 }
+.popOut .el-dialog {
+    max-height: 600px;
+    margin-bottom: 0;
+}
 .sidebar_in {
     animation: sidebar_in 0s;
 }
@@ -75,11 +79,6 @@
 
 .el-dialog__header {
     display: flex;
-    // font-size: 12px;
-    // font-weight: normal;
-    // font-stretch: normal;
-    // letter-spacing: 0px;
-    // color: rgba(0, 0, 0, 0.8);
     .el-dialog__title {
         font-size: 18px;
         color: #303133;
@@ -101,11 +100,18 @@
     flex-direction: column;
 }
 .el_dialog_myself {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .el-dialog {
+        margin: 0 !important;
+    }
     .el-dialog__body {
         padding: 16px 16px 0;
     }
     .el-dialog__footer {
-        padding: 12px 16px;
+        padding: 16px 16px 20px;
         text-align: left;
         z-index: 2;
         position: relative;
@@ -150,6 +156,7 @@
         :before-close="onCancel"
         :class="{
             isDialog: true,
+            popOut: !search,
             isFlagSearch: search,
             sidebar_in: search && visible, 
             sidebar_out: search && !visible,
@@ -336,7 +343,13 @@ export default {
             const removeSoltHeaderHeight = (_dialogHeader[0] && _dialogHeader[0].offsetHeight) || 0;
             const removeSoltFooterHeight = (_dialogFooter[0] && _dialogFooter[0].offsetHeight) || 0;
             const scrollHeight = removeHeaderHeight + removeFotterHeight + removeSoltHeaderHeight + removeSoltFooterHeight;
-            this.bodyScrollHeight = { maxHeight: window.innerHeight - scrollHeight + 'px' };
+            if (this.search) {
+                this.bodyScrollHeight = { maxHeight: window.innerHeight - scrollHeight + 'px' };
+            } else {
+                const _elDialog = document.querySelectorAll('.el-dialog');
+                const _elDialogHeight = (_elDialog[0] && _elDialog[0].offsetHeight) || 600;
+                this.bodyScrollHeight = { maxHeight: _elDialogHeight - scrollHeight + scrollHeight + 'px' };
+            }
 
             // header下的线
             if (this.title) {

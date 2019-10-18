@@ -49,6 +49,9 @@
     max-height: 600px;
     margin-bottom: 0;
 }
+.bodyScrollHeight {
+    overflow-y: auto;
+}
 .sidebar_in {
     animation: sidebar_in 0s;
 }
@@ -304,7 +307,7 @@ export default {
         };
     },
     updated() {
-        this.visible && this.updateCount < 2 && this.getscrollHeight();
+        this.visible && this.updateCount < 4 && this.getscrollHeight();
     },
     mounted() {
         this.getscrollHeight();

@@ -28,14 +28,19 @@
             :show-file-list="false"
             :class="{ uploadHidden: disabled, upload: true, ...uploadClass}"
         >
-            <img v-if="max === 1 && formData[bindName] && formData[bindName][0] && formData[bindName][0].url" :src="formData[bindName][0].url" class="avatar">
-            <span v-else class="selfIcon">
+            <img 
+                v-if="max === 1 && formData[bindName] && formData[bindName][0] && formData[bindName][0].url"  
+                :style="picStyle" 
+                :src="formData[bindName][0].url" 
+                class="avatar"
+            />
+            <span v-else class="selfIcon" :style="picStyle">
                 <i class="el-icon-plus avatar-uploader-icon"></i>
             </span>
             <div v-if="isPicture && scanPics.length > 0" class="scanPic">
                 <img class="sendPic" :src="scanPics[0]" alt="">
             </div>
-            <img v-if="isPicture  && scanPics.length > 0" class="sendbigPic" :src="scanPics[1]" alt="">
+            <img v-if="isPicture  && scanPics.length > 0" class="sendbigPic" :style="{...picStyle,left: parseInt(picStyle.width)+2+'px'}" :src="scanPics[1]" alt="">
         </el-upload>
         <el-upload
             v-else

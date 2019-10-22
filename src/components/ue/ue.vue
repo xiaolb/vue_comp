@@ -33,6 +33,7 @@ export default {
         // 多个的时候
         id: {
             type: String,
+            default: 'id2',
         },
         // 数据由对象包裹
         formData: {

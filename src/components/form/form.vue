@@ -226,7 +226,7 @@
                     >
                         <UE
                             v-if="!item.disabled && !allDisabled"
-                            id="ue2"
+                            :id="item.id"
                             ref="ue"
                             :form-data="formData"
                             :default-msg="formData[item.name]"

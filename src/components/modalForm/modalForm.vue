@@ -350,7 +350,7 @@ export default {
                 this.bodyScrollHeight = { maxHeight: window.innerHeight - scrollHeight + 'px' };
             } else {
                 const _elDialog = document.querySelectorAll('.el-dialog');
-                const _elDialogHeight = (_elDialog[0] && _elDialog[0].offsetHeight) || 600;
+                const _elDialogHeight = 600; // 最大默认600
                 this.bodyScrollHeight = { maxHeight: _elDialogHeight - scrollHeight + 'px' };
             }
 

@@ -40,7 +40,7 @@
             <div v-if="isPicture && scanPics.length > 0" class="scanPic">
                 <img class="sendPic" :src="scanPics[0]" alt="">
             </div>
-            <img v-if="isPicture  && scanPics.length > 0" class="sendbigPic" :style="{...picStyle,left: parseInt(picStyle.width)+2+'px'}" :src="scanPics[1]" alt="">
+            <img v-if="phoneSendPhotoPic" class="sendbigPic" :style="{...picStyle,left: parseInt(picStyle.width)+2+'px'}" :src="scanPics[1]" alt="">
         </el-upload>
         <el-upload
             v-else
@@ -70,7 +70,7 @@
             <span v-else class="selfIcon" :style="picStyle">
                 <i class="el-icon-plus avatar-uploader-icon"></i>
             </span>
-            <div v-if="isPicture && scanPics.length > 0" class="scanPic">
+            <div v-if="isPicture && scanPics.length > 0" class="scanPic" @click.stop="phoneSendPhoto" >
                 <img class="sendPic" :src="scanPics[0]" alt="">
             </div>
             <img v-if="isPicture  && scanPics.length > 0" class="sendbigPic" :style="{...picStyle,left: parseInt(picStyle.width)+2+'px'}"  :src="scanPics[1]" alt="">
@@ -254,7 +254,12 @@ export default {
     created() {
         this.addStyle();
     },
+    mounted() {},
     methods: {
+        // 手机传图操作
+        phoneSendPhoto() {
+            console.log(22222222);
+        },
         // 设置
         setUploadLocal() {
             if (this.uploadLocal === 'before') {
@@ -436,6 +441,7 @@ export default {
         top: -28px;
         font-size: 14px;
         color: #fff;
+        cursor: pointer;
         text-align: center;
         transform: rotate(-45deg);
         border-top: 45px solid transparent;
@@ -462,26 +468,6 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-    }
-    .el-upload {
-        position: relative;
-        .sendbigPic {
-            position: absolute;
-            top: 30px;
-            left: 150px;
-            z-index: 2;
-            padding: 10px;
-            border: 1px solid #c0ccda;
-            background: #fff;
-            border-radius: 4px;
-            display: none;
-            // opacity: 0;
-            // transition: opacity 0.3s;
-        }
-    }
-    .scanPic:hover + .sendbigPic {
-        display: block;
-        // opacity: 1;
     }
     .el-upload-list.el-upload-list--picture-card.is-disabled + .el-upload.el-upload--picture-card {
         display: none;
@@ -636,6 +622,7 @@ export default {
         position: absolute;
         box-sizing: border-box;
         z-index: 1;
+        overflow: hidden;
     }
 }
 .uploadElDialog .el-dialog__body {

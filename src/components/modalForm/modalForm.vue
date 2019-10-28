@@ -154,6 +154,7 @@
         :center="false"
         :modal="modal"
         :width="width"
+        :append-to-body="appendToBody"
         :close-on-click-modal="false"
         :close-on-press-escape="false"
         :before-close="onCancel"
@@ -296,6 +297,11 @@ export default {
         },
         // 是否需要蒙层
         modal: {
+            type: Boolean,
+            default: false,
+        },
+        // 是否添加到body下边
+        appendToBody: {
             type: Boolean,
             default: false,
         },

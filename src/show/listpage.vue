@@ -35,7 +35,6 @@
             :bottomFixed="false"
         ></modal-form>
         <modal-form
-            v-if="preVisible"    
             :width="'500px'"
             :search="true"
             :visible="preVisible"

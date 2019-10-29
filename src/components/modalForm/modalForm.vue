@@ -158,6 +158,7 @@
         :close-on-click-modal="false"
         :close-on-press-escape="false"
         :before-close="onCancel"
+        @opened="opened"
         :class="{
             isDialog: true,
             popOut: !search,
@@ -210,7 +211,7 @@ import { debounceWork } from '@/components/utils';
 function getNum() {
     const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
     let nums = '';
-    for (let i = 0; i < 32; i++) {
+    for (let i = 0; i < 8; i++) {
         const id = parseInt(Math.random() * 61);
         nums += chars[id];
     }
@@ -318,24 +319,31 @@ export default {
         return {
             bodyScrollHeight: { maxHeight: '0px' },
             updateCount: 0,
-            elDialogClass: getNum(),
+            elDialogClass: `modal_${getNum()}`,
         };
-    },
-    updated() {
-        this.visible && this.updateCount < 6 && this.getscrollHeight();
     },
     mounted() {
         // 当前模态框唯一标识
         this.$vnode.elm.classList.add(this.elDialogClass);
+        window.getModalScrollHeight = this.getscrollHeight;
+        this.timeInterCount = setInterval(() => {
+            if (document.querySelector(`.${this.elDialogClass} ._dialogFooter`)) {
+                clearInterval(this.timeInterCount);
+                this.getscrollHeight();
+            }
+        }, 100);
         setTimeout(() => {
-            this.getscrollHeight();
-            window.getModalScrollHeight = this.getscrollHeight;
-        }, 0);
+            clearInterval(this.timeInterCount);
+        }, 5000);
     },
     created() {
         console.log('-------------------dialog弹窗-------------------------');
     },
     methods: {
+        opened() {
+            this.getscrollHeight();
+            clearInterval(this.timeInterCount);
+        },
         onCancel() {
             this.updateCount = 0;
             this.$emit('onCancel');

@@ -207,7 +207,15 @@
 <script>
 import FormItem from '@/components/form/';
 import { debounceWork } from '@/components/utils';
-
+function getNum() {
+    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    let nums = '';
+    for (let i = 0; i < 32; i++) {
+        const id = parseInt(Math.random() * 61);
+        nums += chars[id];
+    }
+    return nums;
+}
 export default {
     name: 'ModalForm',
     components: {
@@ -310,14 +318,19 @@ export default {
         return {
             bodyScrollHeight: { maxHeight: '0px' },
             updateCount: 0,
+            elDialogClass: getNum(),
         };
     },
     updated() {
         this.visible && this.updateCount < 6 && this.getscrollHeight();
     },
     mounted() {
-        this.getscrollHeight();
-        window.getModalScrollHeight = this.getscrollHeight;
+        // 当前模态框唯一标识
+        this.$vnode.elm.classList.add(this.elDialogClass);
+        setTimeout(() => {
+            this.getscrollHeight();
+            window.getModalScrollHeight = this.getscrollHeight;
+        }, 0);
     },
     created() {
         console.log('-------------------dialog弹窗-------------------------');
@@ -342,27 +355,26 @@ export default {
         },
         getscrollHeight() {
             this.updateCount += 1;
-            const { title, modalBtns, nobtn, allDisabled } = this;
+            const { title, modalBtns, nobtn, allDisabled, elDialogClass } = this;
             const removeHeaderHeight = title ? 54 : 0;
             const removeFotterHeight = !modalBtns.length && !nobtn && !allDisabled ? 76 : 20;
 
-            const _dialogHeader = document.querySelectorAll('._dialogHeader');
-            const _dialogFooter = document.querySelectorAll('._dialogFooter');
-            const removeSoltHeaderHeight = (_dialogHeader[0] && _dialogHeader[0].offsetHeight) || 0;
-            const removeSoltFooterHeight = (_dialogFooter[0] && _dialogFooter[0].offsetHeight) || 0;
+            const _dialogHeader = document.querySelector(`.${elDialogClass} ._dialogHeader`);
+            const _dialogFooter = document.querySelector(`.${elDialogClass} ._dialogFooter`);
+            const removeSoltHeaderHeight = (_dialogHeader && _dialogHeader.offsetHeight) || 0;
+            const removeSoltFooterHeight = (_dialogFooter && _dialogFooter.offsetHeight) || 0;
             const scrollHeight = removeHeaderHeight + removeFotterHeight + removeSoltHeaderHeight + removeSoltFooterHeight;
-            console.log(scrollHeight);
+
             if (this.search) {
                 this.bodyScrollHeight = { maxHeight: window.innerHeight - scrollHeight + 'px' };
             } else {
-                const _elDialog = document.querySelectorAll('.el-dialog');
                 const _elDialogHeight = 600; // 最大默认600
                 this.bodyScrollHeight = { maxHeight: _elDialogHeight - scrollHeight + 'px' };
             }
 
             // header下的线
             if (this.title) {
-                const el_dialog__header = document.querySelector('.el-dialog__header');
+                const el_dialog__header = document.querySelector(`.${elDialogClass} .el-dialog__header`);
                 if (el_dialog__header) {
                     el_dialog__header.style.borderBottom = '1px solid #E6EBF5';
                 }

@@ -34,8 +34,8 @@ export default {
                 name: 'picture',
                 size: 10,
                 isFacePic: true,
-                // isWrite: true,
-                disabled: false,
+                isWrite: true,
+                disabled: true,
                 uploadUrl: 'http://bigdata-api.apitops.com/api/v1/common/upload/files',
                 uploadAK: '31c5df4c-054c-40a9-98fc-99e0fea40ef3',
                 scanPics: [
@@ -62,21 +62,21 @@ export default {
             },
             formData: {
                 picture: [
-                    // {
-                    //     url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/f137a9562d774b09938ec3360b551d04.jpg',
-                    // },
-                    // {
-                    //     url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/c1355b4172784268bf8c925e3de2a052.jpg',
-                    // },
-                    // {
-                    //     url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/c1355b4172784268bf8c925e3de2a052.jpg',
-                    // },
-                    // {
-                    //     url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/c1355b4172784268bf8c925e3de2a052.jpg',
-                    // },
-                    // {
-                    //     url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/c1355b4172784268bf8c925e3de2a052.jpg',
-                    // },
+                    {
+                        url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/f137a9562d774b09938ec3360b551d04.jpg',
+                    },
+                    {
+                        url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/c1355b4172784268bf8c925e3de2a052.jpg',
+                    },
+                    {
+                        url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/c1355b4172784268bf8c925e3de2a052.jpg',
+                    },
+                    {
+                        url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/c1355b4172784268bf8c925e3de2a052.jpg',
+                    },
+                    {
+                        url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/c1355b4172784268bf8c925e3de2a052.jpg',
+                    },
                     // {
                     //     url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/c1355b4172784268bf8c925e3de2a052.jpg',
                     // },

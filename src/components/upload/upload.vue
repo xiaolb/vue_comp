@@ -76,7 +76,7 @@
             <img v-if="isPicture  && scanPics.length > 0" class="sendbigPic" :style="{...picStyle,left: parseInt(picStyle.width)+2+'px'}"  :src="scanPics[1]" alt="">
         </el-upload>
         <!-- 图片列表 -->
-        <draggable :class="{draggable: true, [uploadLocal]: true}" v-model="formData[bindName]" tag="ul" v-bind="dragOptions" >
+        <draggable :class="{draggable: true, [!disabled && uploadLocal]: true}" v-model="formData[bindName]" tag="ul" v-bind="dragOptions" >
             <template v-if="formData[bindName] && (max !== 1 || disabled)">
                 <li v-for="(item, index) of formData[bindName]" :key="item.url+index" :style="picStyle">
                     <div v-if="!disabled" class="sortAndCkeck">
@@ -86,7 +86,7 @@
                         封面
                     </div>
                     <i v-if="isPicture" class="el-icon-zoom-in preview" @click="() => handlePictureCardPreview(item)"></i>
-                    <span v-if="isPicture" class="icon">
+                    <span v-if="isPicture" :class="{icon: !disabled || isWrite}">
                         <span v-if="!disabled && setable" @click="() => settingFace(item, index)">设为封面</span>
                         <span v-if="isWrite" @click="() => isWriteFun(item)">备注</span>
                         <span v-if="!disabled" @click="() => handleRemove(item, formData[bindName].filter(value => value.url !== item.url))">删除</span>
@@ -100,7 +100,7 @@
             </template>
         </draggable>
         <!-- 预览弹窗 -->
-        <el-dialog :visible.sync="dialogVisible" class="uploadElDialog">
+        <el-dialog :visible.sync="dialogVisible" class="uploadElDialog" append-to-body>
             <img width="100%" :src="dialogImageUrl" alt="">
         </el-dialog>
     </div>

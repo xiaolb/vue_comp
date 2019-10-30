@@ -33,13 +33,18 @@
             :formData="searchParams"
             :search="true"
             :bottomFixed="false"
+            :appendToBody="true"
+            :modal="true"
         ></modal-form>
         <modal-form
+            v-if="false" 
             :width="'500px'"
             :search="true"
             :visible="preVisible"
             :nobtn="true"
             @onCancel="onCancel"
+            :appendToBody="true"
+            :modal="true"
         >
             <div slot="header" class="modalHeader">
                 <h2>文章预览</h2>
@@ -405,29 +410,29 @@ export default {
             margin-left: 0;
         }
     }
-    .modalHeader {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0px 16px;
-        height: 54px;
-        border-bottom: 1px solid #cccccc;
-        h2 {
-            margin: 0;
-        }
-        a {
-            padding-left: 4px;
-        }
-    }
-    .modalFooter {
-        box-shadow: 2px 0px 5px #ccc;
-        background: white;
-        padding: 8px 0 12px 136px;
-    }
 }
 </style>
 <style lang="scss">
+.modalHeader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 16px;
+    height: 54px;
+    border-bottom: 1px solid #cccccc;
+    h2 {
+        margin: 0;
+    }
+    a {
+        padding-left: 4px;
+    }
+}
+.modalFooter {
+    box-shadow: 2px 0px 5px #ccc;
+    background: white;
+    padding: 8px 0 12px 136px;
+}
 #listpage {
     .colorText {
         .el-radio-button__orig-radio:checked + .el-radio-button__inner {

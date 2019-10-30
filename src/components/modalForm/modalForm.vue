@@ -111,7 +111,8 @@
         margin: 0 !important;
     }
     .el-dialog__body {
-        padding: 16px 16px 0;
+        padding: 0;
+        // box-sizing: border-box;
     }
     .el-dialog__footer {
         padding: 16px 16px 20px;
@@ -323,8 +324,7 @@ export default {
         };
     },
     mounted() {
-        // 当前模态框唯一标识
-        this.$vnode.elm.classList.add(this.elDialogClass);
+        this.addClass();
         window.getModalScrollHeight = this.getscrollHeight;
         this.timeInterCount = setInterval(() => {
             if (document.querySelector(`.${this.elDialogClass} ._dialogFooter`)) {
@@ -340,7 +340,12 @@ export default {
         console.log('-------------------dialog弹窗-------------------------');
     },
     methods: {
+        addClass() {
+            // 当前模态框唯一标识
+            this.$vnode.elm.classList.add(this.elDialogClass);
+        },
         opened() {
+            this.addClass();
             this.getscrollHeight();
             clearInterval(this.timeInterCount);
         },
@@ -372,7 +377,6 @@ export default {
             const removeSoltHeaderHeight = (_dialogHeader && _dialogHeader.offsetHeight) || 0;
             const removeSoltFooterHeight = (_dialogFooter && _dialogFooter.offsetHeight) || 0;
             const scrollHeight = removeHeaderHeight + removeFotterHeight + removeSoltHeaderHeight + removeSoltFooterHeight;
-
             if (this.search) {
                 this.bodyScrollHeight = { maxHeight: window.innerHeight - scrollHeight + 'px' };
             } else {

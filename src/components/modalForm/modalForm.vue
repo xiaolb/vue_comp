@@ -328,7 +328,6 @@ export default {
         window.getModalScrollHeight = this.getscrollHeight;
         this.timeInterCount = setInterval(() => {
             if (document.querySelector(`.${this.elDialogClass} ._dialogFooter`)) {
-                clearInterval(this.timeInterCount);
                 this.getscrollHeight();
             }
         }, 100);
@@ -346,11 +345,11 @@ export default {
         },
         opened() {
             this.addClass();
-            this.getscrollHeight();
-            clearInterval(this.timeInterCount);
+            setTimeout(() => {
+                this.getscrollHeight();
+            }, 50);
         },
         onCancel() {
-            this.updateCount = 0;
             this.$emit('onCancel');
         },
         saveDialog() {
@@ -377,6 +376,7 @@ export default {
             const removeSoltHeaderHeight = (_dialogHeader && _dialogHeader.offsetHeight) || 0;
             const removeSoltFooterHeight = (_dialogFooter && _dialogFooter.offsetHeight) || 0;
             const scrollHeight = removeHeaderHeight + removeFotterHeight + removeSoltHeaderHeight + removeSoltFooterHeight;
+            console.log(removeHeaderHeight + removeFotterHeight + removeSoltHeaderHeight + removeSoltFooterHeight);
             if (this.search) {
                 this.bodyScrollHeight = { maxHeight: window.innerHeight - scrollHeight + 'px' };
             } else {
@@ -390,6 +390,9 @@ export default {
                 if (el_dialog__header) {
                     el_dialog__header.style.borderBottom = '1px solid #E6EBF5';
                 }
+            }
+            if (this.updateCount > 3) {
+                clearInterval(this.timeInterCount);
             }
         },
     },

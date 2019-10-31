@@ -39,6 +39,47 @@ window.onresize = () => {
     window.getModalScrollHeight && window.getModalScrollHeight();
     window.bottomFixedWidth && window.bottomFixedWidth();
 };
+export const FormItem = {
+    install,
+    Form,
+};
+export const QRCodeItem = {
+    install,
+    QRCode,
+};
+export const ModalFormItem = {
+    install,
+    ModalForm,
+};
+export const ListPageItem = {
+    install,
+    ListPage,
+};
+export const SearchItemItem = {
+    install,
+    SearchItem,
+};
+export const TableItemItem = {
+    install,
+    TableItem,
+};
+export const WrapperItem = {
+    install,
+    Wrapper,
+};
+
+export const UploadItem = {
+    install,
+    Upload,
+};
+export const UEItem = {
+    install,
+    UE,
+};
+export const MapItemItem = {
+    install,
+    MapItem,
+};
 
 export default {
     install,

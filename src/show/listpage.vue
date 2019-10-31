@@ -22,7 +22,7 @@
             :tableButtons="tableButtons"
         ></list-page>
         <modal-form
-            v-if="searchVisible" 
+            v-if="false" 
             :title="'高级筛选'"
             :width="'800px'"
             ref="highSearch"
@@ -37,9 +37,9 @@
             :modal="true"
         ></modal-form>
         <modal-form
-            v-if="false" 
+            v-if="preVisible" 
             :width="'500px'"
-            :search="true"
+            :search="false"
             :visible="preVisible"
             :nobtn="true"
             @onCancel="onCancel"

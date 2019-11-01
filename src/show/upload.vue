@@ -18,6 +18,9 @@
             :setable="item.setable"
             :multiple="item.multiple"
             :upload-fun="item.uploadFun"
+            :phoneSendPhotoFun="phoneSendPhotoFun"
+            :phoneSendPhotoPic="item.phoneSendPhotoPic"
+            :onCancel="onCancel"
         ></upload-item>
     </div>
 </template>
@@ -27,6 +30,7 @@ export default {
     data() {
         return {
             item: {
+                phoneSendPhotoPic: false,
                 multiple: false,
                 maxi: 12,
                 hint: '默认图片',
@@ -35,13 +39,10 @@ export default {
                 size: 10,
                 isFacePic: true,
                 isWrite: true,
-                disabled: true,
+                disabled: false,
                 uploadUrl: 'http://bigdata-api.apitops.com/api/v1/common/upload/files',
                 uploadAK: '31c5df4c-054c-40a9-98fc-99e0fea40ef3',
-                scanPics: [
-                    'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/f137a9562d774b09938ec3360b551d04.jpg',
-                    'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/f137a9562d774b09938ec3360b551d04.jpg',
-                ],
+                scanPics: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/f137a9562d774b09938ec3360b551d04.jpg',
                 setable: true,
                 isWriteFun: () => {
                     console.log('写入图片');
@@ -95,6 +96,14 @@ export default {
                 console.log(data, 1111111111);
             },
             deep: true,
+        },
+    },
+    methods: {
+        phoneSendPhotoFun() {
+            this.item.phoneSendPhotoPic = true;
+        },
+        onCancel() {
+            this.item.phoneSendPhotoPic = false;
         },
     },
 };

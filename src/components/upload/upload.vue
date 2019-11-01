@@ -37,10 +37,9 @@
             <span v-else class="selfIcon" :style="picStyle">
                 <i class="el-icon-plus avatar-uploader-icon"></i>
             </span>
-            <div v-if="isPicture && scanPics.length > 0" class="scanPic">
-                <img class="sendPic" :src="scanPics[0]" alt="">
+            <div v-if="isPicture && scanPics" class="scanPic" @click.stop="phoneSendPhoto">
+                <img class="sendPic" :src="scanPics" alt="">
             </div>
-            <img v-if="phoneSendPhotoPic" class="sendbigPic" :style="{...picStyle,left: parseInt(picStyle.width)+2+'px'}" :src="scanPics[1]" alt="">
         </el-upload>
         <el-upload
             v-else
@@ -70,10 +69,10 @@
             <span v-else class="selfIcon" :style="picStyle">
                 <i class="el-icon-plus avatar-uploader-icon"></i>
             </span>
-            <div v-if="isPicture && scanPics.length > 0" class="scanPic" @click.stop="phoneSendPhoto" >
-                <img class="sendPic" :src="scanPics[0]" alt="">
+            <div v-if="isPicture && scanPics" class="scanPic" @click.stop="phoneSendPhoto" >
+                <img class="sendPic" :src="scanPics" alt="">
             </div>
-            <img v-if="isPicture  && scanPics.length > 0" class="sendbigPic" :style="{...picStyle,left: parseInt(picStyle.width)+2+'px'}"  :src="scanPics[1]" alt="">
+            
         </el-upload>
         <!-- 图片列表 -->
         <draggable :class="{draggable: true, [!disabled && uploadLocal]: true}" v-model="formData[bindName]" tag="ul" v-bind="dragOptions" >
@@ -103,6 +102,9 @@
         <el-dialog :visible.sync="dialogVisible" class="uploadElDialog" append-to-body>
             <img width="100%" :src="dialogImageUrl" alt="">
         </el-dialog>
+        <div id="contianPhoneSendPcPic"  v-if="phoneSendPhotoPic" @click="onCancel">
+            <div id="phoneSendPcPic"></div>
+        </div>
     </div>
 </template>
 
@@ -189,8 +191,8 @@ export default {
         },
         // 手机传图
         scanPics: {
-            type: Array,
-            default: () => [],
+            type: String,
+            default: '',
         },
         uploadFun: {
             type: Function,
@@ -213,6 +215,21 @@ export default {
                 width: '148px',
                 height: '148px',
             }),
+        },
+        // 是否展示手机传图二维码
+        phoneSendPhotoPic: {
+            type: Boolean,
+            default: false,
+        },
+        //手机传图操作
+        phoneSendPhotoFun: {
+            type: Function,
+            default: () => {},
+        },
+        //手机传图操作取消
+        onCancel: {
+            type: Function,
+            default: () => {},
         },
     },
     data() {
@@ -258,7 +275,7 @@ export default {
     methods: {
         // 手机传图操作
         phoneSendPhoto() {
-            console.log(22222222);
+            this.phoneSendPhotoFun();
         },
         // 设置
         setUploadLocal() {
@@ -637,5 +654,24 @@ export default {
 }
 .uploadElDialog .el-dialog__header {
     border-bottom: none;
+}
+#contianPhoneSendPcPic {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background: rgba(67, 67, 67, 0.3);
+    #phoneSendPcPic {
+        background: #fff;
+        width: 200px;
+        height: 200px;
+        border-radius: 10px;
+        overflow: hidden;
+    }
 }
 </style>

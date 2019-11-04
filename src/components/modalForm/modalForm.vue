@@ -210,13 +210,13 @@
 import FormItem from '@/components/form/';
 import { debounceWork } from '@/components/utils';
 function getNum() {
-    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    let nums = '';
-    for (let i = 0; i < 8; i++) {
-        const id = parseInt(Math.random() * 61);
-        nums += chars[id];
-    }
-    return nums;
+    const time = new Date().getTime() || Date.now();
+    return (
+        time.toString(36) +
+        Math.random()
+            .toString(36)
+            .slice(-1)
+    );
 }
 export default {
     name: 'ModalForm',

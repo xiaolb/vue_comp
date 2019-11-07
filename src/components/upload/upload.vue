@@ -186,11 +186,6 @@ export default {
             type: String,
             default: '',
         },
-        // 手机传图
-        scanPics: {
-            type: Boolean,
-            default: false,
-        },
         uploadFun: {
             type: Function,
             default: () => {},
@@ -212,6 +207,11 @@ export default {
                 width: '148px',
                 height: '148px',
             }),
+        },
+        // 手机传图
+        scanPics: {
+            type: Boolean,
+            default: false,
         },
         //手机传图操作
         phoneSendPhotoFun: {

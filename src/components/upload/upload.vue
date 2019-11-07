@@ -38,7 +38,7 @@
                 <i class="el-icon-plus avatar-uploader-icon"></i>
             </span>
             <div v-if="isPicture && scanPics" class="scanPic" @click.stop="phoneSendPhoto">
-                <img class="sendPic" :src="scanPics" alt="">
+                <img class="sendPic" src="//static.apitops.com/h5/common/images/phone@2x.png" alt="">
             </div>
         </el-upload>
         <el-upload
@@ -70,7 +70,7 @@
                 <i class="el-icon-plus avatar-uploader-icon"></i>
             </span>
             <div v-if="isPicture && scanPics" class="scanPic" @click.stop="phoneSendPhoto" >
-                <img class="sendPic" :src="scanPics" alt="">
+                <img class="sendPic" src="//static.apitops.com/h5/common/images/phone@2x.png" alt="">
             </div>
             
         </el-upload>
@@ -102,9 +102,6 @@
         <el-dialog :visible.sync="dialogVisible" class="uploadElDialog" append-to-body>
             <img width="100%" :src="dialogImageUrl" alt="">
         </el-dialog>
-        <div id="contianPhoneSendPcPic"  v-if="phoneSendPhotoPic" @click="onCancel">
-            <div id="phoneSendPcPic"></div>
-        </div>
     </div>
 </template>
 
@@ -191,8 +188,8 @@ export default {
         },
         // 手机传图
         scanPics: {
-            type: String,
-            default: '',
+            type: Boolean,
+            default: false,
         },
         uploadFun: {
             type: Function,
@@ -216,18 +213,8 @@ export default {
                 height: '148px',
             }),
         },
-        // 是否展示手机传图二维码
-        phoneSendPhotoPic: {
-            type: Boolean,
-            default: false,
-        },
         //手机传图操作
         phoneSendPhotoFun: {
-            type: Function,
-            default: () => {},
-        },
-        //手机传图操作取消
-        onCancel: {
             type: Function,
             default: () => {},
         },
@@ -454,7 +441,7 @@ export default {
     }
     .scanPic {
         position: absolute;
-        right: -5px;
+        right: -6px;
         top: -28px;
         font-size: 14px;
         color: #fff;
@@ -654,24 +641,5 @@ export default {
 }
 .uploadElDialog .el-dialog__header {
     border-bottom: none;
-}
-#contianPhoneSendPcPic {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 10;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100vh;
-    background: rgba(67, 67, 67, 0.3);
-    #phoneSendPcPic {
-        background: #fff;
-        width: 200px;
-        height: 200px;
-        border-radius: 10px;
-        overflow: hidden;
-    }
 }
 </style>

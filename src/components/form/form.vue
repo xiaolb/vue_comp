@@ -389,6 +389,8 @@
                             :uploadFun="item.uploadFun"
                             :setable="item.setable"
                             :uploadClass="item.uploadClass"
+                            :scanPics="item.scanPics"
+                            :phoneSendPhotoFun="item.phoneSendPhotoFun"
                         ></Upload>
                         <connect-or-extra v-if="item.connect || item.extra" :item="item" />
                     </el-form-item>

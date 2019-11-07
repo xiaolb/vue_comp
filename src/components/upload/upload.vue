@@ -441,7 +441,7 @@ export default {
     }
     .scanPic {
         position: absolute;
-        right: -5px;
+        right: -6px;
         top: -28px;
         font-size: 14px;
         color: #fff;

@@ -8,7 +8,7 @@
                     :format="item.format || 'yyyy-MM-dd HH:mm:ss'"
                     :value-format="item.format || 'yyyy-MM-dd HH:mm:ss'"
                     :placeholder="item.disabled || allDisabled ? '' : item.firstPlacehold || item.placehold || formType[item.type] + '开始' + item.label"
-                    :disabled="item.firstDefaultTime || item.disabled"
+                    :disabled="item.firstDisabled || item.disabled"
                     :picker-options="item.firstPickerOptions"
                     :default-time="item.firstDefaultTime"
                 ></el-date-picker>

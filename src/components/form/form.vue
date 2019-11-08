@@ -173,6 +173,8 @@
                             :start-placeholder="item.disabled || allDisabled ? '' : item.placehold || formType[item.type] + item.label"
                             :end-placeholder="item.disabled || allDisabled ? '' : item.placehold || formType[item.type] + item.label"
                             :disabled="item.disabled"
+                            :picker-options="item.pickerOptions"
+                            :default-time="item.defaultTime"
                             :style="item.inputStyle || {}"
                         ></el-date-picker>
                         <connect-or-extra v-if="item.connect || item.extra" :item="item" />

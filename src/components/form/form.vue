@@ -457,6 +457,7 @@
                     </el-form-item>
                 </el-col>
             </el-form>
+            <slot name="formAppend"></slot>
         </div>
     </div>
 </template>

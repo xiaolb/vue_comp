@@ -127,6 +127,9 @@
         padding: 0px;
     }
 }
+.v-modal {
+    background: none;
+}
 .noModal.el-dialog__wrapper {
     left: auto;
 }
@@ -350,14 +353,31 @@ export default {
         }, 5000);
 
         // 点击modal之外的地方关闭modal
-        if (this.noModalBG) {
-            document.querySelector('.v-modal').style.background = 'none';
-        }
+        this.modalbgFun();
+    },
+    watch: {
+        visible: function(newVal, oldVal) {
+            if (newVal) {
+                setTimeout(() => {
+                    this.modalbgFun();
+                }, 0);
+            }
+        },
     },
     created() {
         console.log('-------------------dialog弹窗-------------------------');
     },
     methods: {
+        modalbgFun() {
+            const vModal = document.querySelector('.v-modal');
+            if (vModal) {
+                if (this.noModalBG) {
+                    vModal.style.background = 'none';
+                } else {
+                    vModal.style.background = '#000';
+                }
+            }
+        },
         addClass() {
             // 当前模态框唯一标识
             this.$vnode.elm.classList.add(this.elDialogClass);

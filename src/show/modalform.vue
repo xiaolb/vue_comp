@@ -23,7 +23,7 @@
             :nobtn="true"
             @onCancel="onCancel"
             :closeOnClickModal="true"
-            :noModalBG="true"
+            :noModalBG="false"
             :modal="true"
         >
             <div slot="header" class="modalHeader">

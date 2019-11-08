@@ -28,10 +28,10 @@
             :show-file-list="false"
             :class="{ uploadHidden: disabled, upload: true, ...uploadClass}"
         >
-            <img 
-                v-if="max === 1 && formData[bindName] && formData[bindName][0] && formData[bindName][0].url"  
-                :style="picStyle" 
-                :src="formData[bindName][0].url" 
+            <img
+                v-if="max === 1 && formData[bindName] && formData[bindName][0] && formData[bindName][0].url"
+                :style="picStyle"
+                :src="formData[bindName][0].url"
                 class="avatar"
             />
             <span v-else class="selfIcon" :style="picStyle">
@@ -60,10 +60,10 @@
             :show-file-list="false"
             :class="{ uploadHidden: disabled, upload: true, ...uploadClass}"
         >
-            <img 
-                v-if="max === 1 && formData[bindName] && formData[bindName][0] && formData[bindName][0].url" 
-                :style="picStyle" 
-                :src="formData[bindName][0].url" 
+            <img
+                v-if="max === 1 && formData[bindName] && formData[bindName][0] && formData[bindName][0].url"
+                :style="picStyle"
+                :src="formData[bindName][0].url"
                 class="avatar"
             />
             <span v-else class="selfIcon" :style="picStyle">
@@ -72,19 +72,19 @@
             <div v-if="isPicture && scanPics" class="scanPic" @click.stop="phoneSendPhoto" >
                 <img class="sendPic" src="//static.apitops.com/h5/common/images/phone@2x.png" alt="">
             </div>
-            
+
         </el-upload>
         <!-- 图片列表 -->
         <draggable :class="{draggable: true, [!disabled && uploadLocal]: true}" v-model="formData[bindName]" tag="ul" v-bind="dragOptions" >
             <template v-if="formData[bindName] && (max !== 1 || disabled)">
-                <li v-for="(item, index) of formData[bindName]" :key="item.url+index" :style="picStyle">
-                    <div v-if="!disabled" class="sortAndCkeck">
+                <li v-for="(item, index) of formData[bindName]" :key="item.url+index" :style="picStyle" :class="{'drag-able': true}">
+                    <div v-if="!disabled && chooseable" class="sortAndCkeck">
                         <el-checkbox v-model="item.checked"></el-checkbox>
                     </div>
                     <div v-if="!disabled && index === 0 && isFacePic && isPicture" class="facePic">
                         封面
                     </div>
-                    <i v-if="isPicture" class="el-icon-zoom-in preview" @click="() => handlePictureCardPreview(item)"></i>
+                    <i v-if="isPicture && showable" class="el-icon-zoom-in preview" @click="() => handlePictureCardPreview(item)"></i>
                     <span v-if="isPicture" :class="{icon: !disabled || isWrite}">
                         <span v-if="!disabled && setable" @click="() => settingFace(item, index)">设为封面</span>
                         <span v-if="isWrite" @click="() => isWriteFun(item)">备注</span>
@@ -114,6 +114,11 @@ export default {
         draggable,
     },
     props: {
+        // 图片是否可拖拽
+        draggable: {
+            type: Boolean,
+            default: true,
+        },
         // 多张上传
         multiple: {
             type: Boolean,
@@ -146,6 +151,16 @@ export default {
         },
         // 是否设为封面
         setable: {
+            type: Boolean,
+            default: true,
+        },
+        // 放大标识是否显示
+        showable: {
+            type: Boolean,
+            default: true,
+        },
+        // 图片是否可选择
+        chooseable: {
             type: Boolean,
             default: true,
         },
@@ -225,6 +240,8 @@ export default {
                 sort: true,
                 group: true,
                 disabled: this.disabled,
+                // 控制可拖拽的类名
+                handle: this.draggable ? '.drag-able' : '.drag-disable',
             },
             dialogVisible: false,
             dialogImageUrl: '',

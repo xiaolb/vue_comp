@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div :class="{ ...item.extraClass }">
         <span v-if="item.connect"  :class="{spider_form_data_connect: !!item.connect}">{{ item.connect }}</span>
         <span
             v-if="item.extra"

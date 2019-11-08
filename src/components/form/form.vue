@@ -312,6 +312,17 @@
                     </el-form-item>
                     <slot v-if="item.type === 'handleClick' && item.appendSlot" name="appendhandleClick"></slot>
                     <el-form-item
+                        v-if="item.type === 'text' && !item.hidden"
+                        :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
+                        :prop="item.name"
+                        :label="item.label && `${item.label}：`"
+                        :label-width="item.labelWidth || labelWidth"
+                    >
+                        <span>{{ formData[item.name] }}</span>
+                        <connect-or-extra v-if="item.connect || item.extra" :item="item" />
+                    </el-form-item>
+                     <slot v-if="item.type === 'input' && item.appendSlot" name="appendtext"></slot>
+                    <el-form-item
                         v-else-if="item.type === 'qrcode' && !item.hidden"
                         :label="item.label && `${item.label}：`"
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
@@ -380,6 +391,9 @@
                             :bind-name="item.name"
                             :disabled="item.disabled || allDisabled"
                             :setable="item.setable"
+                            :chooseable="item.chooseable"
+                            :showable="item.showable"
+                            :draggable="item.draggable"
                             :form-data="formData"
                             :size="item.size"
                             :is-face-pic="!!item.isFacePic"

@@ -9,8 +9,9 @@
             :style="{ width: '100%' }"
             :span-method="mergeSpan"
             :show-header="showHeader"
-            :class="{ noData: !tableData.length }"
+            :class="{ noData: !tableData.length,showEmptyPic: this.showEmptyPic }"
             :max-height="height"
+            @sort-change="sortMethod"
             @selection-change="handleSelectionChange"
             @filter-change="filteredChange"
         >
@@ -87,7 +88,20 @@
                 </template>
             </el-table-column>
         </el-table>
-        <div v-if="searchParams.count || tableButtons.length > 0" class="pagination">
+        <!-- 简版分页控件 -->
+         <div v-if="simplePagination && searchParams.count" class="pagination small-pagination">
+            <el-pagination
+                background
+                :current-page.sync="searchParams.pageIndex"
+                layout="prev, pager, next"
+                :total="searchParams.count"
+                :page-size.sync="searchParams.pageSize"
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+            >
+            </el-pagination>
+        </div>
+        <div v-else-if="searchParams.count || tableButtons.length > 0" class="pagination">
             <span v-if="searchParams.count" class="currentPageCount">共 {{ searchParams.count }} 条&nbsp;&nbsp;当前显示 {{ currentPageCount }} 条&nbsp;</span>
             <el-pagination
                 v-if="searchParams.count"
@@ -174,6 +188,21 @@ export default {
         tableButtons: {
             type: Array,
             default: () => [],
+        },
+        // table监听排序变化
+        sortMethod: {
+            type: Function,
+            default: () => {},
+        },
+        // 是否显示简单版分页控件
+        simplePagination: {
+            type: Boolean,
+            default: false,
+        },
+        // 是否显示列表缺省图片
+        showEmptyPic: {
+            type: Boolean,
+            default: true,
         },
     },
     data() {
@@ -295,6 +324,11 @@ export default {
             display: flex;
             justify-content: flex-end;
         }
+        &.small-pagination {
+            .el-pagination {
+                margin: 0 auto;
+            }
+        }
         .currentPageCount {
             font-weight: 400;
             font-size: 13px;
@@ -398,20 +432,22 @@ export default {
     .tableButton:nth-child(1) {
         margin-left: 38px;
     }
-    .el-table__empty-block {
-        flex-direction: column;
-        height: 300px !important;
-        .el-table__empty-text {
-            font-size: 18px;
+    .showEmptyPic {
+        .el-table__empty-block {
+            flex-direction: column;
+            height: 300px !important;
+            .el-table__empty-text {
+                font-size: 18px;
+            }
         }
-    }
-    .el-table__empty-block:before {
-        content: '';
-        display: block;
-        width: 120px;
-        height: 120px;
-        background: url('http://top-static.oss-cn-hangzhou.aliyuncs.com/h5/common/images/ico_infonull@3x.png') no-repeat center center;
-        background-size: contain;
+        .el-table__empty-block:before {
+            content: '';
+            display: block;
+            width: 120px;
+            height: 120px;
+            background: url('http://top-static.oss-cn-hangzhou.aliyuncs.com/h5/common/images/ico_infonull@3x.png') no-repeat center center;
+            background-size: contain;
+        }
     }
     th.el-table-column--selection .cell {
         display: none;

@@ -8,7 +8,9 @@
                     :format="item.format || 'yyyy-MM-dd HH:mm:ss'"
                     :value-format="item.format || 'yyyy-MM-dd HH:mm:ss'"
                     :placeholder="item.disabled || allDisabled ? '' : item.firstPlacehold || item.placehold || formType[item.type] + '开始' + item.label"
-                    :disabled="item.disabled"
+                    :disabled="item.firstDefaultTime || item.disabled"
+                    :picker-options="item.firstPickerOptions"
+                    :default-time="item.firstDefaultTime"
                 ></el-date-picker>
                 <connect-or-extra :item="item" />
             </el-form-item>
@@ -22,7 +24,9 @@
                     :format="item.format || 'yyyy-MM-dd HH:mm:ss'"
                     :value-format="item.format || 'yyyy-MM-dd HH:mm:ss'"
                     :placeholder="item.disabled || allDisabled ? '' : item.secondPlacehold || item.placehold || formType[item.type] + '结束' + item.label"
-                    :disabled="item.disabled"
+                    :disabled="item.secondDisabled || item.disabled"
+                    :picker-options="item.secondPickerOptions"
+                    :default-time="item.secondDefaultTime"
                 ></el-date-picker>
             </el-form-item>
         </el-col>

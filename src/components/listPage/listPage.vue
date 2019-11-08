@@ -22,8 +22,11 @@
             :table-title="tableTitle"
             :search-params="searchParams"
             :show-header="showHeader"
+            :showEmptyPic="showEmptyPic"
             :merge-span="mergeSpan"
             :unique-select="!!uniqueSelect"
+            :simple-pagination="simplePagination"
+            :sort-method="sortMethod"
             @searchList="searchList"
             :tableButtons="tableButtons"
         ></table-item>
@@ -112,6 +115,11 @@ export default {
             type: Boolean,
             default: true,
         },
+        // table监听排序变化
+        sortMethod: {
+            type: Function,
+            default: () => {},
+        },
         // 合并行和列
         mergeSpan: {
             type: Function,
@@ -131,6 +139,16 @@ export default {
         showText: {
             type: Boolean,
             default: false,
+        },
+        // 是否显示简单版分页控件
+        simplePagination: {
+            type: Boolean,
+            default: false,
+        },
+        // 是否显示列表缺省图片
+        showEmptyPic: {
+            type: Boolean,
+            default: true,
         },
     },
 };

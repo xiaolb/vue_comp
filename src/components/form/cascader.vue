@@ -8,7 +8,7 @@
         :debounce="item.debounce || 300"
         :change-on-select="item.change_on_select"
         :filterable="item.filterable"
-        size="medium"
+        :size="item.size ||'medium'"
         :separator="item.separator || '/'"
         :placeholder="item.disabled || allDisabled ? '' : item.placehold || formType[item.type] + item.label"
         :style="item.inputStyle || {}"

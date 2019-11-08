@@ -8,9 +8,7 @@
             :restButtons="restButtons"
             :filterBtn="filterBtn"
             :title="title"
-
             :searchParams="searchParams"
-
             :tableData="tableData"
             :tableTitle="tableTitle"
             :searchList="searchList"
@@ -22,7 +20,7 @@
             :tableButtons="tableButtons"
         ></list-page>
         <modal-form
-            v-if="false" 
+            v-if="false"
             :title="'高级筛选'"
             :width="'800px'"
             ref="highSearch"
@@ -37,7 +35,7 @@
             :modal="true"
         ></modal-form>
         <modal-form
-            v-if="preVisible" 
+            v-if="preVisible"
             :width="'500px'"
             :search="false"
             :visible="preVisible"

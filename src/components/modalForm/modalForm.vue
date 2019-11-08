@@ -156,7 +156,7 @@
         :modal="modal"
         :width="width"
         :append-to-body="appendToBody"
-        :close-on-click-modal="false"
+        :close-on-click-modal="closeOnClickModal"
         :close-on-press-escape="false"
         :before-close="onCancel"
         @opened="opened"
@@ -310,8 +310,18 @@ export default {
             type: Boolean,
             default: false,
         },
-        // 是否添加到body下边
+        // 是否添加到body元素下边
         appendToBody: {
+            type: Boolean,
+            default: false,
+        },
+        // 点击蒙层是否关闭弹窗
+        closeOnClickModal: {
+            type: Boolean,
+            default: false,
+        },
+        // 蒙层没有背景色
+        noModalBG: {
             type: Boolean,
             default: false,
         },
@@ -324,16 +334,25 @@ export default {
         };
     },
     mounted() {
+        // 给modal添加类
         this.addClass();
+        // 注册全局滚动事件
         window.getModalScrollHeight = this.getscrollHeight;
+        // 计算modal的高度
         this.timeInterCount = setInterval(() => {
             if (document.querySelector(`.${this.elDialogClass} ._dialogFooter`)) {
                 this.getscrollHeight();
             }
         }, 100);
+        // 清除定时器
         setTimeout(() => {
             clearInterval(this.timeInterCount);
         }, 5000);
+
+        // 点击modal之外的地方关闭modal
+        if (this.noModalBG) {
+            document.querySelector('.v-modal').style.background = 'none';
+        }
     },
     created() {
         console.log('-------------------dialog弹窗-------------------------');

@@ -22,7 +22,9 @@
             :visible="preVisible"
             :nobtn="true"
             @onCancel="onCancel"
-
+            :closeOnClickModal="true"
+            :noModalBG="true"
+            :modal="true"
         >
             <div slot="header" class="modalHeader">
                 <h2>文章预览</h2>

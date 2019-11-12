@@ -127,7 +127,7 @@
         padding: 0px;
     }
 }
-.v-modal {
+.noModalBG {
     background: none;
 }
 .noModal.el-dialog__wrapper {
@@ -368,15 +368,43 @@ export default {
         console.log('-------------------dialog弹窗-------------------------');
     },
     methods: {
+        // 是否需要蒙层
         modalbgFun() {
             const vModal = document.querySelector('.v-modal');
             if (vModal) {
                 if (this.noModalBG) {
-                    vModal.style.background = 'none';
+                    vModal.classList.add('noModalBG');
+                    this.observerFun()
                 } else {
-                    vModal.style.background = '#000';
+                    vModal.classList.remove('noModalBG')
                 }
             }
+        },
+        // 监听v-modal的z-index变化，确定计算是否有无弹窗
+        observerFun() {
+            const MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
+            const element = document.querySelector('.v-modal');
+            const observer = new MutationObserver((mutations)=> {
+                mutations.forEach((mutation) => {
+                    if (mutation.attributeName == "style") {
+                        const vModal = document.querySelector('.v-modal');
+                        const curModal = document.querySelector(`.${this.elDialogClass}`);
+                        if(!vModal || !curModal ) {
+                            vModal.classList.remove('noModalBG')
+                            return
+                        }
+                        if(this.noModalBG && Number(curModal.style.zIndex) === Number(vModal.style.zIndex) + 1) {
+                            vModal.classList.add('noModalBG');
+                        } else {
+                            vModal.classList.remove('noModalBG')
+                        }
+                    }
+                });
+            });
+
+            observer.observe(element, {
+                attributes: true //configure it to listen to attribute changes
+            });
         },
         addClass() {
             // 当前模态框唯一标识
@@ -415,7 +443,7 @@ export default {
             const removeSoltHeaderHeight = (_dialogHeader && _dialogHeader.offsetHeight) || 0;
             const removeSoltFooterHeight = (_dialogFooter && _dialogFooter.offsetHeight) || 0;
             const scrollHeight = removeHeaderHeight + removeFotterHeight + removeSoltHeaderHeight + removeSoltFooterHeight;
-            console.log(removeHeaderHeight + removeFotterHeight + removeSoltHeaderHeight + removeSoltFooterHeight);
+            
             if (this.search) {
                 this.bodyScrollHeight = { maxHeight: window.innerHeight - scrollHeight + 'px' };
             } else {
@@ -424,7 +452,7 @@ export default {
             }
 
             // header下的线
-            if (this.title) {
+            if (this.title && this.search) {
                 const el_dialog__header = document.querySelector(`.${elDialogClass} .el-dialog__header`);
                 if (el_dialog__header) {
                     el_dialog__header.style.borderBottom = '1px solid #E6EBF5';

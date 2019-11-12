@@ -13,7 +13,7 @@
             :formData="searchParams"
             :search="true"
             :bottomFixed="false"
-            :modal="false"
+            :modal="true"
         ></modal-form>
         <modal-form
             v-if="preVisible"
@@ -23,13 +23,13 @@
             :nobtn="true"
             @onCancel="onCancel"
             :closeOnClickModal="true"
-            :noModalBG="false"
+            :noModalBG="true"
             :modal="true"
         >
             <div slot="header" class="modalHeader">
                 <h2>文章预览</h2>
                 <section>
-                    <a @click="() => {}">编辑</a>
+                    <a @click="() => {visible=true}">编辑</a>
                     <a @click="() => {}">推送</a>
                     <a @click="() => {}">关联房源</a>
                 </section>
@@ -51,6 +51,7 @@
             </div> -->
         </modal-form>
         <!-- <modal-form :visible="true" title="djdjdj"></modal-form> -->
+        <el-dialog :visible.sync="visible"></el-dialog>
     </div>
 </template>
 <script>
@@ -65,6 +66,7 @@ export default {
             annotation: 'nihaonihao 你好你好你好',
             searchVisible: false,
             preVisible: false,
+            visible: false,
             searchParams: {
                 pageIndex: 1,
                 pageSize: 20,
@@ -110,12 +112,15 @@ export default {
     },
     methods: {
         showModal() {
-            // this.searchVisible = true;
-            this.preVisible = true;
+            setTimeout(() => {
+                
+                this.preVisible = true;
+            }, 0);
+            this.searchVisible = true;
         },
         // 取消弹窗
         onCancel() {
-            this.searchVisible = false;
+            // this.searchVisible = false;
             this.preVisible = false;
         },
     },

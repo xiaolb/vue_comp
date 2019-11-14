@@ -330,6 +330,11 @@ export default {
             type: Boolean,
             default: false,
         },
+        // header是否需要下划线
+        hasBottomSolid: {
+            type: Boolean,
+            default: false,
+        },
     },
     data() {
         return {
@@ -392,7 +397,7 @@ export default {
                         const vModal = document.querySelector('.v-modal');
                         const curModal = document.querySelector(`.${this.elDialogClass}`);
                         if(!vModal) return 
-                        if(vModal && !curModal) {
+                        if(!curModal) {
                             vModal.classList.remove('noModalBG')
                             return
                         }
@@ -455,7 +460,7 @@ export default {
             }
 
             // header下的线
-            if (this.title && this.search) {
+            if ((this.title && this.search) || this.hasBottomSolid) {
                 const el_dialog__header = document.querySelector(`.${elDialogClass} .el-dialog__header`);
                 if (el_dialog__header) {
                     el_dialog__header.style.borderBottom = '1px solid #E6EBF5';

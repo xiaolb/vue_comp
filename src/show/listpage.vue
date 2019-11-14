@@ -30,18 +30,19 @@
             :modalBtns="modalBtns"
             :formData="searchParams"
             :search="true"
-            :bottomFixed="false"
+            :bottomFixed="true"
             :appendToBody="true"
             :modal="true"
         ></modal-form>
         <modal-form
             v-if="preVisible"
             :width="'500px'"
-            :search="false"
+            :search="true"
             :visible="preVisible"
-            :nobtn="true"
+            :nobtn="false"
             @onCancel="onCancel"
             :appendToBody="true"
+            :bottomFixed="true"
             :modal="true"
         >
             <div slot="header" class="modalHeader">
@@ -61,10 +62,10 @@
                 :bottom-fixed="true"
             >
             </Form>
-            <div slot="footer" class="modalFooter">
+            <!-- <div slot="footer" class="modalFooter">
                 <el-button type="primary" @click="()=>{}">确定</el-button>
                 <el-button @click="()=>{}">取 消</el-button>
-            </div>
+            </div> -->
         </modal-form>
     </div>
 </template>
@@ -321,7 +322,7 @@ export default {
         // 高级搜索formItems
         formImmediateItems() {
             return [
-                { name: 'countryId', label: '区域', type: 'input', span: 24 },
+                { name: 'countryId', label: '区域', type: 'select', data:[], span: 24 },
                 { name: 'provinceId', label: '省份', type: 'input', span: 24 },
                 { name: 'cityId', label: '城市', type: 'input', span: 24 },
                 { name: 'districtId', label: '区域', type: 'input', span: 24 },
@@ -338,7 +339,7 @@ export default {
                 { name: 'onlineStatus', label: '状态', type: 'input', span: 24 },
                 { name: 'developer', label: '开发商', type: 'input', span: 24 },
                 { name: 'projectName', label: '项目公司', type: 'input', span: 24 },
-                { name: 'developerBrand', label: '开发商品牌', type: 'input', span: 24 },
+                { name: 'developerBrand', label: '开发商品牌',type: 'select', data:[],  span: 24 },
             ];
         },
     },

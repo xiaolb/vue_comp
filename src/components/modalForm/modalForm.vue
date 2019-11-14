@@ -118,7 +118,9 @@
         padding: 16px 16px 20px;
         text-align: left;
         z-index: 2;
-        position: relative;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
         box-shadow: 2px 0px 5px #ccc;
     }
 }
@@ -389,7 +391,8 @@ export default {
                     if (mutation.attributeName == "style") {
                         const vModal = document.querySelector('.v-modal');
                         const curModal = document.querySelector(`.${this.elDialogClass}`);
-                        if(!vModal || !curModal ) {
+                        if(!vModal) return 
+                        if(vModal && !curModal) {
                             vModal.classList.remove('noModalBG')
                             return
                         }

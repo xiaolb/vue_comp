@@ -360,7 +360,7 @@ export default {
                     name: 'select',
                     label: '选择AAAAA',
                     type: 'select',
-                    // multiple: true, // 是否可多选
+                    multiple: true, // 是否可多选
                     // multipleLimit: 2, // 多选限制
                     // allowCreate: true, // 是否允许创建
                     // filterable: true, // 是否可搜索

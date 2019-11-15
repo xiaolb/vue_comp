@@ -12,7 +12,7 @@
         :placeholder="item.disabled || allDisabled ? '' : item.placehold || formType[item.type] + item.label"
         :style="item.inputStyle || {}"
         :filter-method="item.filterSearch || function() {}"
-
+        :value-key="item.name"
         @change="a => (item.selectFun && item.selectFun(a)) || function() {}"
     >
         <el-option
@@ -30,6 +30,7 @@
     </el-select>
     <el-select
         v-else
+        :value-key="item.name"
         v-model="formData[item.name]"
         :disabled="item.disabled"
         :clearable="item.clearable"

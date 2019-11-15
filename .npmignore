@@ -1,0 +1,11 @@
+node_modules/
+static/
+src/
+
+*.babelrc
+*.lock
+package-lock.json
+index.html
+.prettierrc
+.editorconfig
+webpack.config.js

@@ -111,7 +111,7 @@
         margin: 0 !important;
     }
     .el-dialog__body {
-        padding: 0;
+        padding: 15px 15px 0;
         // box-sizing: border-box;
     }
     .el-dialog__footer {
@@ -169,7 +169,7 @@
             isDialog: true,
             popOut: !search,
             isFlagSearch: search,
-            sidebar_in: search && visible, 
+            sidebar_in: search && visible,
             sidebar_out: search && !visible,
             el_dialog_myself: true,
             noDialogHeader: !title,
@@ -381,9 +381,9 @@ export default {
             if (vModal) {
                 if (this.noModalBG) {
                     vModal.classList.add('noModalBG');
-                    this.observerFun()
+                    this.observerFun();
                 } else {
-                    vModal.classList.remove('noModalBG')
+                    vModal.classList.remove('noModalBG');
                 }
             }
         },
@@ -391,27 +391,27 @@ export default {
         observerFun() {
             const MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
             const element = document.querySelector('.v-modal');
-            const observer = new MutationObserver((mutations)=> {
-                mutations.forEach((mutation) => {
-                    if (mutation.attributeName == "style") {
+            const observer = new MutationObserver(mutations => {
+                mutations.forEach(mutation => {
+                    if (mutation.attributeName == 'style') {
                         const vModal = document.querySelector('.v-modal');
                         const curModal = document.querySelector(`.${this.elDialogClass}`);
-                        if(!vModal) return 
-                        if(!curModal) {
-                            vModal.classList.remove('noModalBG')
-                            return
+                        if (!vModal) return;
+                        if (!curModal) {
+                            vModal.classList.remove('noModalBG');
+                            return;
                         }
-                        if(this.noModalBG && Number(curModal.style.zIndex) === Number(vModal.style.zIndex) + 1) {
+                        if (this.noModalBG && Number(curModal.style.zIndex) === Number(vModal.style.zIndex) + 1) {
                             vModal.classList.add('noModalBG');
                         } else {
-                            vModal.classList.remove('noModalBG')
+                            vModal.classList.remove('noModalBG');
                         }
                     }
                 });
             });
 
             observer.observe(element, {
-                attributes: true //configure it to listen to attribute changes
+                attributes: true, //configure it to listen to attribute changes
             });
         },
         addClass() {
@@ -451,7 +451,7 @@ export default {
             const removeSoltHeaderHeight = (_dialogHeader && _dialogHeader.offsetHeight) || 0;
             const removeSoltFooterHeight = (_dialogFooter && _dialogFooter.offsetHeight) || 0;
             const scrollHeight = removeHeaderHeight + removeFotterHeight + removeSoltHeaderHeight + removeSoltFooterHeight;
-            
+
             if (this.search) {
                 this.bodyScrollHeight = { maxHeight: window.innerHeight - scrollHeight + 'px' };
             } else {

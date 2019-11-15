@@ -8,7 +8,7 @@
     >
         <el-radio-button
             v-for="(checkItem, radioIndex) of item.data"
-            :key="radioIndex"
+            :key="`${checkItem.value || checkItem.itemValue || checkItem.paramValue || checkItem.id}${radioIndex}`"
             :border="item.border"
             :label="checkItem.value || checkItem.itemValue || checkItem.paramValue || checkItem.id"
             >{{ checkItem.label || checkItem.itemLabel || checkItem.paramName || checkItem.name }}</el-radio-button

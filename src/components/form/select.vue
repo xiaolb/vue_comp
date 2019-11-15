@@ -17,7 +17,7 @@
     >
         <el-option
             v-for="(selectItem, selectIndex) of item.data"
-            :key="`${selectItem.value}${selectIndex}`"
+            :key="`${selectItem.value || selectItem.itemValue || selectItem.paramValue || selectItem.id}${selectIndex}`"
             :label="selectItem.label || selectItem.itemLabel || selectItem.paramName || selectItem.name"
             :value="selectItem.value || selectItem.itemValue || selectItem.paramValue || selectItem.id"
             :disabled="selectItem.disabled"
@@ -44,7 +44,7 @@
     >
         <el-option
             v-for="(selectItem, selectIndex) of item.data"
-            :key="`${selectItem.value}${selectIndex}`"
+            :key="`${selectItem.value || selectItem.itemValue || selectItem.paramValue || selectItem.id}${selectIndex}`"
             :label="selectItem.label || selectItem.itemLabel || selectItem.paramName || selectItem.name"
             :value="selectItem.value || selectItem.itemValue || selectItem.paramValue || selectItem.id"
             :disabled="selectItem.disabled"

@@ -31,8 +31,8 @@
         ></span>
         <!-- 选择项增加说明 -->
         <template v-if="formItem.itemAppendName" slot-scope="{ item }">
-            <div style="float: left;">{{ item['value'] }}</div>
-            <span style="float: right;">{{ item[formItem.itemAppendName] }}</span>
+            <div  :style="{...formItem.itemStyle}" :class="{...formItem.itemClassList}" style="float: left;">{{ item['value'] }}</div>
+            <span style="float: right;" :style="{...formItem.itemAppendStyle}" :class="{...formItem.itemAppendClassList}">{{ item[formItem.itemAppendName] }}</span>
         </template>
     </el-autocomplete>
 </template>

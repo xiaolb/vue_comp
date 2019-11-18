@@ -327,6 +327,18 @@ export default {
                         ]);
                     },
                     itemAppendName: 'unit',
+                    itemAppendStyle: {
+                        color: 'red',
+                    },
+                    itemAppendClassList: {
+                        'autocomplete-itemAppend': true,
+                    },
+                    itemStyle: {
+                        color: 'green',
+                    },
+                    itemClassList: {
+                        'autocomplete-item-class': true,
+                    },
                     selectFun: value => {
                         // 当前选中的值
                         console.log(value);

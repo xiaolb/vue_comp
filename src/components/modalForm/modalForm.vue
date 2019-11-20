@@ -111,7 +111,7 @@
         margin: 0 !important;
     }
     .el-dialog__body {
-        padding: 15px 15px 0;
+        padding: 0;
         // box-sizing: border-box;
     }
     .el-dialog__footer {
@@ -120,6 +120,7 @@
         z-index: 2;
         position: absolute;
         bottom: 0;
+        background: #ffffff;
         width: 100%;
         box-shadow: 2px 0px 5px #ccc;
     }
@@ -164,6 +165,7 @@
         :close-on-click-modal="closeOnClickModal"
         :close-on-press-escape="false"
         :before-close="onCancel"
+        :show-close="showClose"
         @opened="opened"
         :class="{
             isDialog: true,
@@ -335,6 +337,11 @@ export default {
             type: Boolean,
             default: false,
         },
+        // 是否显示关闭按钮
+        showClose: {
+            type: Boolean,
+            default: true,
+        },
     },
     data() {
         return {
@@ -448,9 +455,11 @@ export default {
 
             const _dialogHeader = document.querySelector(`.${elDialogClass} ._dialogHeader`);
             const _dialogFooter = document.querySelector(`.${elDialogClass} ._dialogFooter`);
+            const _dialog_footer = document.querySelector(`.${elDialogClass} .dialog-footer`);
             const removeSoltHeaderHeight = (_dialogHeader && _dialogHeader.offsetHeight) || 0;
             const removeSoltFooterHeight = (_dialogFooter && _dialogFooter.offsetHeight) || 0;
-            const scrollHeight = removeHeaderHeight + removeFotterHeight + removeSoltHeaderHeight + removeSoltFooterHeight;
+            const removeSoltDialogFooter = (_dialog_footer && _dialog_footer.offsetHeight) || 0;
+            const scrollHeight = removeHeaderHeight + removeFotterHeight + removeSoltDialogFooter + removeSoltHeaderHeight + removeSoltFooterHeight;
 
             if (this.search) {
                 this.bodyScrollHeight = { maxHeight: window.innerHeight - scrollHeight + 'px' };

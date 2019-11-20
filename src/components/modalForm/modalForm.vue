@@ -451,16 +451,13 @@ export default {
             this.updateCount += 1;
             const { title, modalBtns, nobtn, allDisabled, elDialogClass } = this;
             const removeHeaderHeight = title ? 54 : 0;
-            const removeFotterHeight = !modalBtns.length && !nobtn && !allDisabled ? 76 : 20;
+            // const removeFotterHeight = !modalBtns.length && !nobtn && !allDisabled ? 76 : 20;
 
             const _dialogHeader = document.querySelector(`.${elDialogClass} ._dialogHeader`);
             const _dialogFooter = document.querySelector(`.${elDialogClass} ._dialogFooter`);
-            const _dialog_footer = document.querySelector(`.${elDialogClass} .dialog-footer`);
             const removeSoltHeaderHeight = (_dialogHeader && _dialogHeader.offsetHeight) || 0;
             const removeSoltFooterHeight = (_dialogFooter && _dialogFooter.offsetHeight) || 0;
-            const removeSoltDialogFooter = (_dialog_footer && _dialog_footer.offsetHeight) || 0;
-            const scrollHeight = removeHeaderHeight + removeFotterHeight + removeSoltDialogFooter + removeSoltHeaderHeight + removeSoltFooterHeight;
-
+            const scrollHeight = removeHeaderHeight + removeSoltHeaderHeight + removeSoltFooterHeight;
             if (this.search) {
                 this.bodyScrollHeight = { maxHeight: window.innerHeight - scrollHeight + 'px' };
             } else {

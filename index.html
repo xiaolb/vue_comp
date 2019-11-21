@@ -1,42 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>comp</title>
-        <style>
-            html,
-            body {
-                margin: 0;
-                padding: 0;
-            }
-            * {
-                font-family: 'PingFang SC', 'Microsoft YaHei' !important;
-            }
-            *::-webkit-scrollbar {
-                width: 8px;
-                height: 8px;
-                background-color: #ffffff;
-            }
 
-            *::-webkit-scrollbar-track {
-                border-radius: 2px;
-                background: rgba(0, 0, 0, 0.01);
-            }
+<head>
+    <meta charset="utf-8" />
+    <script src="//static.apitops.com/h5/common/UE/ueditor.all.js" crossorigin="anonymous"></script>
+    <script src="//static.apitops.com/h5/common/UE/ueditor.parse.min.js" crossorigin="anonymous"></script>
+    <script src="//static.apitops.com/h5/common/UE/lang/zh-cn/zh-cn.js" crossorigin="anonymous"></script>
+    <title>后台组件样式</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
 
-            *::-webkit-scrollbar-thumb {
-                border-radius: 5px;
-                background: #d5dbe7;
-            }
-        </style>
-    </head>
+        * {
+            font-family: 'PingFang SC', 'Microsoft YaHei' !important;
+        }
 
-    <body>
-        <div id="app"></div>
-        <script>
-            window.HOST_TYPE = '2';
-            window.BMap_loadScriptTime = new Date().getTime();
-        </script>
-        <script src="//api.map.baidu.com/getscript?v=2.0&ak=SbiGTt5bDaSqs4toQd82pBnY&services=&t=2018062910" type="text/javascript"></script>
-        <script src="/dist/custom-ui.js"></script>
-    </body>
+        *::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+            background-color: #ffffff;
+        }
+
+        *::-webkit-scrollbar-track {
+            border-radius: 2px;
+            background: rgba(0, 0, 0, 0.01);
+        }
+
+        *::-webkit-scrollbar-thumb {
+            border-radius: 5px;
+            background: #d5dbe7;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+        window.HOST_TYPE = '2';
+        window.BMap_loadScriptTime = new Date().getTime();
+    </script>
+    <script src="//api.map.baidu.com/getscript?v=2.0&ak=SbiGTt5bDaSqs4toQd82pBnY&services=&t=2018062910" type="text/javascript"></script>
+    <script src="/dist/custom-ui.js"></script>
+</body>
+
 </html>

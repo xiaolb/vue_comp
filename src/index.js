@@ -1,9 +1,6 @@
 let Element, Vue;
 if ('development' === process.env.NODE_ENV) {
-    require('@static/UE/ueditor.config.js');
-    require('@static/UE/ueditor.all.js');
-    require('@static/UE/lang/zh-cn/zh-cn.js');
-    require('@static/UE/ueditor.parse.min.js');
+    require('./ueditor.config');
     Vue = require('vue');
     Element = require('element-ui');
     require('element-ui/lib/theme-chalk/index.css');
@@ -23,7 +20,7 @@ import Wrapper from '@/components/wrapper.vue';
 
 const components = [UE, Form, QRCode, ListPage, SearchItem, ModalForm, TableItem, Upload, Wrapper, MapItem];
 
-const install = function(Vue, opts = {}) {
+const install = function (Vue, opts = {}) {
     components.map(component => {
         Vue.component(component.name, component);
     });

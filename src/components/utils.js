@@ -67,3 +67,13 @@ export const creatQRCode = (url) => {
     })
     return resStr;
 }
+
+export const getNum = () => {
+    const time = new Date().getTime() || Date.now();
+    return (
+        time.toString(36) +
+        Math.random()
+            .toString(36)
+            .slice(-1)
+    );
+}

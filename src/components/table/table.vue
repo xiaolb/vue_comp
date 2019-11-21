@@ -131,7 +131,7 @@
     </div>
 </template>
 <script>
-import { debounceWork } from '@/components/utils';
+import { debounceWork, getNum } from '@/components/utils';
 export default {
     name: 'TableItem',
     components: {},
@@ -209,6 +209,7 @@ export default {
         return {
             multipleSelection: [],
             height: 10000,
+            elTableClass: `table_${getNum()}`,
         };
     },
     computed: {
@@ -223,18 +224,30 @@ export default {
         },
     },
     mounted() {
-        window.tableChangeHeight = this.changeHeight;
+        // 给modal添加类
+        this.addClass();
+        // 注册全局事件;
+
+        window.topsTableChangeHeight.push({
+            id: this.elTableClass,
+            func: this.changeHeight,
+        });
     },
     updated() {
         this.changeHeight();
     },
     methods: {
+        addClass() {
+            // 当前模态框唯一标识
+            this.$vnode.elm.classList.add(this.elTableClass);
+        },
         changeHeight() {
             if (!debounceWork('table', 500)) {
                 return;
             }
             setTimeout(() => {
-                const data_table = document.querySelector('.data_table');
+                const data_table = document.querySelector(`.${this.elTableClass}`);
+
                 const pageHeight = this.searchParams.count || this.tableButtons.length > 0 ? 0 : 44;
                 if (!data_table) {
                     return;
@@ -304,6 +317,9 @@ export default {
         hintValue(value) {
             return value === '' || value === undefined || value === null ? '-' : value;
         },
+    },
+    destroyed() {
+        window.topsTableChangeHeight = window.topsTableChangeHeight.filter(item => item.id !== this.elTableClass);
     },
 };
 </script>

@@ -31,11 +31,24 @@ if (typeof window !== 'undefined' && window.Vue) {
     install(window.Vue);
 }
 
-window.onresize = () => {
-    window.tableChangeHeight && window.tableChangeHeight();
-    window.getModalScrollHeight && window.getModalScrollHeight();
-    window.bottomFixedWidth && window.bottomFixedWidth();
+window.topsTableChangeHeight = [];
+window.topsGetModalScrollHeight = [];
+window.topsBottomFixedWidth = [];
+
+const onWindowResize = () => {
+    for (const item of window.topsTableChangeHeight) {
+        item.func();
+    }
+    for (const item of window.topsGetModalScrollHeight) {
+        item.func();
+    }
+    for (const item of window.topsBottomFixedWidth) {
+        item.func();
+    }
 };
+
+// 添加window 的resize事件监听 防止项目工程中冲突
+window.addEventListener('resize', onWindowResize);
 export default {
     install,
     Form,

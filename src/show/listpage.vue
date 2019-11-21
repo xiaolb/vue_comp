@@ -62,6 +62,7 @@
                 :bottom-fixed="true"
             >
             </Form>
+            <!-- <testFrom></testFrom> -->
             <!-- <div slot="footer" class="modalFooter">
                 <el-button type="primary" @click="()=>{}">确定</el-button>
                 <el-button @click="()=>{}">取 消</el-button>
@@ -74,8 +75,10 @@ import { debounce } from '@/components/utils';
 import * as restureObj from './listpage';
 console.log(restureObj);
 import { debounceWork } from '@/components/utils';
+import testFrom from './form';
 export default {
     name: 'listpageTest',
+    components: { testFrom },
     data() {
         return {
             // listPage 字段
@@ -322,7 +325,7 @@ export default {
         // 高级搜索formItems
         formImmediateItems() {
             return [
-                { name: 'countryId', label: '区域', type: 'select', data:[], span: 24 },
+                { name: 'countryId', label: '区域', type: 'select', data: [], span: 24 },
                 { name: 'provinceId', label: '省份', type: 'input', span: 24 },
                 { name: 'cityId', label: '城市', type: 'input', span: 24 },
                 { name: 'districtId', label: '区域', type: 'input', span: 24 },
@@ -339,7 +342,7 @@ export default {
                 { name: 'onlineStatus', label: '状态', type: 'input', span: 24 },
                 { name: 'developer', label: '开发商', type: 'input', span: 24 },
                 { name: 'projectName', label: '项目公司', type: 'input', span: 24 },
-                { name: 'developerBrand', label: '开发商品牌',type: 'select', data:[],  span: 24 },
+                { name: 'developerBrand', label: '开发商品牌', type: 'select', data: [], span: 24 },
             ];
         },
     },

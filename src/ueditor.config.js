@@ -24,7 +24,7 @@
      */
     window.UEDITOR_CONFIG = {
         //为编辑器实例添加一个路径，这个不能被注释
-        UEDITOR_HOME_URL: URL + '/static/UE/',
+        UEDITOR_HOME_URL: URL + '//static.apitops.com/h5/common/UE/',
 
         //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的重新定义
         toolbars: [

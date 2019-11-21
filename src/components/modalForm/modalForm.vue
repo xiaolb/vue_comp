@@ -215,16 +215,8 @@
 
 <script>
 import FormItem from '@/components/form/';
-import { debounceWork } from '@/components/utils';
-function getNum() {
-    const time = new Date().getTime() || Date.now();
-    return (
-        time.toString(36) +
-        Math.random()
-            .toString(36)
-            .slice(-1)
-    );
-}
+import { debounceWork, getNum } from '@/components/utils';
+
 export default {
     name: 'ModalForm',
     components: {
@@ -354,7 +346,11 @@ export default {
         // 给modal添加类
         this.addClass();
         // 注册全局滚动事件
-        window.getModalScrollHeight = this.getscrollHeight;
+        window.topsGetModalScrollHeight.push({
+            id: this.elDialogClass,
+            func: this.getscrollHeight,
+        });
+
         // 计算modal的高度
         this.timeInterCount = setInterval(() => {
             if (document.querySelector(`.${this.elDialogClass} ._dialogFooter`)) {
@@ -476,6 +472,9 @@ export default {
                 clearInterval(this.timeInterCount);
             }
         },
+    },
+    destroyed() {
+        window.topsGetModalScrollHeight = window.topsGetModalScrollHeight.filter(item => item.id !== this.elDialogClass);
     },
 };
 </script>

@@ -478,9 +478,8 @@ import TwoDate from './twoDate.vue';
 import TwoTime from './twoTime.vue';
 import RadioItem from './radio.vue';
 import bottomBtnOrForm from './bottomBtnOrForm.vue';
-import { constants } from 'crypto';
 import { clearInterval } from 'timers';
-
+import { getNum } from '@/components/utils';
 export default {
     name: 'Form',
     components: {
@@ -616,11 +615,17 @@ export default {
                 time: '请选择',
             },
             refsForm: '',
+            elFormClass: `form_${getNum()}`,
         };
     },
     mounted() {
+        // 给form添加类
+        this.addClass();
         this.allDisabled && this.isDisabledStyle();
-        window.bottomFixedWidth = this.bottomFixedWidth;
+        window.topsBottomFixedWidth.push({
+            id: this.elFormClass,
+            func: this.bottomFixedWidth,
+        });
         let timer = setInterval(() => {
             this.refsForm = this.$refs['form'];
             if (this.refsForm) {
@@ -636,6 +641,10 @@ export default {
         this.createRules();
     },
     methods: {
+        addClass() {
+            // 当前表单唯一标识
+            this.$vnode.elm.classList.add(this.elFormClass);
+        },
         createRules() {
             const { formType, formItems } = this;
             formItems.map(item => {
@@ -694,8 +703,8 @@ export default {
             });
         },
         bottomFixedWidth() {
-            let bottomFixedWidth = document.querySelector('.bottomFixed');
-            let spider_form_data = document.querySelector('.spider_form_data');
+            let bottomFixedWidth = document.querySelector(`.${this.elFormClass} .bottomFixed`);
+            let spider_form_data = document.querySelector(`.${this.elFormClass}`);
             if (!bottomFixedWidth || !spider_form_data) return;
 
             bottomFixedWidth.style.width = spider_form_data.parentNode.offsetWidth + 'px';
@@ -736,6 +745,9 @@ export default {
             }
             return 'auto';
         },
+    },
+    destroyed() {
+        window.topsBottomFixedWidth = window.topsBottomFixedWidth.filter(item => item.id !== this.elFormClass);
     },
 };
 </script>

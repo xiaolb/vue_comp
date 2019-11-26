@@ -18,9 +18,28 @@ import UE from '@/components/ue/index.js';
 import MapItem from '@/components/map/index.js';
 import Wrapper from '@/components/wrapper.vue';
 
-const components = [UE, Form, QRCode, ListPage, SearchItem, ModalForm, TableItem, Upload, Wrapper, MapItem];
+const TopsForm = Form,
+    TopsQRCode = QRCode,
+    TopsModalForm = ModalForm,
+    TopsListPage = ListPage,
+    TopsSearchItem = SearchItem,
+    TopsTableItem = TableItem,
+    TopsWrapper = Wrapper,
+    TopsUpload = Upload,
+    TopsUE = UE,
+    TopsMapItem = MapItem;
 
-const install = function (Vue, opts = {}) {
+let components = [UE, Form, QRCode, ListPage, SearchItem, ModalForm, TableItem, Upload, Wrapper, MapItem];
+components = components.concat(
+    components.map(item => {
+        return {
+            ...item,
+            name: `Tops${item.name}`,
+        };
+    })
+);
+
+const install = function(Vue, opts = {}) {
     components.map(component => {
         Vue.component(component.name, component);
     });
@@ -61,4 +80,14 @@ export default {
     Upload,
     UE,
     MapItem,
+    TopsForm,
+    TopsQRCode,
+    TopsModalForm,
+    TopsListPage,
+    TopsSearchItem,
+    TopsTableItem,
+    TopsWrapper,
+    TopsUpload,
+    TopsUE,
+    TopsMapItem,
 };

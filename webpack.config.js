@@ -9,12 +9,31 @@ function resolve(dir) {
     return path.join(__dirname, dir);
 }
 
+const devBase = {
+    'custom-ui': './src/main.js',
+};
+const exportUnique = {
+    'custom-ui': './src/index.js',
+    // TopsForm: './src/components/form/index.js',
+    // TopsQRCode: './src/components/qrcode/index.js',
+    // TopsListPage: './src/components/listPage/index.js',
+    // TopsModalForm: './src/components/modalForm/index.js',
+    // TopsSearch: './src/components/search/index.js',
+    // TopsTable: './src/components/table/index.js',
+    // TopsUpload: './src/components/upload/index.js',
+    // TopsUE: './src/components/ue/index.js',
+    // TopsMap: './src/components/map/index.js',
+    // TopsWrapper: './src/components/wrapper.vue',
+};
+
+console.log(NODE_ENV);
+
 module.exports = {
-    entry: NODE_ENV == 'development' ? './src/main.js' : './src/index.js',
+    entry: NODE_ENV == 'development' ? devBase : exportUnique,
     output: {
         path: path.resolve(__dirname, './dist'),
         publicPath: '/dist/',
-        filename: 'custom-ui.js',
+        filename: '[name].js',
         chunkFilename: '[name].js',
         library: 'custom-ui.js', // 指定的就是你使用require时的模块名
         libraryTarget: 'umd', // libraryTarget会生成不同umd的代码,可以只是commonjs标准的，也可以是指amd标准的，也可以只是通过script标签引入的
@@ -104,12 +123,12 @@ module.exports = {
             automaticNameDelimiter: '~',
             // name: true,
             cacheGroups: {
-                common: {
-                    chunks: 'initial',
-                    name: 'common',
-                    minChunks: 2,
-                    priority: -20,
-                },
+                // common: {
+                //     chunks: 'initial',
+                //     name: 'common',
+                //     minChunks: 2,
+                //     priority: -20,
+                // },
                 async: {
                     chunks: 'async',
                     name: 'async-common',
@@ -124,6 +143,9 @@ module.exports = {
 if (process.env.NODE_ENV === 'production') {
     // http://vue-loader.vuejs.org/en/workflow/production.html
     module.exports.plugins = (module.exports.plugins || []).concat([
+        new CleanWebpackPlugin({
+            cleanOnceBeforeBuildPatterns: ['dist/*'],
+        }),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: '"production"',
@@ -131,8 +153,8 @@ if (process.env.NODE_ENV === 'production') {
         }),
         new MiniCssExtractPlugin({
             filename: '[name].css',
+            chunkFilename: '[name].css',
         }),
-        new CleanWebpackPlugin(),
         // copy custom static assets
     ]);
 } else {

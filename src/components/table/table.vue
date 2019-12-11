@@ -15,78 +15,81 @@
             @selection-change="handleSelectionChange"
             @filter-change="filteredChange"
         >
-            <el-table-column
-                v-for="colItem of tableTitle"
-                :key="colItem.prop"
-                :type="colItem.type"
-                :width="colItem.width"
-                :min-width="colItem.minWidth"
-                :align="colItem.align || 'left'"
-                :prop="colItem.prop"
-                :class-name="colItem.className"
-                :label-class-name="colItem.labelClassName"
-                :fixed="colItem.fixed"
-                :label="colItem.label"
-                :sortable="colItem.sortable"
-                :sort-method="a => colItem.filterSort(a) || function() {}"
-                :formatter="colItem.render || (rows => hintValue(rows[colItem.prop]))"
-                :render-header="colItem.renderHeader"
-                :filters="colItem.filters"
-                :filter-method="colItem.filterHandler"
-                :filter-placement="colItem.filterPlacement || 'bottom-end'"
-                :filter-multiple="colItem.filterMultiple"
-                :filtered-value="colItem.filteredValue"
-                :column-key="colItem.prop"
-            >
-                <template v-if="colItem.mergeColHeader">
-                    <el-table-column
-                        v-for="colTwoItem of colItem.mergeColHeader || []"
-                        :key="colTwoItem.prop"
-                        :width="colTwoItem.width"
-                        :min-width="colTwoItem.minWidth"
-                        :align="colTwoItem.align || 'left'"
-                        :prop="colTwoItem.prop"
-                        :label="colTwoItem.label"
-                        :sortable="colTwoItem.sortable"
-                        :sort-method="a => colTwoItem.filterSort(a) || function() {}"
-                        :formatter="colTwoItem.render || (rows => hintValue(rows[colTwoItem.prop]))"
-                        :render-header="colTwoItem.renderHeader"
-                        :filters="colTwoItem.filters"
-                        :filter-method="colTwoItem.filterHandler"
-                        :filter-placement="colTwoItem.filterPlacement || 'bottom-end'"
-                        :filter-multiple="colTwoItem.filterMultiple"
-                        :filtered-value="colTwoItem.filteredValue"
-                        :class-name="colTwoItem.className"
-                        :label-class-name="colTwoItem.labelClassName"
-                        :column-key="colTwoItem.prop"
-                    >
-                        <template v-if="colTwoItem.mergeColHeader">
-                            <el-table-column
-                                v-for="colThreeItem of colTwoItem.mergeColHeader || []"
-                                :key="colThreeItem.prop"
-                                :width="colThreeItem.width"
-                                :min-width="colThreeItem.minWidth"
-                                :align="colThreeItem.align || 'left'"
-                                :prop="colThreeItem.prop"
-                                :label="colThreeItem.label"
-                                :sortable="colThreeItem.sortable"
-                                :sort-method="a => colThreeItem.filterSort(a) || function() {}"
-                                :formatter="colThreeItem.render || (rows => hintValue(rows[colThreeItem.prop]))"
-                                :render-header="colThreeItem.renderHeader"
-                                :filters="colThreeItem.filters"
-                                :filter-method="colThreeItem.filterHandler"
-                                :filter-placement="colThreeItem.filterPlacement || 'bottom-end'"
-                                :filter-multiple="colThreeItem.filterMultiple"
-                                :filtered-value="colThreeItem.filteredValue"
-                                :class-name="colThreeItem.className"
-                                :label-class-name="colThreeItem.labelClassName"
-                                :column-key="colThreeItem.prop"
-                            >
-                            </el-table-column>
-                        </template>
-                    </el-table-column>
-                </template>
-            </el-table-column>
+            <template v-for="colItem of tableTitle">
+                <el-table-column
+                    v-if="!colItem.hidden"
+                    :key="colItem.prop"
+                    :type="colItem.type"
+                    :width="colItem.width"
+                    :min-width="colItem.minWidth"
+                    :align="colItem.align || 'left'"
+                    :prop="colItem.prop"
+                    :class-name="colItem.className"
+                    :label-class-name="colItem.labelClassName"
+                    :fixed="colItem.fixed"
+                    :label="colItem.label"
+                    :sortable="colItem.sortable"
+                    :sort-method="a => colItem.filterSort(a) || function() {}"
+                    :formatter="colItem.render || (rows => hintValue(rows[colItem.prop]))"
+                    :render-header="colItem.renderHeader"
+                    :filters="colItem.filters"
+                    :filter-method="colItem.filterHandler"
+                    :filter-placement="colItem.filterPlacement || 'bottom-end'"
+                    :filter-multiple="colItem.filterMultiple"
+                    :filtered-value="colItem.filteredValue"
+                    :column-key="colItem.prop"
+                >
+                    <template v-if="colItem.mergeColHeader">
+                        <el-table-column
+                            v-for="colTwoItem of colItem.mergeColHeader || []"
+                            :key="colTwoItem.prop"
+                            :width="colTwoItem.width"
+                            :min-width="colTwoItem.minWidth"
+                            :align="colTwoItem.align || 'left'"
+                            :prop="colTwoItem.prop"
+                            :label="colTwoItem.label"
+                            :sortable="colTwoItem.sortable"
+                            :sort-method="a => colTwoItem.filterSort(a) || function() {}"
+                            :formatter="colTwoItem.render || (rows => hintValue(rows[colTwoItem.prop]))"
+                            :render-header="colTwoItem.renderHeader"
+                            :filters="colTwoItem.filters"
+                            :filter-method="colTwoItem.filterHandler"
+                            :filter-placement="colTwoItem.filterPlacement || 'bottom-end'"
+                            :filter-multiple="colTwoItem.filterMultiple"
+                            :filtered-value="colTwoItem.filteredValue"
+                            :class-name="colTwoItem.className"
+                            :label-class-name="colTwoItem.labelClassName"
+                            :column-key="colTwoItem.prop"
+                        >
+                            <template v-if="colTwoItem.mergeColHeader">
+                                <el-table-column
+                                    v-for="colThreeItem of colTwoItem.mergeColHeader || []"
+                                    :key="colThreeItem.prop"
+                                    :width="colThreeItem.width"
+                                    :min-width="colThreeItem.minWidth"
+                                    :align="colThreeItem.align || 'left'"
+                                    :prop="colThreeItem.prop"
+                                    :label="colThreeItem.label"
+                                    :sortable="colThreeItem.sortable"
+                                    :sort-method="a => colThreeItem.filterSort(a) || function() {}"
+                                    :formatter="colThreeItem.render || (rows => hintValue(rows[colThreeItem.prop]))"
+                                    :render-header="colThreeItem.renderHeader"
+                                    :filters="colThreeItem.filters"
+                                    :filter-method="colThreeItem.filterHandler"
+                                    :filter-placement="colThreeItem.filterPlacement || 'bottom-end'"
+                                    :filter-multiple="colThreeItem.filterMultiple"
+                                    :filtered-value="colThreeItem.filteredValue"
+                                    :class-name="colThreeItem.className"
+                                    :label-class-name="colThreeItem.labelClassName"
+                                    :column-key="colThreeItem.prop"
+                                >
+                                </el-table-column>
+                            </template>
+                        </el-table-column>
+                    </template>
+                </el-table-column>
+            </template>
+            
         </el-table>
         <!-- 简版分页控件 -->
          <div v-if="simplePagination && searchParams.count" class="pagination small-pagination">
@@ -164,7 +167,7 @@ export default {
             required: true,
             default: () => {},
         },
-        // 是否是从哪过来
+        // 是从哪过来
         fromType: {
             type: String,
             default: 'other',

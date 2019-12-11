@@ -30,7 +30,12 @@ export default {
                 this.searchInit(params);
             },
             tableData: restureObj.tableData.items.slice(0, 20),
-            tableTitle: [
+            hidden: false,
+        };
+    },
+    computed: {
+        tableTitle() {
+            return [
                 {
                     prop: 'num',
                     fixed: 'left',
@@ -45,6 +50,7 @@ export default {
                 {
                     prop: 'name',
                     label: '楼盘名称',
+                    hidden: this.hidden,
                     width: 120,
                     render: row => {
                         return <a onClick={() => {}}>{row.name}</a>;
@@ -84,47 +90,49 @@ export default {
                     width: 220,
                     label: '时间和人',
                     align: 'center',
-                    mergeColHeader: [
-                        {
-                            prop: 'creatorName',
-                            label: '发布人',
-                            align: 'center',
-                            width: 148,
-                            render: row => {
-                                return (
-                                    <p>
-                                        {row.creatorName}
-                                        {row.creatorName && row.phone && <br />}
-                                        {row.phone}
-                                    </p>
-                                );
-                            },
-                        },
-                        {
-                            prop: 'merge',
-                            width: 220,
-                            label: '时间',
-                            align: 'center',
-                            mergeColHeader: [
-                                {
-                                    prop: 'firstLiveTime',
-                                    label: '入市时间',
-                                    width: 110,
-                                    align: 'center',
-                                    sortable: true,
-                                    filterSort: () => this.filterSort(),
-                                },
-                                {
-                                    prop: 'updateTime',
-                                    label: '更新时间',
-                                    width: 110,
-                                    align: 'center',
-                                    sortable: true,
-                                    filterSort: () => this.filterSort(),
-                                },
-                            ],
-                        },
-                    ],
+                    mergeColHeader: this.hidden
+                        ? ''
+                        : [
+                              {
+                                  prop: 'creatorName',
+                                  label: '发布人',
+                                  align: 'center',
+                                  width: 148,
+                                  render: row => {
+                                      return (
+                                          <p>
+                                              {row.creatorName}
+                                              {row.creatorName && row.phone && <br />}
+                                              {row.phone}
+                                          </p>
+                                      );
+                                  },
+                              },
+                              {
+                                  prop: 'merge',
+                                  width: 220,
+                                  label: '时间',
+                                  align: 'center',
+                                  mergeColHeader: [
+                                      {
+                                          prop: 'firstLiveTime',
+                                          label: '入市时间',
+                                          width: 110,
+                                          align: 'center',
+                                          sortable: true,
+                                          filterSort: () => this.filterSort(),
+                                      },
+                                      {
+                                          prop: 'updateTime',
+                                          label: '更新时间',
+                                          width: 110,
+                                          align: 'center',
+                                          sortable: true,
+                                          filterSort: () => this.filterSort(),
+                                      },
+                                  ],
+                              },
+                          ],
                 },
                 { prop: 'sellStatus', label: '销售状态', width: 78 },
                 {
@@ -153,8 +161,13 @@ export default {
                         );
                     },
                 },
-            ],
-        };
+            ];
+        },
+    },
+    mounted() {
+        setTimeout(() => {
+            this.hidden = true;
+        }, 5000);
     },
     methods: {
         mergeSpan({ row, column, rowIndex, columnIndex }) {

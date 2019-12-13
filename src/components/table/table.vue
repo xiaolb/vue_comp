@@ -14,6 +14,9 @@
             @sort-change="sortMethod"
             @selection-change="handleSelectionChange"
             @filter-change="filteredChange"
+            :show-summary="showSummary"
+            :sum-text="sumText"
+            :summary-method="summaryMethod"
         >
             <template v-for="colItem of tableTitle">
                 <el-table-column
@@ -206,6 +209,21 @@ export default {
         showEmptyPic: {
             type: Boolean,
             default: true,
+        },
+        // 是否在表尾显示合计行
+        showSummary: {
+            type: Boolean,
+            default: false,
+        },
+        // 是否在表尾显示合计行
+        sumText: {
+            type: String,
+            default: '合计',
+        },
+        // 自定义的合计计算方法
+        summaryMethod: {
+            type: Function,
+            default: () => {},
         },
     },
     data() {

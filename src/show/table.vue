@@ -2,7 +2,6 @@
     <div id="tableItemTest">
         <table-item
             :searchParams="searchParams"
-
             :tableData="tableData"
             :tableTitle="tableTitle"
             :searchList="searchList"
@@ -11,6 +10,9 @@
             :showHeader="true"
             :uniqueSelect="true"
             :mergeSpan="mergeSpan"
+            :showSummary="showSummary"
+            :sumText="'总数'"
+            :summaryMethod="summaryMethod"
         ></table-item>
     </div>
 </template>
@@ -20,6 +22,7 @@ export default {
     name: 'tableItemTest',
     data() {
         return {
+            showSummary: true,
             searchParams: {
                 pageIndex: 1,
                 pageSize: 20,
@@ -38,9 +41,9 @@ export default {
             return [
                 {
                     prop: 'num',
-                    fixed: 'left',
+                    // fixed: 'left',
                     type: 'selection',
-                    width: '50',
+                    width: '60',
                     renderHeader: () => {
                         return <div>1</div>;
                     },
@@ -167,9 +170,36 @@ export default {
     mounted() {
         setTimeout(() => {
             this.hidden = true;
+            this.showSummary = true;
         }, 5000);
     },
     methods: {
+        summaryMethod(param) {
+            const { columns, data } = param;
+            const sums = [];
+            columns.forEach((column, index) => {
+                if (index === 0) {
+                    sums[index] = '总价';
+                    return;
+                }
+                const values = data.map(item => Number(item[column.property]));
+                if (!values.every(value => isNaN(value))) {
+                    sums[index] = values.reduce((prev, curr) => {
+                        const value = Number(curr);
+                        if (!isNaN(value)) {
+                            return prev + curr;
+                        } else {
+                            return prev;
+                        }
+                    }, 0);
+                    sums[index] += ' 元';
+                } else {
+                    sums[index] = 'N/A';
+                }
+            });
+
+            return sums;
+        },
         mergeSpan({ row, column, rowIndex, columnIndex }) {
             if (rowIndex % 2 === 0) {
                 if (columnIndex === 6) {
@@ -223,6 +253,6 @@ export default {
 </style>
 <style lang="scss">
 .selection-name {
-    display: none;
+    // display: none;
 }
 </style>

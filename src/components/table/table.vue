@@ -138,7 +138,6 @@
 </template>
 <script>
 import { debounceWork, getNum } from '@/components/utils';
-import { log } from 'util';
 export default {
     name: 'TableItem',
     components: {},

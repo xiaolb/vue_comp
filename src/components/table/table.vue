@@ -138,6 +138,7 @@
 </template>
 <script>
 import { debounceWork, getNum } from '@/components/utils';
+import { log } from 'util';
 export default {
     name: 'TableItem',
     components: {},
@@ -256,8 +257,21 @@ export default {
     },
     updated() {
         this.changeHeight();
+        this.isNoBorder();
     },
     methods: {
+        isNoBorder() {
+            const tableRows = document.querySelectorAll(`.${this.elTableClass} .el-table__row`);
+            if (!this.borderTable) {
+                tableRows.forEach(element => {
+                    element.classList.add('noTableBorder');
+                });
+            } else {
+                tableRows.forEach(element => {
+                    element.classList.add('hasTableBorder');
+                });
+            }
+        },
         addClass() {
             // 当前模态框唯一标识
             this.$vnode.elm.classList.add(this.elTableClass);
@@ -348,6 +362,16 @@ export default {
 <style lang="scss">
 .data_table {
     width: 100%;
+    .hasTableBorder {
+        td {
+            border-right: 1px solid #ebeef5;
+        }
+    }
+    .noTableBorder {
+        td {
+            border-right: none;
+        }
+    }
     .el-table__fixed-right-patch {
         background: #f5f7fa;
     }

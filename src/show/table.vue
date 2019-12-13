@@ -9,7 +9,6 @@
             :borderTable="true"
             :showHeader="true"
             :uniqueSelect="true"
-            :mergeSpan="mergeSpan"
             :showSummary="showSummary"
             :sumText="'总数'"
             :summaryMethod="summaryMethod"

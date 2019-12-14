@@ -136,7 +136,7 @@ export default {
                     column: false, // 复选框竖着
                     data: [
                         // 可选项数据源，键名可通过 Props 属性配置
-                        { value: 'value', label: 'label' },
+                        { value: 'value', label: 'label', disabled: true },
                         { itemValue: 'itemValue', itemLabel: 'itemLabel' },
                         { paramValue: 'paramValue', paramName: 'paramName' },
                         { id: 'id', name: 'name' },

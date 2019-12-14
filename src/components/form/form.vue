@@ -254,6 +254,7 @@
                         >
                             <el-checkbox
                                 v-for="(checkItem, checkIndex) of item.data"
+                                :disabled="checkItem.disabled"
                                 :key="checkIndex"
                                 :label="checkItem.value || checkItem.itemValue || checkItem.paramValue || checkItem.id"
                                 >{{ checkItem.label || checkItem.itemLabel || checkItem.paramName || checkItem.name }}</el-checkbox

@@ -193,8 +193,6 @@
                 :label-width="labelWidth"
                 :model-form="true"
                 :buttons="modalBtns"
-                :from-modal-solid="nobtn"
-                :annotation="annotation"
                 :showText="showText"
                 :bottom-fixed="bottomFixed"
             ></form-item>

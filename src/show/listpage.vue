@@ -320,6 +320,9 @@ export default {
                     labelWidth: '10px',
                     append: true,
                     appendFun: () => {},
+                    enterFun: () => {
+                        console.log(2222);
+                    },
                 },
             ];
         },

@@ -9,6 +9,7 @@
         :maxlength="item.maxLength"
         :minlength="item.minLength"
         @change="a => (item.change && item.change(a)) || function() {}"
+        @keyup.native.enter="() => (item.enterFun && item.enterFun()) || function(){}"
     >
         <el-button
             v-if="item.append"

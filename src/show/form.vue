@@ -14,6 +14,7 @@
             :flexleftOrCenter="flexleftOrCenter"
             :bottom-fixed="bottomFixed"
             :formItemsBtn="formItemsBtn"
+            :showText="true"
         >
             <div slot="appendinput">appendinput</div>
             <div slot="appendcut">appendcut</div>

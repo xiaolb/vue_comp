@@ -14,6 +14,7 @@
             @sort-change="sortMethod"
             @selection-change="handleSelectionChange"
             @filter-change="filteredChange"
+            @header-click="headerClick"
             :show-summary="showSummary"
             :sum-text="sumText"
             :summary-method="summaryMethod"
@@ -332,6 +333,9 @@ export default {
         handleCurrentChange(val) {
             this.search(val, 'current');
             console.log(`当前页: ${val}`);
+        },
+        headerClick(column, event) {
+            this.$emit('headerClick', column, event);
         },
         handleSelectionChange(val) {
             if (this.uniqueSelect) {

@@ -11,6 +11,7 @@
                 :label-width="labelWidth"
                 :size="searchFooterMar ? 'small' : 'medium'"
                 :rules="rules"
+                @submit.native.prevent
             >
                 <el-col v-for="(item, index) of formItems" :key="index" :span="item.span || 24">
                     <el-form-item

@@ -1,0 +1,18 @@
+.el-table__column-filter-trigger {
+    // padding-left: 2px;
+    .el-icon-arrow-down::before {
+        content: '';
+        width: 16px;
+        height: 16px;
+    }
+}
+.el-table__column-filter-trigger:after {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position-y: 2px;
+    background-image: url('//static.apitops.com/vue_comp/ic_caret_down_list.png')
+}

@@ -255,6 +255,16 @@ export default {
             func: this.changeHeight,
         });
     },
+    watch: {
+        showSummary(newValue) {
+            if (newValue) {
+                const el = document.querySelector(`${this.elTableClass} .el-table__footer-wrapper`);
+                this.$refs.multipleTable.layout.footerHeight = el.offsetHeight || el.clientHeight;
+            } else {
+                this.$refs.multipleTable.layout.footerHeight = 0;
+            }
+        },
+    },
     updated() {
         this.changeHeight();
         this.isNoBorder();
@@ -363,6 +373,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import './index.scss';
 .data_table {
     width: 100%;
     .hasTableBorder {

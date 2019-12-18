@@ -13,7 +13,8 @@
                 :rules="rules"
                 @submit.native.prevent
             >
-                <el-col v-for="(item, index) of formItems" :key="index" :span="item.span || 24">
+                <template v-for="(item, index) of formItems"  :class="{gridLayoutForm:gridLayout}">
+                <el-col :key="index" :span="gridLayout ? null :item.span || 24">
                     <el-form-item
                         v-if="item.type === 'input' && !item.hidden"
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
@@ -438,7 +439,8 @@
                     </el-form-item>
                     <slot v-if="item.type === 'table' && item.appendSlot" name="appendtable"></slot>
                 </el-col>
-                <el-col v-if="buttons.length > 0 || cancelBtn || saveBtn" :span="searchSpan">
+                </template>
+                <el-col :class="{gridLayoutBtn:gridLayout}" v-if="buttons.length > 0 || cancelBtn || saveBtn" :span="gridLayout? null:searchSpan">
                      <el-form-item :label-width="searchSpan !== 24 ? '0px' : labelWidth" :class="{ bottomFixed: bottomFixed }" :style="{marginBottom: 0}">
                         <bottomBtnOrForm
                             ref="bottomBtnOrForm"
@@ -588,6 +590,11 @@ export default {
         },
         // disabled显示文本
         showText: {
+            type: Boolean,
+            default: false,
+        },
+        // 是否栅格布局
+        gridLayout: {
             type: Boolean,
             default: false,
         },
@@ -755,6 +762,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import './form.scss';
 .flexLeftOrCenter {
     width: 800px;
     margin: 0 auto;

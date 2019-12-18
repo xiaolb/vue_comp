@@ -168,7 +168,7 @@ export default {
     },
     mounted() {
         setTimeout(() => {
-            this.hidden = true;
+            // this.hidden = true;
             this.showSummary = true;
         }, 5000);
     },

@@ -1,4 +1,5 @@
 <style lang="scss">
+@import './index.scss';
 .isDialog.isFlagSearch {
     .bottomFixed {
         margin-left: -16px;
@@ -27,11 +28,6 @@
         left: -40px;
         width: 40px;
         height: 40px;
-        background: #409eff;
-        .el-dialog__close {
-            color: white;
-            font-size: 24px;
-        }
     }
     ._dialogHeader {
         height: auto;
@@ -195,6 +191,7 @@
                 :buttons="modalBtns"
                 :showText="showText"
                 :bottom-fixed="bottomFixed"
+                :gridLayout="gridLayout"
             ></form-item>
         </div>
         <div class="_dialogFooter">
@@ -331,6 +328,11 @@ export default {
         showClose: {
             type: Boolean,
             default: true,
+        },
+        // 表单是否栅格布局
+        gridLayout: {
+            type: Boolean,
+            default: false,
         },
     },
     data() {

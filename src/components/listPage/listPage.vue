@@ -11,6 +11,7 @@
             :title="title"
             :form-width="formWidth"
             :showText="showText"
+            :gridLayout="gridLayout"
         ></search-item>
         <table-item
             ref="tableSelect"
@@ -149,6 +150,11 @@ export default {
         showEmptyPic: {
             type: Boolean,
             default: true,
+        },
+        // 是否栅格布局表单
+        gridLayout: {
+            type: Boolean,
+            default: false,
         },
     },
 };

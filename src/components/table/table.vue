@@ -258,8 +258,10 @@ export default {
     watch: {
         showSummary(newValue) {
             if (newValue) {
-                const el = document.querySelector(`${this.elTableClass} .el-table__footer-wrapper`);
-                this.$refs.multipleTable.layout.footerHeight = el.offsetHeight || el.clientHeight;
+                this.$nextTick(() => {
+                    const el = document.querySelector(`.${this.elTableClass} .el-table__footer-wrapper`);
+                    this.$refs.multipleTable.layout.footerHeight = el.offsetHeight || el.clientHeight;
+                });
             } else {
                 this.$refs.multipleTable.layout.footerHeight = 0;
             }

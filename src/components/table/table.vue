@@ -250,10 +250,10 @@ export default {
         this.addClass();
         // 注册全局事件;
 
-        window.topsTableChangeHeight.push({
-            id: this.elTableClass,
-            func: this.changeHeight,
-        });
+        // window.topsTableChangeHeight.push({
+        //     id: this.elTableClass,
+        //     func: this.changeHeight,
+        // });
     },
     watch: {
         showSummary(newValue) {
@@ -261,6 +261,9 @@ export default {
                 this.$nextTick(() => {
                     const el = document.querySelector(`.${this.elTableClass} .el-table__footer-wrapper`);
                     this.$refs.multipleTable.layout.footerHeight = el.offsetHeight || el.clientHeight;
+                    setTimeout(() => {
+                        this.$refs.multipleTable.syncPostion();
+                    }, 0);
                 });
             } else {
                 this.$refs.multipleTable.layout.footerHeight = 0;
@@ -268,7 +271,7 @@ export default {
         },
     },
     updated() {
-        this.changeHeight();
+        // this.changeHeight();
         this.isNoBorder();
     },
     methods: {
@@ -394,7 +397,7 @@ export default {
     .pagination {
         display: flex;
         justify-content: flex-end;
-        padding: 12px 0 0px;
+        padding: 12px 0;
         .el-pagination {
             padding: 0;
             width: auto;

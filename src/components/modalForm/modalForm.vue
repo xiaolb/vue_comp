@@ -8,6 +8,7 @@
     .el-dialog {
         position: fixed;
         right: 0;
+        top: 0;
         margin-bottom: 0;
         margin-top: 0 !important;
         height: 100vh;

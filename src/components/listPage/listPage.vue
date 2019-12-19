@@ -170,10 +170,10 @@ export default {
     .listPage_search {
         height: auto;
     }
-    // .listPage_table {
-    //     padding-right: 4px;
-    //     flex-grow: 1;
-    //     overflow: hidden;
-    // }
+    .listPage_table {
+        padding-right: 4px;
+        flex-grow: 1;
+        overflow: hidden;
+    }
 }
 </style>

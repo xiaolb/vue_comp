@@ -250,10 +250,10 @@ export default {
         this.addClass();
         // 注册全局事件;
 
-        // window.topsTableChangeHeight.push({
-        //     id: this.elTableClass,
-        //     func: this.changeHeight,
-        // });
+        window.topsTableChangeHeight.push({
+            id: this.elTableClass,
+            func: this.changeHeight,
+        });
     },
     watch: {
         showSummary(newValue) {
@@ -271,7 +271,7 @@ export default {
         },
     },
     updated() {
-        // this.changeHeight();
+        this.changeHeight();
         this.isNoBorder();
     },
     methods: {

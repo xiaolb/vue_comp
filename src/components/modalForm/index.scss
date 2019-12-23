@@ -1,9 +1,9 @@
-.el-dialog__headerbtn {
+.isFlagSearch .el-dialog__headerbtn {
     .el-icon-close:before {
         content: ''
     }
 }
-.el-dialog__headerbtn:after {
+.isFlagSearch .el-dialog__headerbtn:after {
     content: '';
     display: inline-block;
     width: 100%;

@@ -273,6 +273,11 @@ export default {
                     const _thisWatch = this;
                     setTimeout(() => {
                         _thisWatch.addChildLi();
+                        setTimeout(() => {
+                            if (_thisWatch.disabled) {
+                                _thisWatch.removeChildLi();
+                            }
+                        }, 0);
                         if ((data[this.bindName] || []).length >= _thisWatch.max) {
                             _thisWatch.showUpload = false;
                             _thisWatch.$nextTick(() => {
@@ -293,9 +298,9 @@ export default {
     mounted() {
         // 给modal添加类
         this.addClass();
-
-        // this.setUploadLocal();
-        this.addChildLi();
+        if (!this.disabled) {
+            this.addChildLi();
+        }
     },
     methods: {
         // 手机传图操作
@@ -305,7 +310,9 @@ export default {
         removeChildLi() {
             const el = document.querySelector(`.${this.elUploadClass} .draggable`);
             const elLi = document.querySelector(`.${this.elUploadClass} .draggable ._lastLi`);
-            el.removeChild(elLi);
+            if (elLi) {
+                el.removeChild(elLi);
+            }
         },
         addChildLi() {
             const el = document.querySelector(`.${this.elUploadClass} .draggable`);
@@ -343,7 +350,7 @@ export default {
         },
         // 设置
         setUploadLocal() {
-            const lastLi = document.querySelector('._lastLi');
+            const lastLi = document.querySelector(`.${this.elUploadClass} ._lastLi`);
             const offsetTop = lastLi.offsetTop;
             const offsetLeft = lastLi.offsetLeft;
             this.styleUpload = {
@@ -472,7 +479,7 @@ export default {
         },
         isLoading(isLoad = false) {
             if (isLoad) {
-                const el = document.querySelector('.sf_upload');
+                const el = document.querySelector(`.${this.elUploadClass}`);
                 window.tops_loading = this.$loading({
                     target: el,
                     lock: true,

@@ -701,6 +701,8 @@ export default {
                     });
                 }
 
+                delete this.rules[item.name];
+
                 if (temp.length) {
                     if (['twoDate', 'twoTime'].includes(item.type)) {
                         this.rules[`begin${item.name}`] = temp;

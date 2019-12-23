@@ -6,78 +6,79 @@
         </div>
         <p class="hint-single" v-else-if="hint">{{hint}}</p>
         <!-- 上传控件 -->
-        <el-upload
-            v-if="multiple"
-            class="draggable-upload"
-            ref="upload"
-            :style="styleUpload"
-            :limit="max"
-            :multiple="multiple"
-            :action="uploadUrl"
-            :list-type="'picture-card'"
-            :on-preview="handlePictureCardPreview"
-            :on-remove="handleRemove"
-            :before-upload="beforeAvatarUpload"
-            :disabled="disabled"
-            :headers="headers"
-            :file-list="formData[bindName] || []"
-            :with-credentials="true"
-            :on-success="handleAvatarSuccess"
-            :on-progress="handleFileProgress"
-            :http-request="uploadFun"
-            :show-file-list="false"
-            :class="{ uploadHidden: disabled, upload: true, ...uploadClass}"
-        >
-            <img
-                v-if="max === 1 && formData[bindName] && formData[bindName][0] && formData[bindName][0].url"
-                :style="picStyle"
-                :src="formData[bindName][0].url"
-                class="avatar"
-            />
-            <span v-else class="selfIcon" :style="picStyle">
-                <i class="el-icon-plus avatar-uploader-icon"></i>
-            </span>
-            <div v-if="isPicture && scanPics" class="scanPic" @click.stop="phoneSendPhoto">
-                <img class="sendPic" src="//static.apitops.com/h5/common/images/phone@2x.png" alt="">
-            </div>
-        </el-upload>
-        <el-upload
-            v-else
-            :style="styleUpload"
-            class="draggable-upload"
-            ref="upload"
-            :action="uploadUrl"
-            :list-type="'picture-card'"
-            :on-preview="handlePictureCardPreview"
-            :on-remove="handleRemove"
-            :before-upload="beforeAvatarUpload"
-            :disabled="disabled"
-            :headers="headers"
-            :file-list="formData[bindName] || []"
-            :with-credentials="true"
-            :on-success="handleAvatarSuccess"
-            :on-progress="handleFileProgress"
-            :show-file-list="false"
-            :class="{ uploadHidden: disabled, upload: true, ...uploadClass}"
-        >
-            <img
-                v-if="max === 1 && formData[bindName] && formData[bindName][0] && formData[bindName][0].url"
-                :style="picStyle"
-                :src="formData[bindName][0].url"
-                class="avatar"
-            />
-            <span v-else class="selfIcon" :style="picStyle">
-                <i class="el-icon-plus avatar-uploader-icon"></i>
-            </span>
-            <div v-if="isPicture && scanPics" class="scanPic" @click.stop="phoneSendPhoto" >
-                <img class="sendPic" src="//static.apitops.com/h5/common/images/phone@2x.png" alt="">
-            </div>
-
-        </el-upload>
+        <template v-if="showUpload">
+            <el-upload
+                v-if="multiple"
+                class="draggable-upload"
+                ref="upload"
+                :style="styleUpload"
+                :limit="max"
+                :multiple="multiple"
+                :action="uploadUrl"
+                :list-type="'picture-card'"
+                :on-preview="handlePictureCardPreview"
+                :on-remove="handleRemove"
+                :before-upload="beforeAvatarUpload"
+                :disabled="disabled"
+                :headers="headers"
+                :file-list="formData[bindName] || []"
+                :with-credentials="true"
+                :on-success="handleAvatarSuccess"
+                :on-progress="handleFileProgress"
+                :http-request="uploadFun"
+                :show-file-list="false"
+                :class="{ uploadHidden: disabled, upload: true, ...uploadClass}"
+            >
+                <img
+                    v-if="max === 1 && formData[bindName] && formData[bindName][0] && formData[bindName][0].url"
+                    :style="picStyle"
+                    :src="formData[bindName][0].url"
+                    class="avatar"
+                />
+                <span v-else class="selfIcon" :style="picStyle">
+                    <i class="el-icon-plus avatar-uploader-icon"></i>
+                </span>
+                <div v-if="isPicture && scanPics" class="scanPic" @click.stop="phoneSendPhoto">
+                    <img class="sendPic" src="//static.apitops.com/h5/common/images/phone@2x.png" alt="">
+                </div>
+            </el-upload>
+            <el-upload
+                v-else
+                :style="styleUpload"
+                class="draggable-upload"
+                ref="upload"
+                :action="uploadUrl"
+                :list-type="'picture-card'"
+                :on-preview="handlePictureCardPreview"
+                :on-remove="handleRemove"
+                :before-upload="beforeAvatarUpload"
+                :disabled="disabled"
+                :headers="headers"
+                :file-list="formData[bindName] || []"
+                :with-credentials="true"
+                :on-success="handleAvatarSuccess"
+                :on-progress="handleFileProgress"
+                :show-file-list="false"
+                :class="{ uploadHidden: disabled, upload: true, ...uploadClass}"
+            >
+                <img
+                    v-if="max === 1 && formData[bindName] && formData[bindName][0] && formData[bindName][0].url"
+                    :style="picStyle"
+                    :src="formData[bindName][0].url"
+                    class="avatar"
+                />
+                <span v-else class="selfIcon" :style="picStyle">
+                    <i class="el-icon-plus avatar-uploader-icon"></i>
+                </span>
+                <div v-if="isPicture && scanPics" class="scanPic" @click.stop="phoneSendPhoto" >
+                    <img class="sendPic" src="//static.apitops.com/h5/common/images/phone@2x.png" alt="">
+                </div>
+            </el-upload>
+        </template>
         <!-- 图片列表 -->
         <draggable :class="{draggable: true, [!disabled && uploadLocal]: true}" v-model="formData[bindName]" tag="ul" v-bind="dragOptions" >
             <template v-if="formData[bindName] && (max !== 1 || disabled)">
-                <li v-for="(item, index) of formData[bindName]" :key="item.url+index" :style="picStyle" :class="{'drag-able': true}">
+                <li v-for="(item, index) of formData[bindName]" :key="item.url+index" :style="picStyle" :class="{'drag-able': true, curDragLi:true}">
                     <div v-if="!disabled && chooseable" class="sortAndCkeck">
                         <el-checkbox v-model="item.checked"></el-checkbox>
                     </div>
@@ -86,7 +87,7 @@
                     </div>
                     <i v-if="isPicture && showable" class="el-icon-zoom-in preview" @click="() => handlePictureCardPreview(item)"></i>
                     <span v-if="isPicture" :class="{icon: !disabled || isWrite}">
-                        <span v-if="!disabled && setable" @click="() => settingFace(item, index)">设为封面</span>
+                        <span v-if="!disabled && setable && isFacePic" @click="() => settingFace(item, index)">设为封面</span>
                         <span v-if="isWrite" @click="() => isWriteFun(item)">备注</span>
                         <span v-if="!disabled" @click="() => handleRemove(item, formData[bindName].filter(value => value.url !== item.url))">删除</span>
                     </span>
@@ -100,13 +101,14 @@
         </draggable>
         <!-- 预览弹窗 -->
         <el-dialog :visible.sync="dialogVisible" class="uploadElDialog" append-to-body>
-            <img width="100%" :src="dialogImageUrl" alt="">
+            <img :src="dialogImageUrl" alt="">
         </el-dialog>
     </div>
 </template>
 
 <script>
 import draggable from 'vuedraggable';
+import { debounceWork, getNum } from '@/components/utils';
 
 export default {
     name: 'UploadItem',
@@ -251,6 +253,8 @@ export default {
             isUploadList: [],
             styleUpload: {},
             backetData: [],
+            showUpload: true, // 是否展示upload
+            elUploadClass: `upload_${getNum()}`,
         };
     },
     computed: {
@@ -266,7 +270,18 @@ export default {
             handler(data) {
                 if (JSON.stringify(this.backetData) !== JSON.stringify(data[this.bindName])) {
                     this.backetData = Object.assign({}, data[this.bindName]);
-                    setTimeout(this.setUploadLocal, 0);
+                    const _thisWatch = this;
+                    setTimeout(() => {
+                        _thisWatch.addChildLi();
+                        if ((data[this.bindName] || []).length >= _thisWatch.max) {
+                            _thisWatch.showUpload = false;
+                            _thisWatch.$nextTick(() => {
+                                _thisWatch.removeChildLi();
+                            });
+                        } else {
+                            _thisWatch.showUpload = true;
+                        }
+                    }, 0);
                 }
             },
             deep: true,
@@ -275,24 +290,59 @@ export default {
     created() {
         this.addStyle();
     },
-    mounted() {},
+    mounted() {
+        // 给modal添加类
+        this.addClass();
+
+        // this.setUploadLocal();
+        this.addChildLi();
+    },
     methods: {
         // 手机传图操作
         phoneSendPhoto() {
             this.phoneSendPhotoFun();
         },
-        // 设置
-        setUploadLocal() {
-            if (this.uploadLocal === 'before') {
-                return;
-            }
-            const el = document.querySelector('.draggable');
+        removeChildLi() {
+            const el = document.querySelector(`.${this.elUploadClass} .draggable`);
+            const elLi = document.querySelector(`.${this.elUploadClass} .draggable ._lastLi`);
+            el.removeChild(elLi);
+        },
+        addChildLi() {
+            const el = document.querySelector(`.${this.elUploadClass} .draggable`);
             const li = document.createElement('li');
             li.classList.add('_lastLi');
             li.style.width = this.picStyle.width;
             li.style.height = this.picStyle.height;
-            el.appendChild(li);
 
+            if (this.uploadLocal === 'before') {
+                const el = document.querySelector(`.${this.elUploadClass} .draggable`);
+                const curDragLi = document.querySelector(`.${this.elUploadClass} .draggable .curDragLi`);
+                const lastLis = document.querySelector(`.${this.elUploadClass} ._lastLi`);
+                // 在前边的时候只需一个
+                // debugger;
+                if (lastLis) return;
+                if (curDragLi) {
+                    el.insertBefore(li, curDragLi);
+                } else {
+                    el.appendChild(li);
+                }
+                this.setUploadLocal();
+                return;
+            } else {
+                el.appendChild(li);
+                // 获取所有的，保留最后一个，占位
+                const lastLis = document.querySelectorAll(`.${this.elUploadClass} ._lastLi`);
+                const maxLength = lastLis.length;
+                lastLis.forEach((childEl, index) => {
+                    if (index !== maxLength - 1) {
+                        el.removeChild(childEl);
+                    }
+                });
+                this.setUploadLocal();
+            }
+        },
+        // 设置
+        setUploadLocal() {
             const lastLi = document.querySelector('._lastLi');
             const offsetTop = lastLi.offsetTop;
             const offsetLeft = lastLi.offsetLeft;
@@ -300,7 +350,10 @@ export default {
                 left: offsetLeft + 'px',
                 top: offsetTop + 'px',
             };
-            el.removeChild(lastLi);
+        },
+        addClass() {
+            // 当前模态框唯一标识
+            this.$vnode.elm.classList.add(this.elUploadClass);
         },
         addStyle() {
             const style = document.createElement('style');
@@ -321,7 +374,6 @@ export default {
             const arrsFace = this.formData[this.bindName];
             arrsFace.splice(index, 1);
             arrsFace.unshift(item);
-            debugger;
             this.$set(this.formData, this.bindName, arrsFace);
             this.$message.success('设为封面成功，已移至首图');
         },
@@ -357,6 +409,9 @@ export default {
             this.$refs.upload.submit();
         },
         handleAvatarSuccess(res, file, fileList) {
+            if (!this.multiple && !debounceWork('beforeAvatarUpload', 1000)) {
+                return;
+            }
             const reData = this.formData[this.bindName];
             let data = [];
             if (this.formData[this.bindName] instanceof Array) {
@@ -630,15 +685,6 @@ export default {
     .uploadVideo:hover span {
         opacity: 1;
     }
-    .before {
-        &::before {
-            content: '';
-            margin: 0 10px 8px 0;
-            border-radius: 4px;
-            box-sizing: border-box;
-            overflow: hidden;
-        }
-    }
     .draggable-upload {
         position: absolute;
         box-sizing: border-box;
@@ -651,7 +697,7 @@ export default {
     justify-content: center;
     img {
         display: block;
-        width: auto !important;
+        // width: auto !important;
         max-width: 100% !important;
         max-height: 510px;
     }

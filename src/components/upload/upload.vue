@@ -702,11 +702,11 @@ export default {
 .uploadElDialog .el-dialog__body {
     display: flex;
     justify-content: center;
+    align-items: center;
+    height: 510px;
     img {
         display: block;
-        // width: auto !important;
         max-width: 100% !important;
-        max-height: 510px;
     }
 }
 .uploadElDialog .el-dialog__header {

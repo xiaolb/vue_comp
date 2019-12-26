@@ -704,9 +704,11 @@ export default {
     justify-content: center;
     align-items: center;
     height: 510px;
+    padding: 20px 20px 40px;
     img {
         display: block;
         max-width: 100% !important;
+        max-height: 510px;
     }
 }
 .uploadElDialog .el-dialog__header {

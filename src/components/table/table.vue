@@ -304,7 +304,7 @@ export default {
                 }
                 const tableHeight = data_table.offsetHeight;
                 if (this.fromType === 'other') {
-                    this.height = window.innerHeight - data_table.offsetTop - 92 + pageHeight;
+                    this.height = window.innerHeight - data_table.offsetTop - 72 + pageHeight;
                 } else if (this.fromType === 'listPage') {
                     this.height = tableHeight - 44 + pageHeight;
                 } else if (this.fromType === 'form') {
@@ -397,7 +397,7 @@ export default {
     .pagination {
         display: flex;
         justify-content: flex-end;
-        padding: 12px 0;
+        padding: 12px 0 0;
         .el-pagination {
             padding: 0;
             width: auto;

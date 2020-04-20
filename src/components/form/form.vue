@@ -23,8 +23,7 @@
                         :label-width="item.labelWidth || labelWidth"
                     >
                         <span slot="label" v-if="item.slotlabeltip" >
-                            {{item.label }}
-                            <el-tooltip effect="dark" placement="top">
+                            {{item.label }}<el-tooltip effect="dark" placement="top" class="slotlabeltip">
                                 <div slot="content">{{item.slotlabeltip}}</div>
                                 <i class="el-icon-warning"></i>
                             </el-tooltip>:
@@ -98,11 +97,10 @@
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
                     >  
-                     <span slot="label" v-if="item.slotlabel" >
-                            {{item.label }}
-                            <el-tooltip effect="dark" placement="top">
-                                <div slot="content">{{item.slotlabel}}</div>
-                                <i class="el-icon-warning"></i>
+                     <span slot="label" v-if="item.slotlabeltip" >
+                            {{item.label }}<el-tooltip effect="dark" placement="top" class="slotlabeltip">
+                                <div slot="content">{{item.slotlabeltip}}</div>
+                                <i class="el-icon-warning" ></i>
                             </el-tooltip>:
                         </span>
                         <select-item

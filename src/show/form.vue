@@ -409,6 +409,7 @@ export default {
                         }
                     }, // 选择函数
                     optionAppendName: 'unit',
+                    slotlabeltip: 'slotlabeltip',
                 },
                 {
                     ...common,

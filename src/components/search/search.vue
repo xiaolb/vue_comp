@@ -87,6 +87,7 @@
                         :buttons="filterBtn"
                         :search-span="searchSpan"
                         :showText="showText"
+                        :gridLayout="gridLayout"
                     ></form-item>
                 </div>
             </div>
@@ -141,6 +142,11 @@ export default {
         },
         // disabled显示文本
         showText: {
+            type: Boolean,
+            default: false,
+        },
+        // 是否栅格布局
+        gridLayout: {
             type: Boolean,
             default: false,
         },

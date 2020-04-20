@@ -2,7 +2,6 @@
     <div id="tableItemTest">
         <table-item
             :searchParams="searchParams"
-
             :tableData="tableData"
             :tableTitle="tableTitle"
             :searchList="searchList"
@@ -10,7 +9,9 @@
             :borderTable="true"
             :showHeader="true"
             :uniqueSelect="true"
-            :mergeSpan="mergeSpan"
+            :showSummary="showSummary"
+            :sumText="'总数'"
+            :summaryMethod="summaryMethod"
         ></table-item>
     </div>
 </template>
@@ -20,6 +21,7 @@ export default {
     name: 'tableItemTest',
     data() {
         return {
+            showSummary: true,
             searchParams: {
                 pageIndex: 1,
                 pageSize: 20,
@@ -30,12 +32,17 @@ export default {
                 this.searchInit(params);
             },
             tableData: restureObj.tableData.items.slice(0, 20),
-            tableTitle: [
+            hidden: false,
+        };
+    },
+    computed: {
+        tableTitle() {
+            return [
                 {
                     prop: 'num',
-                    fixed: 'left',
+                    // fixed: 'left',
                     type: 'selection',
-                    width: '50',
+                    width: '60',
                     renderHeader: () => {
                         return <div>1</div>;
                     },
@@ -45,6 +52,7 @@ export default {
                 {
                     prop: 'name',
                     label: '楼盘名称',
+                    hidden: this.hidden,
                     width: 120,
                     render: row => {
                         return <a onClick={() => {}}>{row.name}</a>;
@@ -84,47 +92,49 @@ export default {
                     width: 220,
                     label: '时间和人',
                     align: 'center',
-                    mergeColHeader: [
-                        {
-                            prop: 'creatorName',
-                            label: '发布人',
-                            align: 'center',
-                            width: 148,
-                            render: row => {
-                                return (
-                                    <p>
-                                        {row.creatorName}
-                                        {row.creatorName && row.phone && <br />}
-                                        {row.phone}
-                                    </p>
-                                );
-                            },
-                        },
-                        {
-                            prop: 'merge',
-                            width: 220,
-                            label: '时间',
-                            align: 'center',
-                            mergeColHeader: [
-                                {
-                                    prop: 'firstLiveTime',
-                                    label: '入市时间',
-                                    width: 110,
-                                    align: 'center',
-                                    sortable: true,
-                                    filterSort: () => this.filterSort(),
-                                },
-                                {
-                                    prop: 'updateTime',
-                                    label: '更新时间',
-                                    width: 110,
-                                    align: 'center',
-                                    sortable: true,
-                                    filterSort: () => this.filterSort(),
-                                },
-                            ],
-                        },
-                    ],
+                    mergeColHeader: this.hidden
+                        ? ''
+                        : [
+                              {
+                                  prop: 'creatorName',
+                                  label: '发布人',
+                                  align: 'center',
+                                  width: 148,
+                                  render: row => {
+                                      return (
+                                          <p>
+                                              {row.creatorName}
+                                              {row.creatorName && row.phone && <br />}
+                                              {row.phone}
+                                          </p>
+                                      );
+                                  },
+                              },
+                              {
+                                  prop: 'merge',
+                                  width: 220,
+                                  label: '时间',
+                                  align: 'center',
+                                  mergeColHeader: [
+                                      {
+                                          prop: 'firstLiveTime',
+                                          label: '入市时间',
+                                          width: 110,
+                                          align: 'center',
+                                          sortable: true,
+                                          filterSort: () => this.filterSort(),
+                                      },
+                                      {
+                                          prop: 'updateTime',
+                                          label: '更新时间',
+                                          width: 110,
+                                          align: 'center',
+                                          sortable: true,
+                                          filterSort: () => this.filterSort(),
+                                      },
+                                  ],
+                              },
+                          ],
                 },
                 { prop: 'sellStatus', label: '销售状态', width: 78 },
                 {
@@ -153,10 +163,42 @@ export default {
                         );
                     },
                 },
-            ],
-        };
+            ];
+        },
+    },
+    mounted() {
+        setTimeout(() => {
+            // this.hidden = true;
+            this.showSummary = true;
+        }, 5000);
     },
     methods: {
+        summaryMethod(param) {
+            const { columns, data } = param;
+            const sums = [];
+            columns.forEach((column, index) => {
+                if (index === 0) {
+                    sums[index] = '总价';
+                    return;
+                }
+                const values = data.map(item => Number(item[column.property]));
+                if (!values.every(value => isNaN(value))) {
+                    sums[index] = values.reduce((prev, curr) => {
+                        const value = Number(curr);
+                        if (!isNaN(value)) {
+                            return prev + curr;
+                        } else {
+                            return prev;
+                        }
+                    }, 0);
+                    sums[index] += ' 元';
+                } else {
+                    sums[index] = 'N/A';
+                }
+            });
+
+            return sums;
+        },
         mergeSpan({ row, column, rowIndex, columnIndex }) {
             if (rowIndex % 2 === 0) {
                 if (columnIndex === 6) {
@@ -210,6 +252,6 @@ export default {
 </style>
 <style lang="scss">
 .selection-name {
-    display: none;
+    // display: none;
 }
 </style>

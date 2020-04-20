@@ -1,0 +1,25 @@
+.el-input__inner {
+    padding: 0 12px;
+    font-size: 14px;
+}
+.el-radio-button .el-radio-button__inner {
+    font-size: 14px;
+    padding: 8px 15px;
+}
+.el-radio-button__orig-radio:checked + .el-radio-button__inner {
+    font-weight: bold;
+}
+
+#bottomBtnOrForm {
+    .el-button {
+        padding: 10px 25px;
+    }
+}
+
+.searchFlag #bottomBtnOrForm {
+    .el-button {
+        padding: 9px 15px;
+    }
+}
+
+

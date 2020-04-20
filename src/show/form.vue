@@ -14,6 +14,7 @@
             :flexleftOrCenter="flexleftOrCenter"
             :bottom-fixed="bottomFixed"
             :formItemsBtn="formItemsBtn"
+            :showText="true"
         >
             <div slot="appendinput">appendinput</div>
             <div slot="appendcut">appendcut</div>
@@ -72,14 +73,29 @@ export default {
             required: false,
         };
     },
-    mounted() {},
+    mounted() {
+        setTimeout(() => {
+            let videoOrPicture = [
+                {
+                    url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/f137a9562d774b09938ec3360b551d04.jpg',
+                },
+                {
+                    url: 'https://imgapi.apitops.com/TEST/bigdata-mgr/20190826/c1355b4172784268bf8c925e3de2a052.jpg',
+                },
+            ];
+            this.formData = {
+                ...this.formData,
+                videoOrPicture: videoOrPicture,
+            };
+        }, 5000);
+    },
     computed: {
         formItems() {
             let common = {
                 name: 'common', // 绑定数据的名字
                 label: '公用', // 展示label
                 type: 'common', // 对应的type组件
-                span: 12, // 当前宽度的多少份，24为100%
+                span: 24, // 当前宽度的多少份，24为100%
                 hidden: false, // 是否隐藏当前item
                 labelWidth: '140px', // 当前item的宽度，没有的话用form的labelWidth
                 disabled: false, // 是否不可编辑
@@ -97,9 +113,9 @@ export default {
 
                 appendSlot: false, // 是否添加自定义slot
 
-                rowOrColumn: true, // flex的方向，有connect或extra时用
-                connect: '补充', // 符号什么 一到两字
-                extra: '补充说明', // 补充说明
+                // rowOrColumn: true, // flex的方向，有connect或extra时用
+                // connect: '补充', // 符号什么 一到两字
+                // extra: '补充说明', // 补充说明
                 extraStyle: {
                     color: '#00ff00',
                 }, //extra样式补充
@@ -136,7 +152,7 @@ export default {
                     column: false, // 复选框竖着
                     data: [
                         // 可选项数据源，键名可通过 Props 属性配置
-                        { value: 'value', label: 'label' },
+                        { value: 'value', label: 'label', disabled: true },
                         { itemValue: 'itemValue', itemLabel: 'itemLabel' },
                         { paramValue: 'paramValue', paramName: 'paramName' },
                         { id: 'id', name: 'name' },
@@ -504,19 +520,24 @@ export default {
                     name: 'videoOrPicture',
                     label: '视频图片上传',
                     type: 'videoOrPicture',
-                    // multiple: true,
-                    // maxi: 3, // 最大上传数
-                    hint: '默认图片', // 图片提示 (数组的时候多个，单个字符串)
+                    uploadLocal: 'after',
+                    multiple: false,
+                    maxi: 2, // 最大上传数
+                    // hint: '默认图片', // 图片提示 (数组的时候多个，单个字符串)
                     // hint: ['默认图片1', '默认图片2'],
                     flagType: 'picture', // 图片还是视频 video/picture
                     size: 10, // 大小限制
-                    isFacePic: true, // 是否展示封面图标
+                    isFacePic: false, // 是否展示封面图标
                     uploadUrl: 'http://bigdata-api.apitops.com/api/v1/common/upload/files', // 上传url
                     uploadAK: '31c5df4c-054c-40a9-98fc-99e0fea40ef3', // ak，上传的话是必须的
-                    isWrite: true, // 是否展示可写图标
+                    isWrite: false, // 是否展示可写图标
                     isWriteFun: () => {
                         // 是否可写操作
                         console.log('写入图片');
+                    },
+                    picStyle: {
+                        width: '74px',
+                        height: '74px',
                     },
                     uploadClass: {
                         'current-upload': true,
@@ -698,9 +719,5 @@ export default {
         //     border-color: pink;
         // }
     }
-}
-.current-upload {
-    width: 100px;
-    height: 100px;
 }
 </style>

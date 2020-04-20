@@ -1,0 +1,20 @@
+.isFlagSearch .el-dialog__headerbtn {
+    .el-icon-close:before {
+        content: ''
+    }
+}
+.isFlagSearch .el-dialog__headerbtn:after {
+    content: '';
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position-y: 2px;
+    background-image: url('//static.apitops.com/vue_comp/closeRect.png')
+}
+._dialogFooter,.dialog-footer {
+    .el-button {
+        padding: 12px 25px;
+    }
+}

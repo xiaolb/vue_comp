@@ -7,13 +7,14 @@
             :tableState="tableState"
             :restButtons="restButtons"
             :filterBtn="filterBtn"
+
             :title="title"
             :searchParams="searchParams"
             :tableData="tableData"
             :tableTitle="tableTitle"
             :searchList="searchList"
             :stripe="false"
-            :borderTable="true"
+            :borderTable="false"
             :showHeader="true"
             :uniqueSelect="true"
             :mergeSpan="mergeSpan"
@@ -83,7 +84,7 @@ export default {
         return {
             // listPage 字段
             tableState: '关于表格的说明',
-            formWidth: '564px',
+            formWidth: '600px',
             title: '某某列表',
             searchParams: {
                 pageIndex: 1,
@@ -319,6 +320,9 @@ export default {
                     labelWidth: '10px',
                     append: true,
                     appendFun: () => {},
+                    enterFun: () => {
+                        console.log(2222);
+                    },
                 },
             ];
         },

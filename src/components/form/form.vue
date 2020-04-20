@@ -20,6 +20,13 @@
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
                     >
+                        <span slot="label" v-if="item.slotlabeltip" >
+                            {{item.label }}
+                            <el-tooltip effect="dark" placement="top">
+                                <div slot="content">{{item.slotlabeltip}}</div>
+                                <i class="el-icon-warning"></i>
+                            </el-tooltip>:
+                        </span>
                         <input-item
                             :inputType="'input'"
                             :item="item"
@@ -88,7 +95,14 @@
                         :class="{ rowOrColumnInput: item.rowOrColumn, ...item.classList }"
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
-                    >
+                    >  
+                     <span slot="label" v-if="item.slotlabel" >
+                            {{item.label }}
+                            <el-tooltip effect="dark" placement="top">
+                                <div slot="content">{{item.slotlabel}}</div>
+                                <i class="el-icon-warning"></i>
+                            </el-tooltip>:
+                        </span>
                         <select-item
                             :item="item"
                             :formData="formData"
@@ -98,6 +112,29 @@
                         <connect-or-extra v-if="item.connect || item.extra" :item="item" />
                     </el-form-item>
                     <slot v-if="item.type === 'select' && item.appendSlot" name="appendselect"></slot>
+                    <el-form-item
+                        v-else-if="item.type === 'daterange' && !item.hidden"
+                        :prop="item.name"
+                        :class="{ daterange: item.required, errorHidden: true, rowOrColumnInput: item.rowOrColumn, ...item.classList }"
+                        :label="item.label && `${item.label}：`"
+                        :label-width="item.labelWidth || labelWidth"
+                        :style="{
+                            ...item.inputStyle,
+                        }"
+                    >
+                        <el-date-picker
+                            v-model="formData[item.name]"
+                            type="daterange"
+                            :range-separator=" item.rangeSeparator ? item.rangeSeparator :'至'"
+                            :start-placeholder="item.disabled || item.allDisabled ? '' : item.firstPlacehold || formType[item.type] + item.label"
+                            :end-placeholder="item.disabled || item.allDisabled ? '' : item.secondPlacehold || formType[item.type] + item.label"
+                            @change="a => (item.selectFun && item.selectFun(a)) || function() {}"
+                            :format="item.format || 'yyyy-MM-dd'"
+                            :value-format="item.format || 'yyyy-MM-dd'"
+                        >
+                        </el-date-picker>
+                    </el-form-item>
+                    <slot v-if="item.type === 'daterange' && item.appendSlot" name="appenddaterange"></slot>
                     <el-form-item
                         v-else-if="item.type === 'twoDate' && !item.hidden"
                         :prop="item.name"
@@ -602,6 +639,7 @@ export default {
                 date: '请选择',
                 select: '请选择',
                 twoDate: '请选择',
+                daterange: '请选择',
                 selectGroup: '请选择',
                 checkboxs: '请选择',
                 map: '请输入',

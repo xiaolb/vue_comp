@@ -163,6 +163,7 @@ export default {
                     connect: '',
                     extra: '',
                     disabled: true,
+                    slotlabeltip: 'slotlabeltip',
                 },
                 {
                     // ...common,
@@ -430,6 +431,18 @@ export default {
                 },
                 {
                     ...common,
+                    name: 'time', // 开始时间 begintwoDate， 结束时间 endtwoDate
+                    label: '时间区间',
+                    type: 'daterange',
+                    // dateType: 'time', // 类型 默认time
+                    format: 'yyyy-MM-dd', // 格式 默认'yyyy-MM-dd HH:mm:ss'
+                    selectFun: value => {
+                        //当绑定值变化时触发的事件
+                        console.log(value);
+                    },
+                },
+                {
+                    ...common,
                     name: 'textarea',
                     label: '多行文本',
                     type: 'textarea',
@@ -478,7 +491,10 @@ export default {
                     type: 'table',
                     tableData: [{}, {}, {}], // 表格数据
                     // table表格表头
-                    tableTitle: [{ prop: 'num', fixed: 'left', type: 'selection' }, { prop: 'id', label: 'ID' }],
+                    tableTitle: [
+                        { prop: 'num', fixed: 'left', type: 'selection' },
+                        { prop: 'id', label: 'ID' },
+                    ],
                     showHeader: true, // 是否显示表头
                     stripe: true, // table表格是否有斑马线
                     uniqueSelect: true, // 表格是否单选

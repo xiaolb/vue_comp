@@ -161,6 +161,7 @@ export default {
                         // 选择事件
                         console.log(value);
                     },
+                    slotlabeltip: 'slotlabeltip',
                 },
                 {
                     ...common,
@@ -508,10 +509,7 @@ export default {
                     type: 'table',
                     tableData: [{}, {}, {}], // 表格数据
                     // table表格表头
-                    tableTitle: [
-                        { prop: 'num', fixed: 'left', type: 'selection' },
-                        { prop: 'id', label: 'ID' },
-                    ],
+                    tableTitle: [{ prop: 'num', fixed: 'left', type: 'selection' }, { prop: 'id', label: 'ID' }],
                     showHeader: true, // 是否显示表头
                     stripe: true, // table表格是否有斑马线
                     uniqueSelect: true, // 表格是否单选

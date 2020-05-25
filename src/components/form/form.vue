@@ -283,6 +283,12 @@
                         :label="item.label && `${item.label}：`"
                         :label-width="item.labelWidth || labelWidth"
                     >
+                        <span slot="label" v-if="item.slotlabeltip" >
+                            {{item.label }}<el-tooltip effect="dark" placement="top" class="slotlabeltip">
+                                <div slot="content">{{item.slotlabeltip}}</div>
+                                <i class="el-icon-warning"></i>
+                            </el-tooltip>:
+                        </span>
                         <el-checkbox-group
                             v-model="formData[item.name]"
                             :disabled="item.disabled"

@@ -8,6 +8,7 @@
         :clearable="item.clearable"
         :maxlength="item.maxLength"
         :minlength="item.minLength"
+        @input="change(e)"
         @change="a => (item.change && item.change(a)) || function() {}"
         @keyup.native.enter="() => (item.enterFun && item.enterFun()) || function(){}"
     >
@@ -56,6 +57,11 @@ export default {
         allDisabled: {
             type: Boolean,
             required: true,
+        },
+    },
+    menthod: {
+        change(e) {
+            this.$forceUpdate();
         },
     },
 };
